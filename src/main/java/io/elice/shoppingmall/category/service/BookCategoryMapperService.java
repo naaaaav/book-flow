@@ -31,7 +31,7 @@ public class BookCategoryMapperService {
     public BookCategoryMapper updateBookCategoryMapper(Integer id, BookCategoryMapper bookCategoryMapper) {
         BookCategoryMapper existingBookCategoryMapper = getBookCategoryMapperById(id);
         existingBookCategoryMapper.setBookId(bookCategoryMapper.getBookId());
-        existingBookCategoryMapper.setCategoryId(bookCategoryMapper.getCategoryId());
+        existingBookCategoryMapper.setCategory(bookCategoryMapper.getCategory());
         existingBookCategoryMapper.setIsDeleted(bookCategoryMapper.getIsDeleted());
         return bookCategoryMapperRepository.save(existingBookCategoryMapper);
     }

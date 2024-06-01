@@ -1,6 +1,7 @@
 package io.elice.shoppingmall.order.model;
 
 import io.elice.shoppingmall.audit.BaseEntity;
+import io.elice.shoppingmall.user.model.User;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ public class Order extends BaseEntity {
     @OneToMany(mappedBy = "order")
     private List<OrderItem> orderItems = new ArrayList<>();
 
-//    @ManyToOne
-//    @JoinColumn(name = "user_id")
-//    private User user;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 }
