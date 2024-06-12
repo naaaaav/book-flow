@@ -1,11 +1,11 @@
 import CartBook from "./CartBook";
 
 
-function CartBookList({userName}){
+function CartBookList({userName, cart, setCart}){
 
     return (
         <div>
-            <CartBook userName={userName} />
+            <CartBook userName={userName} cart={cart} setCart={setCart} />
         </div>
     );
 }
