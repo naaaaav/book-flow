@@ -24,9 +24,9 @@ import "./Order.css";
   // localStorage에 'cart' 키로 아이템 데이터 저장
   // localStorage.setItem('testCart', JSON.stringify(cartItems));
   
-  const cartName = `cart-${localStorage.getItem('userName')}`;
-  let cart = JSON.parse(localStorage.getItem(cartName));
-  console.log(cart);
+  // const cartName = `cart-${localStorage.getItem('userName')}`;
+  // let cart = JSON.parse(localStorage.getItem(cartName));
+  // console.log(cart);
 
 const token = localStorage.getItem('access');
 
@@ -48,18 +48,20 @@ const Order = () => {
     orderItemDtos: []
   });
 
-  // useEffect(() => {
-  //   // 백엔드가 아닌 프론트에 저장된 장바구니에서 책 꺼내오기
-  //   const loadCartItems = () => {
-  //     const storedItems = localStorage.getItem('cartName');
-  //     if (storedItems) {
-  //       setCartItems(JSON.parse(storedItems));
-  //     }
-  //   };
+  const cartName = `cart-${localStorage.getItem('userName')}`;
+  let cart = JSON.parse(localStorage.getItem(cartName));
+  console.log(cart);
 
-  //   loadCartItems();
-  // }, []);
-
+  // if (cart.length === 0) {
+  //   alert("장바구니에 담긴 책이 없어요.");
+  //   history.push("/cart/" + localStorage.getItem('userName'));
+  // }
+  useEffect(() => {
+    if (cart.length === 0) {
+      history.push("/cart/" + localStorage.getItem('userName'));
+    }
+  }, []);
+  
   useEffect(() => {
     const script = document.createElement('script');
     script.src = '//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
