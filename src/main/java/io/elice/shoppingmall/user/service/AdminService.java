@@ -8,6 +8,7 @@ import io.elice.shoppingmall.user.model.dto.AdminPostDto;
 import io.elice.shoppingmall.user.model.dto.AdminRolePutDto;
 import io.elice.shoppingmall.user.model.dto.TotalCountDto;
 import io.elice.shoppingmall.user.repository.AdminRepository;
+import io.elice.shoppingmall.user.util.UserMasking;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +28,13 @@ public class AdminService {
 
     public List<AdminPostDto> adminUserFindAll() {
         List<User> userList = adminRepository.findAllByIsDeleted(false);
+        userList = userList.stream().map(user -> {
+            String name = UserMasking.name(user.getName());
+            String phoneNumber = UserMasking.phoneNumber(user.getPhoneNumber());
+            user.setName(name);
+            user.setPhoneNumber(phoneNumber);
+            return user;
+        }).toList();
         return userMapper.UserListToAdminPostDtoList(userList);
     }
 
@@ -34,9 +42,9 @@ public class AdminService {
         User user = adminRepository.findById(userId)
                 .orElseThrow(() ->new UserNotExistException("사용자를 찾을 수 없습니다."));
 
-        if (User.Role.USER.getTitle().equals(adminRolePutDto.getRole())) {
+        if (User.Role.USER.getKey().equals(adminRolePutDto.getRole())) {
             user.setRole(User.Role.USER.getKey());
-        } else if (User.Role.ADMIN.getTitle().equals(adminRolePutDto.getRole())) {
+        } else if (User.Role.ADMIN.getKey().equals(adminRolePutDto.getRole())) {
             user.setRole(User.Role.ADMIN.getKey());
         } else {
             throw new RoleNotExistException("권한을 찾을 수 없습니다.");

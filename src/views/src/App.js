@@ -54,12 +54,12 @@ function App() {
         <Login />
       </Route>
 
-      <Route path="/admin/menu">
-        <AdminMenu />
+      <Route path="/admin/menu/userlist">
+        <AdminUserList />
       </Route>
 
-      <Route path="/userlist">
-          <AdminUserList />
+      <Route path="/admin/menu">
+        <AdminMenu />
       </Route>
       <Route path="/bookDetailTest">
         <BookDetailTest />

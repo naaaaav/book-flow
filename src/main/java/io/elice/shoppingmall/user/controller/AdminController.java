@@ -23,7 +23,7 @@ public class AdminController {
         return new ResponseEntity<>(totalCount, HttpStatus.OK);
     }
 
-    @PostMapping
+    @GetMapping
     public ResponseEntity<List<AdminPostDto>> adminUserFindAll() {
         return new ResponseEntity<>(adminService.adminUserFindAll(), HttpStatus.OK);
     }
