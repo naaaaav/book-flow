@@ -113,9 +113,11 @@ function OrderDetails() {
         })
         .then(data => {
             console.log('배송지 수정 성공', data);
+            alert("배송지를 잘 변경했어요.");
         })
         .catch(error => {
             console.error('배송지 수정 실패', error);
+            alert("배송지를 변경하지 못했어요. 다시 시도해 주세요.");
         });
     };
 
@@ -209,8 +211,9 @@ function OrderDetails() {
                             onChange={handleInputChange}
                             placeholder={formData.orderRequest}
                         /><br />
-                        <button type="submit">배송 정보 수정</button>
+                        {/* <button type="submit">배송 정보 수정</button> */}
                     </form>
+                    <button onClick={handleUpdate}>배송 정보 수정</button>
                 </div>
                 ) : orderDetails.order.orderStatus === 'SHIPPING' ? (
                         <div>

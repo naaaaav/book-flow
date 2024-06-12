@@ -4,24 +4,29 @@ import HomeHeader from "../../components/home/HomeHeader";
 import "./Order.css";
 
 // 테스트용 가상 방바구니
-const cartItems = [
-    {
-      name: "책1",
-      price: 15000,
-      quantity: 2,
-      bookId: 1
-    },
-    {
-      name: "책2",
-      price: 20000,
-      quantity: 1,
-      bookId: 2
-    }
-  ];
+// const cartItems = [
+//     {
+//       name: "책1",
+//       price: 15000,
+//       quantity: 2,
+//       bookId: 1
+//     },
+//     {
+//       name: "책2",
+//       price: 20000,
+//       quantity: 1,
+//       bookId: 2
+//     }
+//   ];
+
+
   
   // localStorage에 'cart' 키로 아이템 데이터 저장
-  localStorage.setItem('cart', JSON.stringify(cartItems));
+  // localStorage.setItem('testCart', JSON.stringify(cartItems));
   
+  const cartName = `cart-${localStorage.getItem('userName')}`;
+  let cart = JSON.parse(localStorage.getItem(cartName));
+  console.log(cart);
 
 const token = localStorage.getItem('access');
 
@@ -43,17 +48,17 @@ const Order = () => {
     orderItemDtos: []
   });
 
-  useEffect(() => {
-    // 백엔드가 아닌 프론트에 저장된 장바구니에서 책 꺼내오기
-    const loadCartItems = () => {
-      const storedItems = localStorage.getItem('cart');
-      if (storedItems) {
-        setCartItems(JSON.parse(storedItems));
-      }
-    };
+  // useEffect(() => {
+  //   // 백엔드가 아닌 프론트에 저장된 장바구니에서 책 꺼내오기
+  //   const loadCartItems = () => {
+  //     const storedItems = localStorage.getItem('cartName');
+  //     if (storedItems) {
+  //       setCartItems(JSON.parse(storedItems));
+  //     }
+  //   };
 
-    loadCartItems();
-  }, []);
+  //   loadCartItems();
+  // }, []);
 
   useEffect(() => {
     const script = document.createElement('script');
@@ -92,18 +97,18 @@ const Order = () => {
       },
       body: JSON.stringify({
         ...orderCreateDto,
-        orderItemDtos: cartItems.map(item => ({
-          orderItemQuantity: item.quantity,
-          bookId: item.bookId
+        orderItemDtos: cart.map(item => ({
+          orderItemQuantity: item.book_quantity,
+          bookId: item.book_id
         }))
       })
     });
 
     if (response.ok) {
       // 주문이 성공적으로 생성되면 로컬 스토리지에서 장바구니를 비우고 사용자에게 알림
-      localStorage.removeItem('cart');
+      localStorage.removeItem(cartName);
       alert('감사합니다! 주문이 완료되었어요.');
-      history.push('/orderCompleted');
+      history.push('/order-completed');
     } else {
       alert('주문에 실패했어요.');
     }
@@ -149,12 +154,12 @@ const Order = () => {
           <h1>결제를 시작할게요.</h1>
           {/* 장바구니 상품 정보 표시 */}
           <div>
-            {cartItems.length > 0 ? (
-              cartItems.map((item, index) => (
+            {cart.length > 0 ? (
+              cart.map((item, index) => (
                 <div key={index} className="book-details">
-                  <span>도서명: {item.name}</span>
-                  <span>권당 가격: {item.price}원</span>
-                  <span>수량: {item.quantity}개</span>
+                  <span>도서명: {item.book_name}</span>
+                  <span>권당 가격: {item.book_price}원</span>
+                  <span>수량: {item.book_quantity}개</span>
                 </div>
               ))
             ) : (
@@ -183,7 +188,7 @@ const Order = () => {
           {cartItems.length > 0 && (
             <div className="total-amount">
                 <div>결제하실 금액이에요. <div />
-                <div className='won'>{cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0)}원</div></div>
+                <div className='won'>{cart.reduce((acc, item) => acc + item.book_price * item.book_quantity, 0)}원</div></div>
             </div>
           )}
             <div className="action-buttons">
