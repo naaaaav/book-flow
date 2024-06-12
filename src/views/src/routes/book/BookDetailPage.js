@@ -28,6 +28,7 @@ const BookDetailPage = ({ match }) => {
   return (
     <div>
       <h1>{book.bookName}</h1>
+      <h2>카테고리 : {book.category.categoryName}</h2>
       <p>{book.bookDetail}</p>
       <img src={book.bookImgDtoList[0].imgUrl} alt="책 표지" />
       <div>
