@@ -1,5 +1,6 @@
 package io.elice.shoppingmall.book.model.Dto;
 
+import io.elice.shoppingmall.category.model.Category;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,7 @@ public class BookMainDto {
     private int bookPrice;
     private String date;
     private List<BookImgDto> bookImgDtoList = new ArrayList<>();
+    private Category category;
 
 
 }

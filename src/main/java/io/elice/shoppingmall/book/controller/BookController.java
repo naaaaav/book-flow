@@ -7,6 +7,8 @@ import io.elice.shoppingmall.book.model.Entity.Book;
 import io.elice.shoppingmall.book.model.Entity.BookImg;
 import io.elice.shoppingmall.book.service.BookImgService;
 import io.elice.shoppingmall.book.service.BookService;
+import io.elice.shoppingmall.category.model.Category;
+import io.elice.shoppingmall.category.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -33,6 +35,7 @@ public class BookController {
     private final BookService bookService;
     private final BookImgService bookImgService;
     private final BookMapper mapper;
+    private final CategoryService categoryService;
 
     //이미지 파일 업로드시 고유한 이름 생성을 위한 함수
     private String generateUniqueFileName(String originalFileName) {
@@ -50,6 +53,9 @@ public class BookController {
 
         Book newBook = mapper.BookFormDtoToBook(bookFormDto);
         List<BookImg> bookImgs = new ArrayList<>();
+        Category category = categoryService.getCategoryById(bookFormDto.getCategoryId());
+        newBook.setCategory(category);
+
         // 이미지 파일들 업로드
         if (images != null && !images.isEmpty()) {
 
