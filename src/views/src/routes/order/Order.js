@@ -107,7 +107,7 @@ const Order = () => {
     if (response.ok) {
       // 주문이 성공적으로 생성되면 로컬 스토리지에서 장바구니를 비우고 사용자에게 알림
       // localStorage.removeItem(cartName);
-      localStorage.setItem(cart, JSON.stringify([]));
+      localStorage.setItem(`${cartName}`, JSON.stringify([]));
 
       alert('감사합니다! 주문이 완료되었어요.');
       history.push('/order-completed');
