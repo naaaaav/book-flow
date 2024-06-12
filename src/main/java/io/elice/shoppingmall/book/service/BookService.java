@@ -11,35 +11,37 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.util.Optional;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class BookService {
-/*    public BookService() {
-    }
+
+    private final BookRepository bookRepository;
 
     //책 등록
-    public Long saveBook(BookFormDto bookFormDto, BookImg bookImgs){
-        Book book = bookFormDto.createItem();
-        bookRepository.save(book);
-        BookImg bookImg = new BookImg();
-        bookImg.setBook(book);
-        return book.getId();
+    public Book saveBook(Book book){
+
+        return bookRepository.save(book);
     }
 
     // 상품 조회
     @Transactional(readOnly = true)
-    public BookFormDto getbookDetail(Long bookId) {
+    public Book getbookDetail(Long bookId) {
 
-
-        //상품 이미지 엔티티 > 상품 이미지 dto로 변환
-        //상품 엔티티를 상품 폼 디티오로 변환
-
+        Optional<Book> findedBook = bookRepository.findById(bookId);
+        //못찾으면 null반환
+        if(findedBook.isEmpty()) {
+            return null;
+        }
+        //찾은거 반환
+        return findedBook.get();
 
     }
 
     // 상품 수정
-    public Long updateBook(BookFormDto bookFormDto, BookImg bookImg) throws IOException {
+    /*public Long updateBook(BookFormDto bookFormDto, BookImg bookImg) throws IOException {
 
         // 상품 수정
         Book book = bookRepository.findById(bookFormDto.getId()).orElseThrow(EntityNotFoundException::new);

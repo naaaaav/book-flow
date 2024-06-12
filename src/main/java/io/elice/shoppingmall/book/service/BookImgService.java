@@ -18,5 +18,11 @@ import java.util.ArrayList;
 @Transactional
 public class BookImgService {
 
+    private final BookImgRepository bookImgRepository;
 
+
+    public BookImg save(BookImg bookImg) {
+
+        return bookImgRepository.save(bookImg);
+    }
 }
