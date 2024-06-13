@@ -30,7 +30,7 @@ public class BookService {
     @Transactional(readOnly = true)
     public Book getbookDetail(Long bookId) {
 
-        Optional<Book> findedBook = bookRepository.findById(bookId);
+        Optional<Book> findedBook = bookRepository.findByIdAndIsDeletedFalse(bookId);
         //못찾으면 null반환
         if(findedBook.isEmpty()) {
             return null;
