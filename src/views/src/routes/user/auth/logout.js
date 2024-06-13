@@ -3,9 +3,9 @@ import { useState } from 'react';
 
 const Logout = () => {
   const history = useHistory();
-  const [access, setAccess] = useState(localStorage.getItem('access'));
+  const [token, setToken] = useState(localStorage.getItem('token'));
   const onClickHandler = () => {
-    if (access === null) {
+    if (token === null) {
       history.push("/login")
       return;
     }
@@ -15,8 +15,8 @@ const Logout = () => {
       credentials : 'include',
     }).then(response => {
       if (response.status === 200) {
-        localStorage.removeItem('access')
-        setAccess(null)
+        localStorage.removeItem('token')
+        setToken(null)
         alert('로그아웃 성공')
       } else if (response.status === 400) {
         alert('로그아웃 실패')
@@ -25,7 +25,7 @@ const Logout = () => {
       console.log(error)
     })
   }
-  return <button onClick={onClickHandler}>{access === null ? "로그인" : "로그아웃"}</button>
+  return <button onClick={onClickHandler}>{token === null ? "로그인" : "로그아웃"}</button>
 }
 
 export default Logout;

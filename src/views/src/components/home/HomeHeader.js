@@ -15,7 +15,7 @@ function HomeHeader()  {
     const cartClick = () => {
         const token = localStorage.getItem('token');
         const userName = localStorage.getItem('userName');
-        (token !== null && userName !== null) ? history.push(`/cart/${userName}`) : history.push('/loginTest');
+        (token !== null && userName !== null) ? history.push(`/cart/${userName}`) : history.push('/login');
     };
 
     return(
@@ -26,7 +26,7 @@ function HomeHeader()  {
             <div id="icons">
                 <Link to="/search"><img src={SearchButton} /></Link>
                 <img src={CartButton} onClick={cartClick} />
-                <Link to="/login-test"><img src={UserButton} /></Link>
+                <Link to="/login"><img src={UserButton} /></Link>
                 <Logout />
                 <Link to="/menu"><img src={MenuButton} /></Link>
             </div>

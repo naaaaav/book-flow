@@ -23,8 +23,8 @@ const Login = () => {
     })
       .then((response) => {
         if (response.status === 200) {
-          const access = response.headers.get('access')
-          localStorage.setItem('access', access)
+          const token = response.headers.get('access')
+          localStorage.setItem('token', token)
           alert('로그인 성공')
           history.push('/')
           return
