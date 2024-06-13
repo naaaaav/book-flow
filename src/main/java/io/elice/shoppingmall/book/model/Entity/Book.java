@@ -48,7 +48,7 @@ public class Book extends BaseEntity {
     private boolean isDeleted;
 
     @ManyToOne
-    @JoinColumn(name = "catecory_id")
+    @JoinColumn(name = "category_id")
     private Category category;
 
 
