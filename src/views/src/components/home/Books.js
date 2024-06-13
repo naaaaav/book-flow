@@ -2,10 +2,9 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 function Books() {
-    const [categorys, setCategorys] = useState([]);
-    const [books, setBooks] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const [books, setBooks] = useState({});
 
-    
     useEffect(() => {
         fetch("http://localhost:8080/api/categories")
             .then((response) => {
@@ -15,9 +14,9 @@ function Books() {
                 return response.json();
             })
             .then((json) => {
-                setCategorys(json);
+                setCategories(json);
                 json.forEach((category) => {
-                    fetch(`http://localhost:8080/api/category/${category.categoryId}/books`)
+                    fetch(`http://localhost:8080/api/books/category/${category.categoryId}`)
                         .then((response) => {
                             if (!response.ok) {
                                 throw new Error("백엔드 접속 에러2");
@@ -27,7 +26,7 @@ function Books() {
                         .then((books) => {
                             setBooks(prevBooks => ({
                                 ...prevBooks,
-                                [category.categoryId] : books.slice(0, 5)
+                                [category.categoryId]: books.slice(0, 5)
                             }));
                         })
                         .catch((e) => {
@@ -35,42 +34,38 @@ function Books() {
                         });
                 });
             })
-                .catch((e) => {
-                    console.log("백엔드 접속 에러4", e);
+            .catch((e) => {
+                console.log("백엔드 접속 에러4", e);
             });
     }, []);
 
     return (
         <div>
-            {
-                categorys.length > 0 ? (
-
-                    categorys.map((category) => (
+            {categories.length > 0 ? (
+                categories.map((category) => (
+                    <div key={category.categoryId}>
+                        <h3>{category.categoryName}</h3>
+                        <Link to={`/category/${category.categoryId}`}>더보기</Link>
                         <div>
-                            <h3>{category.categoryName}</h3>
-                            <Link to={`/category/${category.categoryId}`}>더보기</Link>
-                            <div>
-                                {
-                                    books.length > 0 ? (
-
-                                        books[category.categoryId].map((book) => (
-                                            <div>
-                                              <div>book.bookImg</div>
-                                              <div>book.bookName</div>  
-                                              <div>book.bookAuthor</div>
-                                            </div>
-                                            
-                                        ))
-                                    ) :
-                                    <h2>책이 없습니다.</h2>
-                                }
-                            </div> 
+                            {books[category.categoryId] && books[category.categoryId].length > 0 ? (
+                                books[category.categoryId].map((book) => (
+                                    <div key={book.id}>
+                                        <img src={book.bookImgUrl} alt={book.bookName} />
+                                        <div>{book.bookName}</div>
+                                        <div>{book.bookAuthor}</div>
+                                    </div>
+                                ))
+                            ) : (
+                                <h2>책이 없습니다.</h2>
+                            )}
                         </div>
-                        
-                    ))
-                ) : <h2>카테고리가 없습니다.</h2>
-            }
+                    </div>
+                ))
+            ) : (
+                <h2>카테고리가 없습니다.</h2>
+            )}
         </div>
     );
 }
 export default Books;
+
