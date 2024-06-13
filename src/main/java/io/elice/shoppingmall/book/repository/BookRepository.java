@@ -13,4 +13,6 @@ public interface BookRepository extends JpaRepository<Book,Long> {
     Optional<Book> findByIdAndIsDeletedFalse(Long bookId);
 
     List<Book> findAllByCategoryCategoryIdAndIsDeletedFalse(Integer categoryId, Pageable pageable);
+
+    List<Book> findAllByName(String keyword);
 }

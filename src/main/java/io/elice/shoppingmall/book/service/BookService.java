@@ -49,6 +49,18 @@ public class BookService {
         return findBooks;
     }
 
+    public List<Book> findBooksByKeyword(String keyword) {
+
+        List<Book> findBooks = bookRepository.findAllByName(keyword);
+
+        if(findBooks.isEmpty()) {
+            return null;
+        }
+
+        return findBooks;
+
+    }
+
     // 상품 수정
     /*public Long updateBook(BookFormDto bookFormDto, BookImg bookImg) throws IOException {
 
