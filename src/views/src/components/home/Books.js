@@ -50,7 +50,7 @@ function Books() {
                             {books[category.categoryId] && books[category.categoryId].length > 0 ? (
                                 books[category.categoryId].map((book) => (
                                     <div key={book.id}>
-                                        <img src={book.bookImgUrl} alt={book.bookName} />
+                                        <img src={book.bookImgDtoList[0].imgUrl} alt={book.bookName} />
                                         <div>{book.bookName}</div>
                                         <div>{book.bookAuthor}</div>
                                     </div>
