@@ -1,6 +1,7 @@
 package io.elice.shoppingmall.user.service;
 
 import io.elice.shoppingmall.user.exception.DuplicateUsernameException;
+import io.elice.shoppingmall.user.jwt.JwtUserDetails;
 import io.elice.shoppingmall.user.model.dto.JoinDto;
 import io.elice.shoppingmall.user.model.User;
 import io.elice.shoppingmall.user.model.UserMapper;
@@ -9,6 +10,7 @@ import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -51,6 +53,13 @@ public class AuthService {
         user.setRole(User.Role.USER.getKey());
         user.setName("바루스");
         authRepository.save(user);
+    }
+
+    public Boolean isAuthInvalid() {
+        if (SecurityContextHolder.getContext().getAuthentication().getName().equals("anonymousUser")) {
+            return false;
+        }
+        return true;
     }
 
     public String getCurrentUsername() {
