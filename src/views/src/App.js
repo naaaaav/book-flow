@@ -14,6 +14,8 @@ import OrderDetailsByAdmin from "./routes/order/OrderDetailsByAdmin";
 import Order from "./routes/order/Order";
 import BookDetailTest from "./routes/bookTest/BookDetailTest";
 import Cart from "./routes/cart/Cart";
+import BookDetailPage from "./routes/book/BookDetailPage";
+import BookAdminPage from "./routes/book/BookAdminPage";
 
 
 function App() {
@@ -68,6 +70,14 @@ function App() {
       <Route path="/cart/:userName">
         <Cart />
       </Route>
+
+      <Route path="/book/:bookId" component={BookDetailPage} />
+
+
+      <Route path="/book-admin">
+        <BookAdminPage />
+      </Route>
+
       <Route path="/">
         <Home />
       </Route>

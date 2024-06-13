@@ -43,3 +43,4 @@ src/main/resources/application.properties
 /src/main/generated/io/elice/shoppingmall/user/model/UserMapperImpl.java
 /src/main/generated/io/elice/shoppingmall/order/exception/OrderExceptionMapperImpl.java
 /src/main/generated/
+/uploadImages
