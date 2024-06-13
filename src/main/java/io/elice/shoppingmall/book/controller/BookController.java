@@ -166,6 +166,7 @@ public class BookController {
         return  new ResponseEntity<>(bookMainDtos, HttpStatus.OK);
     }
 
+    //제목검색 //프론트 우선도 낮음
     @GetMapping("/books/search")
     public ResponseEntity<List<BookMainDto>> getBooksByKeyword(@RequestParam String keyword) {
 
@@ -178,6 +179,20 @@ public class BookController {
         List<BookMainDto> bookMainDtos = mapper.bookListToBookMainDtoList(findBooks);
 
         return  new ResponseEntity<>(bookMainDtos, HttpStatus.OK);
+    }
+
+    @DeleteMapping("admin/book/{bookId}")
+    public ResponseEntity<?> deleteBook(@PathVariable Long bookId) {
+
+        Book findBook = bookService.getbookDetail(bookId);
+
+        if (findBook == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        bookService.deleteBook(bookId);
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

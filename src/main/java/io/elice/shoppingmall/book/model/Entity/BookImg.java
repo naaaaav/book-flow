@@ -22,6 +22,8 @@ public class BookImg extends BaseEntity {
 
     private String imgUrl; //이미지 조회 경로
 
+    private boolean isDeleted;
+
     //연관관계수정
     /*@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id")

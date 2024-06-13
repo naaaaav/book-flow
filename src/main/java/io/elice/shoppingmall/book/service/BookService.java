@@ -1,6 +1,7 @@
 package io.elice.shoppingmall.book.service;
 
 import io.elice.shoppingmall.book.model.Entity.Book;
+import io.elice.shoppingmall.book.model.Entity.BookImg;
 import io.elice.shoppingmall.book.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -59,6 +60,18 @@ public class BookService {
 
         return findBooks;
 
+    }
+
+    public void deleteBook(Long bookId) {
+
+        Book findBook = getbookDetail(bookId);
+        findBook.setDeleted(true);
+        List<BookImg> imgs = findBook.getBookImgList();
+        for (BookImg bookImg : imgs) {
+            bookImg.setDeleted(true);
+        }
+        findBook.setBookImgList(imgs);
+        bookRepository.save(findBook);
     }
 
     // 상품 수정
