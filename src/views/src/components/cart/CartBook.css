@@ -1,7 +1,3 @@
-img {
-    height: 100px;
-    width: 80px;
-}
 
 .each-book {
     display: flex;
@@ -21,16 +17,16 @@ img {
     padding: 5px 10px 5px 10px;
 }
 
-.book-photo {
-    max-width: 50px;
-    max-height: 70px;
-    width: auto;
-    height: auto;
+#book-photo {
+    width: 100px;
+    height: 80px;
     object-fit: contain; /* 원본 비율 유지 */
 }
 
 #book-title{
     font-weight: bold;
+    font-size: 15px;
+    color: black;
 }
 
 #title-price {
