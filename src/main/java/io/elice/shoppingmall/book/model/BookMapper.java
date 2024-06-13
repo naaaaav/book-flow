@@ -40,4 +40,15 @@ public interface BookMapper {
         return bookMainDto;
     }
 
+    default List<BookMainDto> bookListToBookMainDtoList(List<Book> findBooks) {
+
+        List<BookMainDto> dtos = new ArrayList<>();
+
+        for(Book book : findBooks) {
+            dtos.add(bookToBookMainDto(book));
+        }
+
+        return  dtos;
+
+    }
 }

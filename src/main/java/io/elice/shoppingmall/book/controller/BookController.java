@@ -12,6 +12,9 @@ import io.elice.shoppingmall.category.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -101,6 +104,21 @@ public class BookController {
         //있으면 맵퍼로 dto로 변환
         BookMainDto bookMainDto = mapper.bookToBookMainDto(findedBook);
         return new ResponseEntity<>(bookMainDto, HttpStatus.OK);
+    }
+
+    //특정카테고리 책목록 조회
+    @GetMapping("/books/category/{categoryId}")
+    public ResponseEntity<List<BookMainDto>> getBooksByCategoryId(@PathVariable Integer categoryId, @PageableDefault(page = 0, size = 10,sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+
+        List<Book> findBooks = bookService.findBooksByCategoryId(categoryId, pageable);
+
+        if (findBooks.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        List<BookMainDto> bookMainDtos = mapper.bookListToBookMainDtoList(findBooks);
+
+        return  new ResponseEntity<>(bookMainDtos, HttpStatus.OK);
     }
 
 }

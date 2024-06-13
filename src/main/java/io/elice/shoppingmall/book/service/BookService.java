@@ -1,16 +1,13 @@
 package io.elice.shoppingmall.book.service;
 
-import io.elice.shoppingmall.book.model.Dto.BookFormDto;
 import io.elice.shoppingmall.book.model.Entity.Book;
-import io.elice.shoppingmall.book.model.Entity.BookImg;
-import io.elice.shoppingmall.book.repository.BookImgRepository;
 import io.elice.shoppingmall.book.repository.BookRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -30,14 +27,25 @@ public class BookService {
     @Transactional(readOnly = true)
     public Book getbookDetail(Long bookId) {
 
-        Optional<Book> findedBook = bookRepository.findByIdAndIsDeletedFalse(bookId);
+        Optional<Book> findBook = bookRepository.findByIdAndIsDeletedFalse(bookId);
         //못찾으면 null반환
-        if(findedBook.isEmpty()) {
+        if(findBook.isEmpty()) {
             return null;
         }
         //찾은거 반환
-        return findedBook.get();
+        return findBook.get();
 
+    }
+
+    public List<Book> findBooksByCategoryId(Integer categoryId, Pageable pageable) {
+
+        List<Book> findBooks = bookRepository.findAllByCategoryCategoryIdAndIsDeletedFalse(categoryId, pageable);
+
+        if(findBooks.isEmpty()) {
+            return null;
+        }
+
+        return findBooks;
     }
 
     // 상품 수정
