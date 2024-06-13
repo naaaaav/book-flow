@@ -7,37 +7,38 @@ function Books() {
 
     useEffect(() => {
         fetch("http://localhost:8080/api/categories")
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error('백엔드 에러 11');
-                }
-                return response.json();
-            })
-            .then((json) => {
-                setCategories(json);
-                json.forEach((category) => {
-                    fetch(`http://localhost:8080/api/books/category/${category.categoryId}`)
-                        .then((response) => {
-                            if (!response.ok) {
-                                throw new Error("백엔드 접속 에러2");
-                            }
-                            return response.json();
-                        })
-                        .then((books) => {
-                            setBooks(prevBooks => ({
-                                ...prevBooks,
-                                [category.categoryId]: books.slice(0, 5)
-                            }));
-                        })
-                        .catch((e) => {
-                            console.log("백엔드 접속 에러3", e);
-                        });
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error('백엔드 에러 11');
+            }
+            return response.json();
+          })
+          .then((json) => {
+            setCategories(json);
+            json.forEach((category) => {
+              fetch(`http://localhost:8080/api/books/category/${category.categoryId}`)
+                .then((response) => {
+                  if (!response.ok) {
+                    throw new Error("백엔드 접속 에러2");
+                  }
+                  return response.json(); // 여기를 수정했습니다.
+                })
+                .then((data) => {
+                  setBooks(prevBooks => ({
+                    ...prevBooks,
+                    [category.categoryId]: data.bookMainDtoList.slice(0, 5) // 여기를 수정했습니다.
+                  }));
+                })
+                .catch((e) => {
+                  console.log("백엔드 접속 에러3", e);
                 });
-            })
-            .catch((e) => {
-                console.log("백엔드 접속 에러4", e);
             });
-    }, []);
+          })
+          .catch((e) => {
+            console.log("백엔드 접속 에러4", e);
+          });
+      }, []);
+      
 
     return (
         <div>
@@ -51,7 +52,7 @@ function Books() {
                                 books[category.categoryId].map((book) => (
                                     <div key={book.id}>
                                         <img src={book.bookImgDtoList[0].imgUrl} alt={book.bookName} />
-                                        <div>{book.bookName}</div>
+                                        <div><Link to={`/book/${book.id}`}>{book.bookName}</Link></div>
                                         <div>{book.bookAuthor}</div>
                                     </div>
                                 ))

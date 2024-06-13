@@ -3,6 +3,7 @@ package io.elice.shoppingmall.book.controller;
 import io.elice.shoppingmall.book.model.BookMapper;
 import io.elice.shoppingmall.book.model.Dto.BookFormDto;
 import io.elice.shoppingmall.book.model.Dto.BookMainDto;
+import io.elice.shoppingmall.book.model.Dto.BookMainDtos;
 import io.elice.shoppingmall.book.model.Entity.Book;
 import io.elice.shoppingmall.book.model.Entity.BookImg;
 import io.elice.shoppingmall.book.service.BookImgService;
@@ -10,6 +11,7 @@ import io.elice.shoppingmall.book.service.BookService;
 import io.elice.shoppingmall.category.model.Category;
 import io.elice.shoppingmall.category.service.CategoryService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -153,15 +155,15 @@ public class BookController {
 
     //특정카테고리 책목록 조회
     @GetMapping("/books/category/{categoryId}")
-    public ResponseEntity<List<BookMainDto>> getBooksByCategoryId(@PathVariable Integer categoryId, @PageableDefault(page = 0, size = 10,sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+    public ResponseEntity<BookMainDtos> getBooksByCategoryId(@PathVariable Integer categoryId, @PageableDefault(page = 0, size = 10,sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
 
-        List<Book> findBooks = bookService.findBooksByCategoryId(categoryId, pageable);
+        Page<Book> findBooks = bookService.findBooksByCategoryId(categoryId, pageable);
 
-        if (findBooks.isEmpty()) {
+        if (findBooks == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        List<BookMainDto> bookMainDtos = mapper.bookListToBookMainDtoList(findBooks);
+        BookMainDtos bookMainDtos = mapper.bookPageToBookMainDtos(findBooks);
 
         return  new ResponseEntity<>(bookMainDtos, HttpStatus.OK);
     }

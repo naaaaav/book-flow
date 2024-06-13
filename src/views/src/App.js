@@ -16,6 +16,9 @@ import BookDetailTest from "./routes/bookTest/BookDetailTest";
 import Cart from "./routes/cart/Cart";
 import BookDetailPage from "./routes/book/BookDetailPage";
 import BookAdminPage from "./routes/book/BookAdminPage";
+import CategoriesByAdmin from "./routes/book/CategoriesByAdmin";
+import BooksByAdmin from "./routes/book/BooksByAdmin";
+import BookDetailByAdmin from "./routes/book/BookDetailByAdmin";
 
 
 function App() {
@@ -71,9 +74,14 @@ function App() {
         <Cart />
       </Route>
 
+      <Route path="/admin/book/edit/:bookId">
+        <BookAdminPage />
+      </Route>
       <Route path="/book/:bookId" component={BookDetailPage} />
-
-
+      <Route path="/admin/books" exact component={CategoriesByAdmin} />
+        <Route path="/admin/books/category/:categoryId" component={BooksByAdmin} />
+        <Route path="/admin/book/:bookId" component={BookDetailByAdmin} />
+      
       <Route path="/book-admin">
         <BookAdminPage />
       </Route>

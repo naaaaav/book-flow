@@ -3,10 +3,12 @@ package io.elice.shoppingmall.book.model;
 import io.elice.shoppingmall.book.model.Dto.BookFormDto;
 import io.elice.shoppingmall.book.model.Dto.BookImgDto;
 import io.elice.shoppingmall.book.model.Dto.BookMainDto;
+import io.elice.shoppingmall.book.model.Dto.BookMainDtos;
 import io.elice.shoppingmall.book.model.Entity.Book;
 import io.elice.shoppingmall.book.model.Entity.BookImg;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
+import org.springframework.data.domain.Page;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,5 +52,15 @@ public interface BookMapper {
 
         return  dtos;
 
+    }
+
+    default BookMainDtos bookPageToBookMainDtos(Page<Book> findBooks) {
+
+        BookMainDtos bookMainDtos = new BookMainDtos();
+        List<BookMainDto> bookMainDtoList = bookListToBookMainDtoList(findBooks.getContent());
+        bookMainDtos.setBookMainDtoList(bookMainDtoList);
+        bookMainDtos.setTotalPages(findBooks.getTotalPages());
+
+        return bookMainDtos;
     }
 }
