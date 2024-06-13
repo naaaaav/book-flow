@@ -25,7 +25,7 @@ function HomeHeader()  {
                 <Link to="/search"><img src={SearchButton} /></Link>
                 <img src={CartButton} onClick={cartClick} />
 
-                <Link to="/login-test"><img src={UserButton} /></Link>
+                <Link to="/loginTest"><img src={UserButton} /></Link>
 
                 <Link to="/menu"><img src={MenuButton} /></Link>
             </div>

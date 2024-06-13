@@ -18,13 +18,14 @@ public class BookService {
     private final BookRepository bookRepository;
 
     //책 등록
+    @Transactional
     public Book saveBook(Book book){
 
         return bookRepository.save(book);
     }
 
     // 상품 조회
-    @Transactional(readOnly = true)
+
     public Book getbookDetail(Long bookId) {
 
         Optional<Book> findBook = bookRepository.findByIdAndIsDeletedFalse(bookId);
