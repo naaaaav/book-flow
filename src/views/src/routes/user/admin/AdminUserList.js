@@ -1,15 +1,28 @@
 import { useEffect, useState } from 'react';
 
 const AdminUserList = () => {
+  const[page, setPage] = useState(0)
   const[userList, setUserList] = useState([])
   const[total, setTotal] = useState({"userTotal" : '', "adminTotal" : ''})
+  const[paging, setPaging] = useState({
+    first : '',
+    last : '',
+    currentPage : '',
+    totalPages : ''
+  })
   
   useEffect(()=>{
     getUserList();
   }, [])
 
+  const onChangePage = (page) => {
+    console.log("전환 : " + page);
+    setPage(page)
+    getUserList()
+  }
+
   const getUserList = () => {
-    fetch('http://localhost:8080/api/admin/member',{
+    fetch(`http://localhost:8080/api/admin/member?page=${page}`,{
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -20,12 +33,17 @@ const AdminUserList = () => {
         return response.json()
       })
       .then(json =>{
-        setUserList(json)
+        setUserList(json.userList)
+        setPaging({
+          first : json.first,
+          last : json.last,
+          currentPage : json.currentPage,
+          totalPages : json.totalPages
+        })
       })
       .catch((error)=>{
         console.log(error);
       })
-
       fetch('http://localhost:8080/api/admin/member/total',{
         method: "GET",
         headers: {
@@ -37,8 +55,6 @@ const AdminUserList = () => {
           return response.json()
         })
         .then(json => {
-          console.log(json);
-          console.log("total 재랜더링 테스트 : " + json);
           setTotal({"userTotal" : json.userTotalCount, "adminTotal" : json.adminTotalCount})
         })
   }
@@ -47,7 +63,6 @@ const AdminUserList = () => {
     if (window.confirm("권한을 변경하시겠습니까?") === false){      
       return false;
     }
-    
     fetch(`http://localhost:8080/api/admin/member/${user.id}`, {
       method: "PUT",
       headers: {
@@ -106,7 +121,7 @@ const AdminUserList = () => {
           <td>관리</td>
         </thead>
         <tbody>
-          {userList.map((user) => (
+          {userList?.map((user) => (
             <tr key={user.id}>
               <td>{user.id}</td>
               <td>{user.username}</td>
@@ -126,6 +141,31 @@ const AdminUserList = () => {
           ))}
         </tbody>
       </table>
+      <div className='paging'>
+        {!paging.first && paging.currentPage !== 0 ? 
+        <div onClick={(e) => onChangePage(0)}>first</div> 
+        : null}
+        {!paging.first && paging.currentPage !== 0 ? 
+        <div onClick={(e) => onChangePage(paging.currentPage - 1)}>prev</div> 
+        : null}
+        {
+          [...Array(paging.totalPages)].map((item, page)=> {
+            if (page == paging.currentPage) {
+              return <div key={page} onClick={(e) => onChangePage(page)} style={{color : 'red'}}>
+                {page + 1}
+              </div>;
+            } else if ((paging.currentPage - 2) <= page && page <= (paging.currentPage + 2)) {
+              return <div key={page} onClick={(e) => onChangePage(page)}>{page + 1}</div>;
+            }
+          })
+        }
+        {!paging.last && paging.currentPage + 1 !== paging.totalPages ?
+        <div onClick={(e) => onChangePage(paging.currentPage + 1)}>next</div>
+        : null}
+        {!paging.last && paging.currentPage + 1 !== paging.totalPages ?
+        <div onClick={(e) => onChangePage(paging.totalPages - 1)}>last</div>
+        : null}
+      </div>
   </div>
   )
 }
