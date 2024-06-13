@@ -22,7 +22,7 @@ public class BookImg extends BaseEntity {
 
     private String imgUrl; //이미지 조회 경로
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id")
     private Book book;
 

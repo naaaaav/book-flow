@@ -13,7 +13,6 @@ import java.util.List;
 @Getter
 @Setter
 public class BookFormDto {
-    private Long id;
 
     @NotBlank(message = "책이름은 필수 입력 값입니다.")
     private String bookName;
@@ -27,7 +26,9 @@ public class BookFormDto {
     @NotNull(message = "재고는 필수 입력 값입니다.")
     private Integer stock;
 
-    //private BookSellStatus bookSellStatus;
+    private Integer categoryId;
+
+    private String date;
 
     // 상품 수정 시 사용되는 멤버변수들
     private List<BookImgDto> bookImgDtoList = new ArrayList<>();

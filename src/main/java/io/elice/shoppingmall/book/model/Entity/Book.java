@@ -1,12 +1,15 @@
 package io.elice.shoppingmall.book.model.Entity;
 
 import io.elice.shoppingmall.audit.BaseEntity;
+import io.elice.shoppingmall.book.exception.OutOfStockException;
+import io.elice.shoppingmall.book.model.Dto.BookFormDto;
 import io.elice.shoppingmall.category.model.Category;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -32,21 +35,39 @@ public class Book extends BaseEntity {
     @Column(name = "book_date", nullable = false)
     private String date;
 
-    @Column(name = "book_text", nullable = false)
-    private String text;
-
-    @Column(name = "book_img", nullable = false)
-    private String img;
+    @Column(name = "book_detail", nullable = false)
+    private String detail;
 
     @Column(name = "is_deleted", nullable = false)
-    private boolean idDeleted;
+    private boolean isDeleted;
 
-    @ManyToMany
-    @JoinTable(
-            name = "book_category_mapper",
-            joinColumns = @JoinColumn(name = "book_id"),
-            inverseJoinColumns = @JoinColumn(name = "category_id")
-    )
-    private List<Category> category;
-    //책 판매 상태, 재고관리
+    @OneToMany
+    private List<BookImg> bookImgList = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "catecory_id")
+    private Category category;
+
+
+    //상품 업데이트
+    public void updateBook(BookFormDto bookFormDto) {
+        this.name = bookFormDto.getBookName();
+        this.price = bookFormDto.getPrice();
+        this.stock = bookFormDto.getStock();
+        this.detail = bookFormDto.getBookDetail();
+    }
+
+    //상품 재고 관리
+    public void removeStock(int stock) {
+
+        int restStock = this.stock - stock;
+        if (restStock < 0) {
+            throw new OutOfStockException("상품의 재고가 부족합니다. (현재 재고 수량: " + this.stock + ")");
+        }
+        this.stock = restStock;
+    }
+
+    public void addStock(int stock) {
+        this.stock += stock;
+    }
 }
