@@ -1,40 +1,37 @@
 package io.elice.shoppingmall.user.controller;
 
-import io.elice.shoppingmall.user.model.UserMgmtDto;
+import io.elice.shoppingmall.user.model.dto.UserMgmtDto;
+import io.elice.shoppingmall.user.model.dto.UserDeleteDto;
+import io.elice.shoppingmall.user.model.User;
 import io.elice.shoppingmall.user.service.UserMgmtService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
-@Controller
-@RequestMapping("/account")
+import java.util.List;
+
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/user")
 public class UserMgmtController {
+    private final UserMgmtService userMgmtService;
 
-    @Autowired
-    private UserMgmtService userMgmtService;
-
-    @GetMapping("/security")
-    public String showAccountSecurity(Model model, @RequestParam("id") Long id) {
-        model.addAttribute("user", userMgmtService.getUserById(id).orElse(null));
-        return "account-security";
+    @GetMapping("/{id}/update")
+    public ResponseEntity<User> getUser(@PathVariable Long id) {
+        return ResponseEntity.ok(userMgmtService.getUser(id));
     }
 
-    @PostMapping("/security")
-    public String updateAccount(@ModelAttribute UserMgmtDto userMgmtDto) {
-        userMgmtService.updateUser(userMgmtDto);
-        return "redirect:/account/security?id=" + userMgmtDto.getId();
+    @PutMapping("/{id}/update")
+    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody @Valid UserMgmtDto userMgmtDto) {
+        return ResponseEntity.ok(userMgmtService.updateUser(id, userMgmtDto));
     }
 
-    @GetMapping("/signout")
-    public String showSignoutPage(@RequestParam("id") Long id, Model model) {
-        model.addAttribute("id", id);
-        return "account-signout";
+    @DeleteMapping("/{id}/delete")
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id, @RequestBody @Valid UserDeleteDto userDeleteDto) {
+        userMgmtService.deleteUser(id, userDeleteDto);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @PostMapping("/signout")
-    public String deleteAccount(@RequestParam("id") Long id) {
-        userMgmtService.deleteUser(id);
-        return "redirect:/";
-    }
 }

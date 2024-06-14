@@ -66,7 +66,7 @@ public class AuthService {
     }
 
     public boolean join(JoinDto joinDto) {
-        User user = userMapper.JoinDtoToUser(joinDto);
+        User user = userMapper.joinDtoToUser(joinDto);
         user.setPassword(passwordEncoder.encode(joinDto.getPassword()));
         user.setRole(User.Role.USER.getKey());
 
