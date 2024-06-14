@@ -1,0 +1,6 @@
+export{default as Order}from "./Order"
+export{default as OrderCompleted} from "./OrderCompleted"
+export{default as OrderDetails} from "./OrderDetails"
+export{default as OrderDetailsByAdmin} from "./OrderDetailsByAdmin"
+export{default as OrderList} from "./OrderList"
+export{default as OrderListByAdmin} from "./OrderListByAdmin"

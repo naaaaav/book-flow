@@ -4,7 +4,7 @@ import { useParams, useHistory } from 'react-router-dom';
 const BookAdminPage = () => {
     const { bookId } = useParams(); 
     const history = useHistory();
-    const token = localStorage.getItem('access');
+    const token = localStorage.getItem('token');
     const [bookForm, setBookForm] = useState({
         id: null,
         name: '',
@@ -103,7 +103,7 @@ const BookAdminPage = () => {
         <select name="categoryId" value={bookForm.categoryId} onChange={handleInputChange}>
           <option value="">카테고리 선택</option>
           {categories.map(category => (
-            <option key={category.categoryId} value={category.categoryId}>
+            <option key={category.id} value={category.id}>
               {category.categoryName}
             </option>
           ))}

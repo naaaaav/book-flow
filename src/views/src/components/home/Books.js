@@ -16,7 +16,7 @@ function Books() {
           .then((json) => {
             setCategories(json);
             json.forEach((category) => {
-              fetch(`http://localhost:8080/api/books/category/${category.categoryId}`)
+              fetch(`http://localhost:8080/api/books/category/${category.id}`)
                 .then((response) => {
                   if (!response.ok) {
                     throw new Error("백엔드 접속 에러2");
@@ -26,7 +26,7 @@ function Books() {
                 .then((data) => {
                   setBooks(prevBooks => ({
                     ...prevBooks,
-                    [category.categoryId]: data.bookMainDtoList.slice(0, 5) // 여기를 수정했습니다.
+                    [category.id]: data.bookMainDtoList.slice(0, 5) // 여기를 수정했습니다.
                   }));
                 })
                 .catch((e) => {
@@ -44,12 +44,12 @@ function Books() {
         <div>
             {categories.length > 0 ? (
                 categories.map((category) => (
-                    <div key={category.categoryId}>
+                    <div key={category.id}>
                         <h3>{category.categoryName}</h3>
-                        <Link to={`/category/${category.categoryId}`}>더보기</Link>
+                        <Link to={`/category/${category.id}`}>더보기</Link>
                         <div>
-                            {books[category.categoryId] && books[category.categoryId].length > 0 ? (
-                                books[category.categoryId].map((book) => (
+                            {books[category.id] && books[category.id].length > 0 ? (
+                                books[category.id].map((book) => (
                                     <div key={book.id}>
                                         <img src={book.bookImgDtoList[0].imgUrl} alt={book.bookName} />
                                         <div><Link to={`/book/${book.id}`}>{book.bookName}</Link></div>
