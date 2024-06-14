@@ -44,11 +44,13 @@ function CartBook({userName, cart, setCart}){
     };
 
     // 특정상품선택
-    const checkEachBook = (event) => {
+    const checkEachBook = (event, book) => {
         const isChecked = event.target.checked;
-        const newCart = cart.map((book) => ({
-                ...book, checked: isChecked
-            }));
+        const newCart = cart.map((cartBook) =>
+            cartBook.book_id === book.book_id ?
+                {...cartBook, checked: isChecked}
+                : cartBook
+        );
         updateCart(newCart);
     };
 
@@ -72,7 +74,7 @@ function CartBook({userName, cart, setCart}){
                         id="checkEach"
                         type="checkbox"
                         checked={book.checked}
-                        onChange={checkEachBook}
+                        onChange={(event) => checkEachBook(event, book)}
                     />
                     <div className="about-book">
                         <Link to={`/bookDetail/${book.book_id}`}>
