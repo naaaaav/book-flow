@@ -26,7 +26,7 @@ const AdminUserList = () => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "access" : localStorage.getItem('eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhY2Nlc3MiLCJ1c2VybmFtZSI6ImFkbWluIiwicm9sZSI6IlJPTEVfQURNSU4iLCJpYXQiOjE3MTgyNDk3NjksImV4cCI6MTcxODMzNjE2OX0.91YgXMy84VvReY7YcV42tdPD1tp4TTXa5zJTnsgv7Ps')
+        "access" : localStorage.getItem('token')
       },
     })
       .then(response => {
@@ -48,7 +48,7 @@ const AdminUserList = () => {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          "access" : localStorage.getItem('access')
+          "access" : localStorage.getItem('token')
         },
       })
         .then(response => {
@@ -67,7 +67,7 @@ const AdminUserList = () => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        "access" : localStorage.getItem('access')
+        "access" : localStorage.getItem('token')
       },
       body: JSON.stringify({
         id : user.id,
@@ -92,7 +92,7 @@ const AdminUserList = () => {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        "access" : localStorage.getItem('access')
+        "access" : localStorage.getItem('token')
       },
     })
     .then(response => {

@@ -12,6 +12,7 @@ const Login = () => {
     e.preventDefault();
     fetch("http://localhost:8080/login", {
       method: "POST",
+      credentials : 'include',
       headers: {
         "Content-Type": "application/json",
       },
@@ -22,9 +23,8 @@ const Login = () => {
     })
       .then((response) => {
         if (response.status === 200) {
-          const access = response.headers.get('access')
-          localStorage.setItem('access', access)
-          localStorage.setItem('token', access)
+          const token = response.headers.get('access')
+          localStorage.setItem('token', token)
           alert('로그인 성공')
           history.push('/')
           return
