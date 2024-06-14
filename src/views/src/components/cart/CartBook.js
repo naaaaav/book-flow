@@ -1,5 +1,4 @@
 import "./CartBook.css"
-import bookPhoto from "../../resources/cart/forDesign.png";
 import {Link} from "react-router-dom";
 
 function CartBook({userName, cart, setCart}){
@@ -76,11 +75,11 @@ function CartBook({userName, cart, setCart}){
                         onChange={checkEachBook}
                     />
                     <div className="about-book">
-                        <Link to="/bookDetailTest">
-                            <img id="book-photo" src={book.img_url} alt={bookPhoto} />
+                        <Link to={`/bookDetail/${book.book_id}`}>
+                            <img id="book-photo" src={book.img_url} alt="bookPhoto" />
                         </Link>
                         <div id="title-price">
-                            <Link to="/bookDetailTest">
+                            <Link to={`/bookDetail/${book.book_id}`}>
                                 <div id="book-title">{book.book_name}</div>
                             </Link>
                             <div id="book-price">{book.book_price}원</div>

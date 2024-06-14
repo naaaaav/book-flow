@@ -1,60 +1,42 @@
-import {useEffect, useState} from "react";
-import bookData from "./testBookData.json";
-import {useHistory, useParams} from "react-router-dom";
+import { useState } from "react";
+import { useHistory } from "react-router-dom";
 
-function BookDetailTest(){
-    const {bookId} = useParams();
+function BookInfo({book}){
     const history = useHistory();
-
-    // 책데이터
-    const [books, setBooks] = useState([]);
-    useEffect(() => {
-        const thisBook = bookData.find((book) => book.id === parseInt(bookId));
-        if (thisBook) {
-            setBooks([
-                {
-                book_id: thisBook.id,
-                    book_name: thisBook.bookName,
-                    book_price: thisBook.bookPrice,
-                    book_stock: thisBook.stock,
-                    book_detail: thisBook.bookDetail,
-                    category_id: thisBook.categoryId,
-                    category_name: thisBook.categoryName,
-                    img_url: thisBook.bookImgUrl,
-                }
-            ]);
-        } else {
-            throw new Error("해당 책 정보를 찾을 수 없습니다.");
-        }
-    }, [bookId]);
-
-    /*
-    useEffect(() => {
-        const transformBook = bookData.map((item) => ({
-            book_id: item.id,
-            book_name: item.bookName,
-            book_price: item.bookPrice,
-            book_stock: item.stock,
-            book_detail: item.bookDetail,
-            category_id: item.categoryId,
-            category_name: item.categoryName,
-            img_url: item.bookImgUrl
-        }));
-        setBooks(transformBook);
-    } , []);
-    */
 
     // 책수량
     const [bookQuantity, setBookQuantity] = useState(1);
     const clickMinus = () => {
         setBookQuantity((prev) => prev === 1? prev : prev - 1);
     };
-    const clickPlus = (book_stock) => {
-        setBookQuantity((prev) => prev === book_stock? prev : prev+1);
+    const clickPlus = () => {
+        setBookQuantity((prev) => prev === book.book_stock? prev : prev+1);
     };
 
-    // 장바구니: 상품추가
-    const clickAddCart = (book) => {
+    const clickBuyNow = () => {
+        const orderData = {
+            orderItemDtos: [
+                {
+                    orderItemQuantity: bookQuantity,
+                    bookId: book.book_id
+                },
+            ],
+        };
+        try {
+            const ifBuy = window.confirm("바로 구매하시겠습니까?");
+            if(ifBuy) {
+                history.push({
+                    pathname: '/order',
+                    state: {orderData}
+                });
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('주문 처리 중 오류가 발생했어요.');
+        }
+    };
+
+    const clickAddCart = () => {
         const token = localStorage.getItem('token');
         if (token === null){
             alert("로그인 후 이용 가능합니다.");
@@ -102,25 +84,40 @@ function BookDetailTest(){
         }
     };
 
+
     return (
         <div>
-            <ul>
-                {books.map((book) => (
-                    <ul key={book.book_id}>
-                        <img src={book.img_url}/>
-                        <p>{book.book_name}</p>
-                        <p>{book.book_price}</p>
-                        <button onClick={clickMinus}>-</button>
-                        <span> {bookQuantity} </span>
-                        <button onClick={() => clickPlus(book.book_stock)}> +</button>
-                        <p>
-                            <button onClick={() => clickAddCart(book)}> 장바구니담기</button>
-                        </p>
-                    </ul>
-                ))}
-            </ul>
+            <img src={book.img_url} alt="bookImg" />
+            <div className="basic_info">
+                <div>
+                    {book.book_name}
+                </div>
+                <div>
+                    {book.book_detail}
+                </div>
+                <div>
+                    {book.book_price}
+                </div>
+            </div>
+            <div className="to_order">
+            <div className="book-quantity">
+                    <button onClick={clickMinus}>-</button>
+                    <input
+                        type="number"
+                        min="1"
+                        max={book.book_stock}
+                        value={bookQuantity}
+                        onChange={(e) => setBookQuantity(parseInt(e.target.value))}
+                    />
+                    <button onClick={clickPlus}>+</button>
+                </div>
+                <div className="order-cart-button">
+                    <button onClick={clickBuyNow}>바로구매</button>
+                    <button onClick={clickAddCart}>장바구니</button>
+                </div>
+            </div>
         </div>
     );
 }
 
-export default BookDetailTest;
+export default BookInfo;

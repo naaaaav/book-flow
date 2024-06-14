@@ -1,9 +1,22 @@
 [
   {
-    "book_id": 1,
-    "book_name": "스프링 부트 핵심 가이드",
-    "book_price": 25000,
-    "book_stock": 10,
-    "img_url": "../../resources/cart/springBoot.png"
+    "id": 1,
+    "bookName": "스프링 부트 핵심 가이드",
+    "bookPrice": 25000,
+    "stock": 10,
+    "bookDetail": "입문자의 눈높이에 맞춰 차근차근 따라하면서 배우는 스프링 부트 입문서!",
+    "categoryId": 1,
+    "categoryName": "프로그래밍",
+    "bookImgUrl": "../../resources/cart/springBoot.png"
+  },
+  {
+    "id": 2,
+    "bookName": "스프링 부트 핵심 가이드2",
+    "bookPrice": 25000,
+    "stock": 12,
+    "bookDetail": "입문자의 눈높이에 맞춰 차근차근 따라하면서 배우는 스프링 부트 입문서!",
+    "categoryId": 1,
+    "categoryName": "프로그래밍",
+    "bookImgUrl": "../../resources/cart/springBoot.png"
   }
 ]
