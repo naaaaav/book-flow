@@ -24,6 +24,7 @@ const Login = () => {
         if (response.status === 200) {
           const access = response.headers.get('access')
           localStorage.setItem('access', access)
+          localStorage.setItem('token', access)
           alert('로그인 성공')
           history.push('/')
           return

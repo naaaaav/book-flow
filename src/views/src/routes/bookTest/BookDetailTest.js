@@ -1,15 +1,17 @@
 import {useEffect, useState} from "react";
 import bookData from "./testBookData.json";
-
+import {useHistory} from "react-router-dom";
 
 function BookDetailTest(){
-    // 책 데이터
+    const history = useHistory();
+
+    // 책데이터
     const [books, setBooks] = useState([]);
     useEffect(() => {
         setBooks(bookData);
     } , []);
 
-    // 책 수량
+    // 책수량
     const [bookQuantity, setBookQuantity] = useState(1);
     const clickMinus = () => {
         setBookQuantity((prev) => prev === 1? prev : prev - 1);
@@ -18,31 +20,52 @@ function BookDetailTest(){
         setBookQuantity((prev) => prev === book_stock? prev : prev+1);
     };
 
-    // 장바구니: 상품 추가
+    // 장바구니: 상품추가
     const clickAddCart = (book) => {
-        // 사용자 카트 가져오기
-        const cartName = `cart-${localStorage.getItem('userName')}`;
-        let cart = JSON.parse(localStorage.getItem(cartName));
-
-        // 빈 카트이면 빈 배열로 초기화
-        if (cart === null ) {
-            cart = [];
-            console.log("빈 장바구니: " + cart);
-        }
-
-        // 카트에 책 존재하면 위치 인덱스, 없으면 -1 반환
-        const existingBookIndex = cart.findIndex((index) => index.book_id === book.book_id);
-        console.log("위치인덱스: " + existingBookIndex);
-
-        // 카트에 책 존재하면 수량 수정, 없으면 추가
-        if (existingBookIndex === -1){
-            cart.push({...book, book_quantity: bookQuantity});
+        const token = localStorage.getItem('token');
+        if (token === null){
+            alert("로그인 후 이용 가능합니다.");
         } else {
-            cart[existingBookIndex].book_quantity += bookQuantity;
+            // 사용자카트가져오기
+            const cartName = `cart-${localStorage.getItem('userName')}`;
+            let cart = JSON.parse(localStorage.getItem(cartName));
+
+            // 빈카트이면빈배열로 초기화
+            if (cart === null) {
+                cart = [];
+                console.log("빈 장바구니: " + cart);
+            }
+
+            // 카트에 상품 존재하면 위치, 없으면-1
+            const existingBookIndex = cart.findIndex((index) => index.book_id === book.book_id);
+            console.log("위치인덱스: " + existingBookIndex);
+
+            if(window.confirm("해당 상품을 장바구니에 추가하시겠습니까?")){
+                // 카트에 상품 존재&(현재수량+추가수량>재고):
+                if (existingBookIndex !== -1) {
+                    const currentQuantity = cart[existingBookIndex].book_quantity;
+                    const availableQuantity = book.book_stock - currentQuantity;
+                    if (currentQuantity+bookQuantity > book.book_stock){
+                        alert(`재고가 부족하여 추가할 수 없습니다. (추가가능수량: ${availableQuantity})`)
+                        return;
+                    }
+                }
+
+                // 카트에 상품 없으면 추가, 있으면 수량 수정
+                if (existingBookIndex === -1) {
+                    cart.push({...book, book_quantity: bookQuantity});
+                } else {
+                    cart[existingBookIndex].book_quantity += bookQuantity;
+                }
+            }
+            localStorage.setItem(cartName, JSON.stringify(cart));
+            console.log("장바구니: " + JSON.stringify(cart));
+            alert("장바구니에 상품이 추가되었습니다!");
+            if (window.confirm("장바구니로 이동하시겠습니까?")) {
+                const userName = localStorage.getItem('userName');
+                history.push(`/cart/${userName}`);
+            }
         }
-        localStorage.setItem(cartName, JSON.stringify(cart));
-        console.log("장바구니: " + JSON.stringify(cart));
-        alert("장바구니에 상품이 추가되었습니다!");
     };
 
     return (

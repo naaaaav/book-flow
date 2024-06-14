@@ -28,7 +28,7 @@ function LoginTest() {
       localStorage.setItem('userName',username);
       localStorage.setItem(`cart-${username}`, JSON.stringify([]));
 
-      history.push('/login'); 
+      history.push('/home');
     })
     .catch(error => {
       console.error('로그인 실패:', error);

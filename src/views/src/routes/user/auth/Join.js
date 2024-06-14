@@ -26,6 +26,11 @@ const Join = () => {
     })
       .then((response) => {
         if (response.status === 201) {
+          // 장바구니생성
+          const userName = formData.username;
+          localStorage.setItem('userName',userName);
+          localStorage.setItem(`cart-${userName}`, JSON.stringify([]));
+
           alert('회원가입 성공')
           history.push('/login')
           return
