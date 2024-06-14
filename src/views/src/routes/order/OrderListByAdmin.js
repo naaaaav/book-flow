@@ -7,8 +7,8 @@ import PaginationComponent from "../../components/order/PaginationComponent";
 
 function OrderListByAdmin() {
 
-    const token = localStorage.getItem('token');
-    console.log(localStorage.getItem('token'))
+    const token = localStorage.getItem('access');
+    console.log(localStorage.getItem('access'))
 
     const [currentPage, setCurrentPage] = useState(0);
     const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -146,7 +146,7 @@ function OrderListByAdmin() {
         ))
     }, [currentPage, itemsPerPage]);
 
-    if (!dto.ordersResponseDto.orderList || dto.ordersResponseDto.orderList.length == 0) {
+    if (!dto.ordersResponseDto.orderList || dto.ordersResponseDto.orderList.length === 0) {
         return (
             <div className="container">
               <HomeHeader />
@@ -193,7 +193,7 @@ function OrderListByAdmin() {
                     {dto.ordersResponseDto.orderList.map((list) => (
                         <tr>
                             <td>{formatDate(list.order.createdAt)}</td>
-                            <td><Link className = 'link' to = {`orderDetailsByadmin/${list.order.orderId}`}>{list.order.orderSummaryTitle}</Link></td>
+                            <td><Link className = 'link' to = {`order-details-by-admin/${list.order.orderId}`}>{list.order.orderSummaryTitle}</Link></td>
                             <td>{list.order.orderTotalPrice}</td>
                             <td>
                             <select

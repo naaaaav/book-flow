@@ -17,7 +17,9 @@ import java.util.ArrayList;
 @RequiredArgsConstructor
 @Transactional
 public class BookImgService {
+
     private final BookImgRepository bookImgRepository;
+
 
     public BookImg save(BookImg bookImg) {
 

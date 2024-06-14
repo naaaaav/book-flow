@@ -18,7 +18,7 @@ public class BookMainDto {
     private String bookName;
     private String bookDetail;
     private String bookImgUrl;
-    private Integer bookPrice;
+    private int bookPrice;
     private String date;
     private List<BookImgDto> bookImgDtoList = new ArrayList<>();
     private Category category;

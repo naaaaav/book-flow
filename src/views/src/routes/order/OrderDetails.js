@@ -4,25 +4,44 @@ import ReactModal from 'react-modal';
 import { Link } from "react-router-dom";
 import { useParams } from 'react-router-dom';
 import './OrderDetails.css';
+
+const token = localStorage.getItem('access');
+const orderStatusKorean = {
+    PAYMENT_COMPLETED: '결제 완료',
+    SHIPPING: '배송 중',
+    DELIVERED: '배송 완료',
+    PREPARING_PRODUCT: '상품 준비 중'
+  };
+
 function OrderDetails() {
 
-    const token = localStorage.getItem('token');
 
 
     const [orderDetails, setOrderDetails] = useState();
     const {orderId} = useParams();
-    const orderStatusKorean = {
-        PAYMENT_COMPLETED: '결제 완료',
-        SHIPPING: '배송 중',
-        DELIVERED: '배송 완료',
-        PREPARING_PRODUCT: '상품 준비 중'
-      };
+    
 
-    const [name, setName] = useState("");
-    const [phoneNumber, setPhonenumber] = useState("");
-    const [address1, setAddress1] = useState("");
-    const [address2, setAddress2] = useState("");
-    const [orderRequest, setOrderRequest] = useState("");
+    // const [name, setName] = useState("");
+    // const [phoneNumber, setPhonenumber] = useState("");
+    // const [address1, setAddress1] = useState("");
+    // const [address2, setAddress2] = useState("");
+    // const [orderRequest, setOrderRequest] = useState("");
+
+    const [formData, setFormData] = useState({
+        name: '',
+        phoneNumber: '',
+        address1: '',
+        address2: '',
+        orderRequest: ''
+      });
+  
+      const handleInputChange = (event) => {
+        const { name, value } = event.target;
+        setFormData(prevState => ({
+          ...prevState,
+          [name]: value
+        }));
+      };
 
     useEffect(() => {
         fetch(`http://localhost:8080/api/user/order/${orderId}`, {
@@ -38,11 +57,21 @@ function OrderDetails() {
         })
         .then((json) => {
             setOrderDetails(json);
-            setName(json.orderDelivery.orderDeliveryReceiverName);
-            setPhonenumber(json.orderDelivery.orderDeliveryReceiverPhoneNumber);
-            setAddress1(json.orderDelivery.orderDeliveryAddress1);
-            setAddress2(json.orderDelivery.orderDeliveryAddress2);
-            setOrderRequest(json.order.orderRequest);
+            // setName(json.orderDelivery.orderDeliveryReceiverName);
+            // setPhonenumber(json.orderDelivery.orderDeliveryReceiverPhoneNumber);
+            // setAddress1(json.orderDelivery.orderDeliveryAddress1);
+            // setAddress2(json.orderDelivery.orderDeliveryAddress2);
+            // setOrderRequest(json.order.orderRequest);
+            setFormData((prev) => (
+                {
+                    ...prev,
+                    name : json.orderDelivery.orderDeliveryReceiverName,
+                    phoneNumber : json.orderDelivery.orderDeliveryReceiverPhoneNumber,
+                    address1 : json.orderDelivery.orderDeliveryAddress1,
+                    address2 : json.orderDelivery.orderDeliveryAddress2,
+                    orderRequest : json.order.orderRequest
+                }
+            ))
         })
         .catch((e) => (
             console.log("OrderDetails 조회에러", e)
@@ -50,23 +79,23 @@ function OrderDetails() {
     }, [orderId]);
 
     const handleUpdate = () => {
-        const updatedDetails = {
-            ...orderDetails,
-            orderDto: {
-                ...orderDetails.order,
-                orderRequest: orderRequest
-            },
-            orderDeliveryDto: {
-                ...orderDetails.orderDelivery,
-                orderDeliveryReceiverName: name,
-                orderDeliveryReceiverPhoneNumber: phoneNumber,
-                orderDeliveryAddress1: address1,
-                orderDeliveryAddress2: address2
-            },
-            orderItemDtos: [
-                ...orderDetails.orderItems
-            ]
-        };
+        // const updatedDetails = {
+        //     ...orderDetails,
+        //     orderDto: {
+        //         ...orderDetails.order,
+        //         orderRequest: orderRequest
+        //     },
+        //     orderDeliveryDto: {
+        //         ...orderDetails.orderDelivery,
+        //         orderDeliveryReceiverName: name,
+        //         orderDeliveryReceiverPhoneNumber: phoneNumber,
+        //         orderDeliveryAddress1: address1,
+        //         orderDeliveryAddress2: address2
+        //     },
+        //     orderItemDtos: [
+        //         ...orderDetails.orderItems
+        //     ]
+        // };
     
         fetch(`http://localhost:8080/api/user/order/${orderId}`, {
             method: 'PUT',
@@ -74,7 +103,7 @@ function OrderDetails() {
                 'access': token,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(updatedDetails)
+            body: JSON.stringify(formData)
         })
         .then(response => {
             if (!response.ok) {
@@ -84,9 +113,11 @@ function OrderDetails() {
         })
         .then(data => {
             console.log('배송지 수정 성공', data);
+            alert("배송지를 잘 변경했어요.");
         })
         .catch(error => {
             console.error('배송지 수정 실패', error);
+            alert("배송지를 변경하지 못했어요. 다시 시도해 주세요.");
         });
     };
 
@@ -94,7 +125,7 @@ function OrderDetails() {
         return (
             <div>
                 <h1>주문 상세정보를 찾을수 없어요.</h1>
-                <h2><Link to={"/orderList"}>주문내역을 찾으시나요?</Link></h2>
+                <h2><Link to={"/order-list"}>주문내역을 찾으시나요?</Link></h2>
             </div>
             
         );
@@ -133,7 +164,7 @@ function OrderDetails() {
             <div>
                 
             </div>
-            {orderDetails.order && ( orderDetails.order.orderStatus == 'PAYMENT_COMPLETED' || orderDetails.order.orderStatus == 'PREPARING_PRODUCT') ? (
+            {orderDetails.order && ( orderDetails.order.orderStatus === 'PAYMENT_COMPLETED' || orderDetails.order.orderStatus === 'PREPARING_PRODUCT') ? (
                 <div className="formRootDiv">
                     <div className="orderStatusDiv">
                     <h3>상태: {orderStatusKorean[orderDetails.order.orderStatus]}</h3>
@@ -144,39 +175,45 @@ function OrderDetails() {
                         <h4>성함은 어떻게 되시나요?</h4>
                         <input 
                             type="text"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            placeholder={name}
+                            name="name"
+                            value={formData.name}
+                            onChange={handleInputChange}
+                            placeholder={formData.name}
                         />
                         <h4>연락처를 알려주세요.</h4>
                         <input 
                             type="text"
-                            value={phoneNumber}
-                            onChange={(e) => setPhonenumber(e.target.value)}
-                            placeholder={phoneNumber}
+                            name="phoneNumber"
+                            value={formData.phoneNumber}
+                            onChange={handleInputChange}
+                            placeholder={formData.phoneNumber}
                         />
                         <h4>받으실 주소를 알려주세요.</h4>
                         <input 
                             type="text"
-                            value={address1}
-                            onChange={(e) => setAddress1(e.target.value)}
-                            placeholder={address1}
+                            name="address1"
+                            value={formData.address1}
+                            onChange={handleInputChange}
+                            placeholder={formData.address1}
                         /><br />
                         <input 
                             type="text"
-                            value={address2}
-                            onChange={(e) => setAddress2(e.target.value)}
-                            placeholder={address2}
+                            name="address2"
+                            value={formData.address2}
+                            onChange={handleInputChange}
+                            placeholder={formData.address2}
                         />
                         <h4>배송 메모를 적어주세요.</h4>
                         <input 
                             type="text"
-                            value={orderRequest}
-                            onChange={(e) => setOrderRequest(e.target.value)}
-                            placeholder={orderRequest}
+                            name="orderRequest"
+                            value={formData.orderRequest}
+                            onChange={handleInputChange}
+                            placeholder={formData.orderRequest}
                         /><br />
-                        <button type="submit">배송 정보 수정</button>
+                        {/* <button type="submit">배송 정보 수정</button> */}
                     </form>
+                    <button onClick={handleUpdate}>배송 정보 수정</button>
                 </div>
                 ) : orderDetails.order.orderStatus === 'SHIPPING' ? (
                         <div>

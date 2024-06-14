@@ -1,5 +1,7 @@
 package io.elice.shoppingmall.user.controller;
 
+import io.elice.shoppingmall.user.exception.EmptyUsernamePasswordException;
+import io.elice.shoppingmall.user.model.dto.ErrorResponseDto;
 import io.elice.shoppingmall.user.model.dto.JoinDto;
 import io.elice.shoppingmall.user.model.dto.LoginDto;
 import io.elice.shoppingmall.user.service.AuthService;
@@ -29,8 +31,9 @@ public class AuthController {
     @PostMapping("/join")
     public ResponseEntity<?> join(@Valid @RequestBody JoinDto joinDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            log.error(bindingResult.getFieldError().getDefaultMessage());
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            String errorMessage = bindingResult.getFieldError().getDefaultMessage();
+            log.info(errorMessage);
+            return new ResponseEntity<ErrorResponseDto>(new ErrorResponseDto(400, errorMessage),HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(authService.join(joinDto), HttpStatus.CREATED);
     }

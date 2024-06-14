@@ -30,7 +30,12 @@ function JoinTest() {
         body: JSON.stringify(formData)
       });
       if (response.ok) {
-        history.push('/loginTest'); 
+          /* 회원가입 완료시, 사용자별 장바구니 생성
+          const userName = formData.username;
+          localStorage.setItem('userName',userName);
+          localStorage.setItem(`cart-${userName}`, JSON.stringify([]));
+           */
+          history.push('/loginTest');
       } else {
         console.error('회원가입 실패');
       }

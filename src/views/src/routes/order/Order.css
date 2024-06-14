@@ -1,0 +1,99 @@
+.root {
+    margin: 0 auto;
+    max-width: 1200px;
+    padding: 0 20px;
+  }
+  
+  .order-container {
+    display: flex;
+    flex-direction: row; /* 방향을 가로로 변경 */
+    max-width: 1200px; /* 전체 컨테이너의 최대 너비를 조정 */
+    margin: auto;
+  }
+  
+  .order-details {
+    flex: 2; /* 좌측 부분을 2/3 만큼 차지하도록 설정 */
+    padding-right: 20px; /* 우측과의 간격을 주기 위해 */
+  }
+  
+  .payment-summary {
+    margin-top: 50px;
+    flex: 1; /* 우측 부분을 1/3 만큼 차지하도록 설정 */
+    text-align: right;
+    display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  }
+  
+  .book-details {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  
+  .book-details span {
+    margin: 0 10px;
+  }
+  
+  .total-amount {
+    text-align: right;
+    margin-top: 20px;
+    font-weight: bold;
+  }
+
+  .won {
+    margin-top: 20px;
+  }
+  
+  .order-form {
+    margin-top: 100px;
+  }
+  
+  .order-form h2, .order-form h3 {
+    margin-bottom: 20px;
+  }
+  
+  .address-search-btn {
+    float: right;
+    margin-bottom: 20px;
+  }
+  
+  .input-field {
+    display: block;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  .action-buttons {
+    width: 100%; /* 버튼을 한 줄에 하나씩 배치하기 위해 너비를 100%로 설정 */
+    display: flex;
+    flex-direction: column; /* 버튼을 세로로 쌓기 위해 column 방향 설정 */
+    align-items: flex-end; /* 버튼을 우측 정렬 */
+    margin-top: 20px; 
+  }
+  
+  .action-buttons button {
+    margin-left: 10px;
+  }
+
+  .payBtn,
+.payCancelBtn {
+  margin-bottom: 10px; /* 버튼 사이의 간격 설정 */
+}
+
+.payBtn button,
+.payCancelBtn button {
+  width: auto; /* 버튼의 너비를 내용에 맞게 설정 */
+}
+
+.payBtn{
+margin-top: 30px;
+font-size: 2em;
+}
+
+.payCancelBtn{
+margin-top: 30px;
+font-size: 1.5em;
+}
+
+ 

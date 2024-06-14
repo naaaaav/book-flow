@@ -10,23 +10,26 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import javax.print.DocFlavor;
 
 @RestControllerAdvice
-@RequiredArgsConstructor
 public class OrderExceptionAdvice {
 
-    private OrderExceptionMapper mapper;
-
     @ExceptionHandler
-    public ResponseEntity<OrderExceptionResponseDto> exceptionHandle(NoOrdersException e) {
-        return new ResponseEntity<>(mapper.noOrdersExceptionToOrderExceptionResponseDto(e), HttpStatus.NOT_FOUND);
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public OrderApiError exceptionHandle(NoOrdersException e) {
+
+        return new OrderApiError(e.getOrderErrorMessages().getMessage());
     }
 
     @ExceptionHandler
-    public ResponseEntity<OrderExceptionResponseDto> exceptionHandle(OrderNotFoundException e) {
-        return new ResponseEntity<>(mapper.orderNotFoundExceptionToORderExceptionResponseDto(e), HttpStatus.NOT_FOUND);
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public OrderApiError exceptionHandle(OrderNotFoundException e) {
+
+        return new OrderApiError(e.getOrderErrorMessages().getMessage());
     }
 
     @ExceptionHandler
-    public ResponseEntity<OrderExceptionResponseDto> exceptionHandle(OrderAccessdeniedException e) {
-        return new ResponseEntity<>(mapper.orderAccessDeniedExceptionToOrderExceptionResponseDto(e), HttpStatus.BAD_REQUEST);
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public OrderApiError exceptionHandle(OrderAccessdeniedException e) {
+
+        return new OrderApiError(e.getOrderErrorMessages().getMessage());
     }
 }

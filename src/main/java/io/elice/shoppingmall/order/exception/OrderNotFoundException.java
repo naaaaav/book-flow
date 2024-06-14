@@ -9,10 +9,13 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
 @ResponseStatus(HttpStatus.NOT_FOUND)
 public class OrderNotFoundException extends RuntimeException {
 
     private OrderErrorMessages orderErrorMessages;
+
+    public OrderNotFoundException(OrderErrorMessages messages) {
+        super(messages.getMessage());
+        this.orderErrorMessages = messages;
+    }
 }
