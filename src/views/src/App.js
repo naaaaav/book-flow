@@ -14,12 +14,7 @@ import OrderDetailsByAdmin from "./routes/order/OrderDetailsByAdmin";
 import Order from "./routes/order/Order";
 import BookDetailTest from "./routes/bookTest/BookDetailTest";
 import Cart from "./routes/cart/Cart";
-<<<<<<< HEAD
-=======
-import BookAdd from "./routes/book/BookAdd";
-import BookUpdateDelete from "./routes/book/BookUpdateDelete";
 import BookDetail from "./routes/book/BookDetail";
->>>>>>> f9084aa0178a38f2c214d2eee932b13325143a8f
 
 
 function App() {
