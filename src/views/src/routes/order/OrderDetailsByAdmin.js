@@ -1,8 +1,9 @@
-import { Box, Image, Text, VStack, Input, Link, Flex, Heading } from '@chakra-ui/react';
+import { Box, Image, Text, VStack, Input, Link, Flex, Heading, Divider, HStack } from '@chakra-ui/react';
 import HomeHeader from "../../components/home/HomeHeader";
 import { useEffect, useState } from "react";
 import { useParams } from 'react-router-dom';
 import withAdminCheck from '../../components/adminCheck/withAdminCheck';
+import DefaultCover from "../../resources/book/default book cover.png";
 
 function OrderDetailsByadmin() {
   const token = localStorage.getItem('token');
@@ -63,21 +64,44 @@ function OrderDetailsByadmin() {
   }
 
   return (
-    <VStack spacing={4} align="stretch">
+    // <VStack spacing={4} align="stretch">
+    //   <HomeHeader />
+    //   <Heading as="h2" size="lg">주문 상세정보</Heading>
+    //   <VStack spacing={4}>
+    //     {orderDetails.orderItems && orderDetails.orderItems.map((item, index) => (
+    //       <Flex key={index} p={4} borderWidth="1px" borderRadius="lg" align="center">
+    //         <Image boxSize="100px" src={item.book?.bookImgList[0]?.imgUrl || '책 표지 조회 중...'} alt="Book cover" />
+    //         <Box ml={6}>
+    //           <Text fontWeight="bold">{item.book?.name || '책 이름이 없어요.'}</Text>
+    //           <Text>{item.orderItemPrice}원</Text>
+    //           <Text>{item.orderItemQuantity}권</Text>
+    //         </Box>
+    //       </Flex>
+    //     ))}
+    //   </VStack>
+    <Box p={5}>
       <HomeHeader />
-      <Heading as="h2" size="lg">주문 상세정보</Heading>
-      <VStack spacing={4}>
-        {orderDetails.orderItems && orderDetails.orderItems.map((item, index) => (
-          <Flex key={index} p={4} borderWidth="1px" borderRadius="lg" align="center">
-            <Image boxSize="100px" src={item.book?.bookImgList[0]?.imgUrl || '책 표지 조회 중...'} alt="Book cover" />
-            <Box ml={6}>
-              <Text fontWeight="bold">{item.book?.name || '책 이름이 없어요.'}</Text>
-              <Text>{item.orderItemPrice}원</Text>
-              <Text>{item.orderItemQuantity}권</Text>
-            </Box>
-          </Flex>
-        ))}
-      </VStack>
+      <VStack spacing={4} align="stretch">
+        <Heading my={5}>주문 상세정보</Heading>
+        <Divider />
+        <Box borderWidth="1px" borderRadius="lg" overflow="hidden" p={5}>
+          {orderDetails.orderItems && orderDetails.orderItems.map((item) => (
+            <HStack key={item.id} spacing={4} align="center">
+              <Image
+              boxSize="100px"
+              objectFit="cover"
+              src={item.book.bookImgList[0]?.imgUrl || DefaultCover}
+              alt={item.book.name}
+              borderRadius="md"
+            />
+              <VStack align="stretch" spacing={1}>
+                <Text fontWeight="bold">{item.book.name}</Text>
+                <Text color="gray.600">{item.orderItemPrice}원</Text>
+                <Text color="gray.500">{item.orderItemQuantity}권</Text>
+              </VStack>
+            </HStack>
+          ))}
+        </Box>
       {orderDetails.order && (
         <Box p={4} borderWidth="1px" borderRadius="lg">
           <Text fontSize="lg">상태: {orderStatusKorean[orderDetails.order.orderStatus]}</Text>
@@ -93,6 +117,7 @@ function OrderDetailsByadmin() {
         </Box>
       )}
     </VStack>
+    </Box>
   );
 }
 

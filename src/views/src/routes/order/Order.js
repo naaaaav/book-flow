@@ -6,10 +6,9 @@ import HomeHeader from "../../components/home/HomeHeader";
 import {
   Box, Flex, Text, Button, Input, Image, VStack, FormControl, FormLabel, useToast, HStack,
 } from '@chakra-ui/react';
-const token = localStorage.getItem('token');
+
 
 const Order = () => {
-
   const location = useLocation();
   const orderData = location.state?.orderData?.orderItemDtos;
   const [bookDetails, setBookDetails] = useState({}); 
@@ -105,7 +104,8 @@ const Order = () => {
     e.preventDefault();
     if (!orderCreateDto.orderDeliveryDto.orderDeliveryPostalCode ||
       !orderCreateDto.orderDeliveryDto.orderDeliveryAddress1 ||
-      !orderCreateDto.orderDeliveryDto.orderDeliveryAddress2) {
+      !orderCreateDto.orderDeliveryDto.orderDeliveryAddress2 ||
+      !orderCreateDto.orderDeliveryDto.orderDeliveryReceiverPhoneNumber) {
         toast({
           title: '주문 실패',
           description: '주문에 실패했어요. 모든 정보를 입력해주세요. ',
@@ -113,8 +113,9 @@ const Order = () => {
           duration: 9000,
           isClosable: true,
         });
-    return; // 필수 입력값이 없으면 여기서 함수 실행을 중단합니다.
+    return; 
   }
+    const token = localStorage.getItem('token');
     const response = await fetch(`${process.env.REACT_APP_API_URL}/api/user/order`, {
       method: 'POST',
       headers: {
@@ -210,12 +211,25 @@ const Order = () => {
               </HStack>
             </Box>
           ))}
-        <form onSubmit={handleOrder}>
+        <form onSubmit={(e) => {
+          e.preventDefault();
+          handleOrder(e);
+        }}>
             {/* 받으시는 분 정보 입력 폼 */}
             <FormControl id="name" isRequired>
               <FormLabel>받으시는 분</FormLabel>
               <Input name="orderDeliveryReceiverName" onChange={handleInputChange} placeholder="홍길동" />
             </FormControl>
+            <FormControl isRequired>
+            <FormLabel>전화번호</FormLabel>
+            <Input
+              type="text"
+              name="orderDeliveryReceiverPhoneNumber"
+              placeholder="전화번호를 입력해주세요"
+              onChange={handleInputChange}
+              className="input-field"
+            />
+          </FormControl>
               {/* 주소 입력 폼 */}
             <FormControl isRequired>
               <FormLabel>우편번호</FormLabel>

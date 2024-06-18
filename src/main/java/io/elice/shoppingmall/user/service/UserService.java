@@ -42,19 +42,19 @@ public class UserService {
         }
         User user = userRepository.findByUsername(username);
 
-        if (userPostDto.getPassword() != null || !user.getPassword().equals("")) {
+        if (userPostDto.getPassword() != null || !userPostDto.getPassword().equals("")) {
             user.setPassword(passwordEncoder.encode(userPostDto.getPassword()));
         }
 
-        if (userPostDto.getName() != null || !user.getName().equals("")) {
+        if (userPostDto.getName() != null || !userPostDto.getName().equals("")) {
             user.setName(userPostDto.getName());
         }
 
-        if (userPostDto.getPhoneNumber() != null || !user.getPhoneNumber().equals("")) {
+        if (userPostDto.getPhoneNumber() != null || !userPostDto.getPhoneNumber().equals("")) {
             user.setPhoneNumber(userPostDto.getPhoneNumber());
         }
 
-        if (userPostDto.getAddress() != null || !user.getAddress().equals("")) {
+        if (userPostDto.getAddress() != null || !userPostDto.getAddress().equals("")) {
             user.setAddress(userPostDto.getAddress());
         }
         return userRepository.save(user) != null ? true : false;

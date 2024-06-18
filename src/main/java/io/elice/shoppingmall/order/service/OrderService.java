@@ -260,7 +260,7 @@ public class OrderService {
 
     public Page<Order> findOrdersByAdmin(Pageable pageable) {
 
-        Page<Order> orders = orderRepository.findAllByIsDeletedFalse(pageable);
+        Page<Order> orders = orderRepository.findAllByIsDeletedFalseAndUserIsDeletedFalse(pageable);
 
         if (orders.isEmpty()) {
             throw new NoOrdersException(OrderErrorMessages.NO_ORDERS_FOUND);

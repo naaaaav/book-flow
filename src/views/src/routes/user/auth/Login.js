@@ -1,6 +1,9 @@
+import { Input, Button, Container, FormControl,  FormLabel } from '@chakra-ui/react'
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import Footer from '../../../components/home/Footer';
+import NotLoginHomeHeader from '../../../components/home/NotLoginHomeHeader';
 
 const Login = () => {
   const [username, setUsername] = useState("")
@@ -48,20 +51,30 @@ const Login = () => {
 
   return (
     <div>
-      <form>
-        <input 
-          type='text' 
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <input 
-          type='text' 
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button onClick={LoginProcess}>로그인</button>
-        <Link to="/join">회원가입</Link>
-      </form>
+      <Container maxW='1500px'>
+      <NotLoginHomeHeader />
+        <form>
+          <FormControl>
+            <FormLabel>아이디 : </FormLabel>
+            <Input 
+              type='text' 
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+          </FormControl>
+          <FormControl mb={3}>
+            <FormLabel>비밀번호 : </FormLabel>
+            <Input 
+              type='password' 
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </FormControl>
+          <Button colorScheme='blue' onClick={LoginProcess}>로그인</Button>
+          <Button onClick={(e) => history.push('/join')}>회원가입</Button>
+        </form>
+        <Footer />
+      </Container>
     </div>
   )
 }

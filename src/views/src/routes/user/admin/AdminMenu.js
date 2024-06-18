@@ -28,7 +28,7 @@ const AdminMenu = () => {
                 </p>
               </div>
             </Link>
-            <Link to="/userlist">
+            <Link to="/admin/menu/userlist">
               <div className="menu-icon">
                 <span className="icon has-text-info">
                   <i className="fa-solid fa-address-book"></i>

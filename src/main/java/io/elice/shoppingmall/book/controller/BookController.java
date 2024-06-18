@@ -48,7 +48,7 @@ public class BookController {
         return uniqueFileName;
     }
 
-    //배포시 vm ip, 개발시 localhost:8080사용하기
+    //배포시 http://34.64.32.227, 개발시 http://localhost:8080사용하기
     private String serverHost = "http://localhost:8080";
 
     @PostMapping("/admin/book")
@@ -94,7 +94,7 @@ public class BookController {
 
     //책 수정
     @PutMapping("/admin/book/{bookId}")
-    public ResponseEntity<?> putBook(@PathVariable Long bookId,@ModelAttribute BookFormDto bookFormDto, @RequestParam(value = "images", required = false) List<MultipartFile> images) throws IOException {
+    public ResponseEntity<?> putBook(@PathVariable Long bookId,@ModelAttribute BookFormDto bookFormDto, @RequestPart(value = "images", required = false) List<MultipartFile> images) throws IOException {
 
         Book oldBook = bookService.getbookDetail(bookId);
         List<BookImg> bookImgs = new ArrayList<>();

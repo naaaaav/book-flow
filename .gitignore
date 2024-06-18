@@ -45,3 +45,4 @@ src/main/resources/application.properties
 /src/main/generated/
 /uploadImages
 /node_modules/
+.DS_Store

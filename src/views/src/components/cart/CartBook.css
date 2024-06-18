@@ -3,7 +3,7 @@
     display: flex;
     align-items: center; /* 수평 가운데 정렬 */
     gap: 10px; /* 요소 간의 간격을 일정하게 */
-    margin: 10px 0;
+    margin-bottom: 10px;
 }
 
 .aboutBook {
@@ -15,7 +15,7 @@
     border-color: lightgray;
     border-radius: 5px;
     padding: 5px 0 5px 10px;
-    width: 500px;
+    /*width: 800px;*/
 }
 
 .checkedAboutBook {
@@ -27,7 +27,7 @@
     border-color: dodgerblue;
     border-radius: 5px;
     padding: 5px 0 5px 10px;
-    width: 500px;
+    /*width: 500px;*/
 }
 
 #book-title{

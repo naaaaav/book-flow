@@ -1,5 +1,5 @@
 import "./CartHeader.css";
-import {ChakraProvider, Stack, Checkbox, Text, Button, Divider} from '@chakra-ui/react';
+import {ChakraProvider, Stack, Checkbox, Text, Button, Divider, Flex} from '@chakra-ui/react';
 
 function CartHeader({userName, cart, setCart}){
     const  cartName = `cart-${userName}`;
@@ -38,27 +38,30 @@ function CartHeader({userName, cart, setCart}){
             <div className="cartHeader">
                 <Text as='b' fontSize='4xl'>장바구니</Text>
                 <div className="check-delete">
-                    <Stack spacing={2} direction='row' alignItems='center'>
-                        <Checkbox
-                            colorScheme='blue'
-                            isChecked={cart.every((book) => book.checked)}
-                            onChange={selectAllBooks}
-                            size='md'
-                            fontSize='md'
-                            fontWeight='normal'
-                        >
-                            전체선택
-                        </Checkbox>
-                        <Stack className="delete" direction='row' spacing={2} align='center' ml='auto'>
-                            <Button colorScheme='black' fontWeight='normal' variant='link' size='md' onClick={deleteCheckedBooks}>
-                                선택삭제
-                            </Button>
-                            <Divider height='10px' borderColor='gray.600' orientation='vertical' />
-                            <Button colorScheme='black' fontWeight='normal' variant='link' size='md' onClick={deleteAllBooks}>
-                                전체삭제
-                            </Button>
+                    <Flex
+                        justifyContent="center" /* 가로 중앙 정렬 */
+                    >
+                        <Stack spacing={750} direction='row' alignItems='center'>
+                            <Checkbox
+                                colorScheme='blue'
+                                isChecked={cart.every((book) => book.checked)}
+                                onChange={selectAllBooks}
+                                size='md'
+                                fontWeight='normal'
+                            >
+                                <Text fontSize='lg'>전체선택</Text>
+                            </Checkbox>
+                            <Stack className="delete" direction='row' spacing={2} align='center' ml='auto'>
+                                <Button colorScheme='black' fontWeight='normal' variant='link' size='lg' onClick={deleteCheckedBooks}>
+                                    선택삭제
+                                </Button>
+                                <Divider width='2px' height='15px' borderColor='gray.600' orientation='vertical' />
+                                <Button colorScheme='black' fontWeight='normal' variant='link' size='lg' onClick={deleteAllBooks}>
+                                    전체삭제
+                                </Button>
+                            </Stack>
                         </Stack>
-                    </Stack>
+                    </Flex>
                 </div>
             </div>
         </ChakraProvider>
