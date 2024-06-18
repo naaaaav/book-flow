@@ -9,6 +9,7 @@ import Login from './routes/user/auth/Login';
 import AdminUserList from './routes/user/admin/AdminUserList';
 import { Order, OrderCompleted, OrderDetails, OrderDetailsByAdmin, OrderList, OrderListByAdmin } from "./routes/order";
 import SearchPage from './routes/book/SearchPage';
+import BookDetailTest from "./routes/bookTest/BookDetailTest";
 import Cart from "./routes/cart/Cart";
 import BookDetail from "./routes/book/BookDetail";
 import BookDetailPage from "./routes/book/BookDetailPage";
@@ -29,82 +30,74 @@ import CategoryDelete from "./routes/testCategory/CategoryDelete";
 function App() {
   return (
     <Router>
-    <Switch>
-      {/* test */}
-      <Route path="/joinTest">
-        <JoinTest />
-      </Route>
-      <Route path="/loginTest">
-        <LoginTest />
-      </Route>
-      {/* test */}
+      <Switch>
+        {/* test */}
+        <Route path="/bookDetailTest/:bookId">
+          <BookDetailTest />
+        </Route>
+        <Route path="/joinTest">
+          <JoinTest />
+        </Route>
+        <Route path="/loginTest">
+          <LoginTest />
+        </Route>
+        {/* test */}
 
-      <Route exact path="/order-details/:orderId" render={(props) => (
-        <ChakraProvider>
-          <OrderDetails {...props} />
-        </ChakraProvider>
-      )} />
-      <Route exact path="/admin/order-details-by-admin/:orderId" render={(props) => (
-        <ChakraProvider>
-          <OrderDetailsByAdmin {...props} />
-        </ChakraProvider>
-      )} />
-      <Route exact path="/order-list" render={(props) => (
-        <ChakraProvider>
-          <OrderList {...props} />
-        </ChakraProvider>
-      )} />
-      <Route exact path="/order-completed" render={(props) => (
-        <ChakraProvider resetCSS={false}>
-          <OrderCompleted {...props} />
-        </ChakraProvider>
-      )} />
-      <Route exact path="/admin/orders" render={(props) => (
-        <ChakraProvider>
-          <OrderListByAdmin {...props} />
-        </ChakraProvider>
-      )} />
-      <Route exact path="/order" render={(props) => (
-        <ChakraProvider>
-          <Order {...props} />
-        </ChakraProvider>
-      )} />
-      <Route exact path="/my" render={(props) => (
-        <ChakraProvider>
-          <MyPage {...props} />
-        </ChakraProvider>
-      )} />
-      <Route exact path="/my-info" render={(props) => (
-        <ChakraProvider>
-          <MyInfo {...props} />
-        </ChakraProvider>
-      )} />
+        <Route exact path="/order-details/:orderId" render={(props) => (
+          <ChakraProvider>
+            <OrderDetails {...props} />
+          </ChakraProvider>
+        )} />
+        <Route exact path="/order-details-by-admin/:orderId" render={(props) => (
+          <ChakraProvider>
+            <OrderDetailsByAdmin {...props} />
+          </ChakraProvider>
+        )} />
+        <Route exact path="/order-list" render={(props) => (
+          <ChakraProvider>
+            <OrderList {...props} />
+          </ChakraProvider>
+        )} />
+        <Route exact path="/order-completed" render={(props) => (
+          <ChakraProvider resetCSS={false}>
+            <OrderCompleted {...props} />
+          </ChakraProvider>
+        )} />
+        <Route exact path="/admin/orders" render={(props) => (
+          <ChakraProvider>
+            <OrderListByAdmin {...props} />
+          </ChakraProvider>
+        )} />
+        <Route exact path="/order" render={(props) => (
+          <ChakraProvider>
+            <Order {...props} />
+          </ChakraProvider>
+        )} />
 
-      <Route exact path="/join" render={(props) => (
-        <ChakraProvider>
-          <Join {...props} />
-        </ChakraProvider>
-      )} />
-    
-      <Route exact path="/login" render={(props) => (
-        <ChakraProvider>
-          <Login {...props} />
-        </ChakraProvider>
-      )} />
+        <Route exact path="/my" render={(props) => (
+          <ChakraProvider>
+            <MyPage {...props} />
+          </ChakraProvider>
+        )} />
+        <Route exact path="/my-info" render={(props) => (
+          <ChakraProvider>
+            <MyInfo {...props} />
+          </ChakraProvider>
+        )} />
 
-      <Route exact path="/admin/menu/userlist" render={(props) => (
-        <ChakraProvider>
-          <AdminUserList {...props} />
-        </ChakraProvider>  
-      )} />
+        <Route path="/join">
+          <Join />
+        </Route>
+        <Route path="/login">
+          <Login />
+        </Route>
 
-      <Route exact path="/admin/menu" render={(props) => (
-        <AdminMenu {...props} />
-      )} />
-        
-      <Route path="/bookDetail/:bookId">
-        <BookDetail />
-      </Route>
+        <Route path="/admin/menu/userlist">
+          <AdminUserList />
+        </Route>
+        <Route path="/admin/menu">
+          <AdminMenu />
+        </Route>
 
       <Route exact path="/category/add" render={(props) => (
         <ChakraProvider>
@@ -142,50 +135,57 @@ function App() {
         </ChakraProvider>
       )} />
 
-<Route exact path="/book/:bookId" render={(props) => (
-  <BookDetailPage {...props} />
-)} />
+        <Route exact path="/admin/book/edit/:bookId" render={(props) => (
+          <ChakraProvider>
+            <BookAdminPage {...props} />
+          </ChakraProvider>
+        )} />
 
-<Route exact path="/search" render={(props) => (
-  <SearchPage {...props} />
-)} />
+        <Route exact path="/book/:bookId" render={(props) => (
+          <BookDetailPage {...props} />
+        )} />
 
-<Route exact path="/admin/books" render={(props) => (
-  <ChakraProvider>
-    <CategoriesByAdmin {...props} />
-  </ChakraProvider>
-)} />
+        <Route exact path="/search" render={(props) => (
+          <SearchPage {...props} />
+        )} />
 
-<Route exact path="/admin/books/category/:categoryId" render={(props) => (
-  <ChakraProvider>
-    <BooksByAdmin {...props} />
-  </ChakraProvider>
-)} />
+        <Route exact path="/admin/books" render={(props) => (
+          <ChakraProvider>
+            <CategoriesByAdmin {...props} />
+          </ChakraProvider>
+        )} />
 
-<Route exact path="/admin/book/:bookId" render={(props) => (
-  <ChakraProvider>
-    <BookDetailByAdmin {...props} />
-  </ChakraProvider>
-)} />
+        <Route exact path="/admin/books/category/:categoryId" render={(props) => (
+          <ChakraProvider>
+            <BooksByAdmin {...props} />
+          </ChakraProvider>
+        )} />
 
-<Route exact path="/product/add" render={(props) => (
-  <ChakraProvider>
-    <BookAdminPage {...props} />
-  </ChakraProvider>
-)} />
+        <Route exact path="/admin/book/:bookId" render={(props) => (
+          <ChakraProvider>
+            <BookDetailByAdmin {...props} />
+          </ChakraProvider>
+        )} />
 
+        <Route exact path="/product/add" render={(props) => (
+          <ChakraProvider>
+            <BookAdminPage {...props} />
+          </ChakraProvider>
+        )} />
 
-      <Route path="/cart/:userName">
-        <Cart />
-      </Route>
+        <Route path="/cart/:userName">
+          <Cart />
+        </Route>
 
-        <Route exact path="/" render={(props) => (
-    <ChakraProvider>
-      <Home {...props} />
-    </ChakraProvider>
-  )} />
-    </Switch>
-  </Router>
+        <Route path="/category/:categoryId">
+          <CategoryPage />
+        </Route>
+
+        <Route path="/">
+          <Home />
+        </Route>
+      </Switch>
+    </Router>
   );
 }
 

@@ -4,6 +4,7 @@ import Categories from "../components/home/Categories";
 import Event from "../resources/home/event.png";
 import Books from "../components/home/Books";
 import Footer from "../components/home/Footer";
+import BannerSlider from "../components/home/BannerSlider";
 import './Home.css';
 import { ChakraProvider, Box } from "@chakra-ui/react";
 
@@ -26,7 +27,7 @@ function Home() {
                 />
             </div>
             <div>
-                <img className="eventImg" src={Event} alt="Event" />
+                <BannerSlider />
             </div>
             <div>
                 <ChakraProvider>
