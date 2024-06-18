@@ -3,6 +3,7 @@ import { useHistory, Link } from 'react-router-dom';
 import { Box, Image, Heading, Button, useToast, Text, Stack, Divider, Flex } from '@chakra-ui/react';
 import withAdminCheck from '../../components/adminCheck/withAdminCheck';
 import defaultBookCover from '../../resources/book/default book cover.png';
+import HomeHeader from '../../components/home/HomeHeader';
 
 function BookDetailByAdmin({ match }) {
   const [book, setBook] = useState(null);
@@ -60,6 +61,7 @@ function BookDetailByAdmin({ match }) {
 
   return (
     <Box p={5}>
+      <HomeHeader />
       <Heading as="h2" fontSize="2em" fontWeight="bold">[관리자] 책 상세정보 조회</Heading>
       <Link to='/admin/books'><Button m="5" colorScheme='gray'>책 목록</Button></Link>
       <Stack spacing={3} mb={4}>

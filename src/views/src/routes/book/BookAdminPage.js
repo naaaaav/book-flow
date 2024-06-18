@@ -15,6 +15,7 @@ import {
 } from '@chakra-ui/react';
 import { ArrowBackIcon } from '@chakra-ui/icons';
 import withAdminCheck from '../../components/adminCheck/withAdminCheck';
+import HomeHeader from '../../components/home/HomeHeader';
 
 const BookAdminPage = () => {
     const { bookId } = useParams(); 
@@ -188,6 +189,7 @@ const BookAdminPage = () => {
 
     return (
       <Box p={5}>
+        <HomeHeader />
       <Link to='/admin/books'>
         <Button colorScheme='gray' leftIcon={<ArrowBackIcon />}> 책 목록</Button>
       </Link>

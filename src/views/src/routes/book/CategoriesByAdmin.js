@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import { Box, List, ListItem, ListIcon, Heading, Button } from '@chakra-ui/react';
 import { MdCheckCircle } from 'react-icons/md';
 import withAdminCheck from '../../components/adminCheck/withAdminCheck';
+import HomeHeader from '../../components/home/HomeHeader';
 
 function CategoriesByAdmin() {
   const [categories, setCategories] = useState([]);
@@ -16,6 +17,7 @@ function CategoriesByAdmin() {
 
   return (
     <Box className="category-container" p={5} width="100%">
+      <HomeHeader />
       <Heading as="h2" size="lg" mb={4}>
         *관리자 책조회*<br/>책을 조회할 카테고리를 선택해 주세요.
       </Heading>

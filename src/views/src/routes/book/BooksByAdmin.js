@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Box, List, ListItem, Image, Text, Button, Flex, Heading } from '@chakra-ui/react';
 import withAdminCheck from '../../components/adminCheck/withAdminCheck';
 import defaultBookCover from '../../resources/book/default book cover.png';
+import HomeHeader from '../../components/home/HomeHeader';
 
 function BooksByAdmin({ match }) {
   const [books, setBooks] = useState([]);
@@ -35,6 +36,7 @@ function BooksByAdmin({ match }) {
 
   return (
     <Box p={5}>
+      <HomeHeader />
       <Heading as="h2" size="xl" mb={6}>[관리자]<br/><br/>책 목록</Heading>
       <Link to='/product/add'><Button mb={5} colorScheme='gray'>책 추가</Button></Link>
       <List spacing={3}>
