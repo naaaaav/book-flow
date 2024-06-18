@@ -68,6 +68,10 @@ public class BookController {
                     String uniqueFileName = generateUniqueFileName(image.getOriginalFilename());
                     // 이미지 저장 경로 설정
                     Path path = Paths.get("./uploadImages", uniqueFileName);
+                    // 폴더없을때 에러방지
+                    if (!Files.exists(path)) {
+                        Files.createDirectories(path);
+                    }
                     // 이미지 파일 저장
                     Files.copy(image.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
                     // 서버에서 접근 가능한 이미지 URL 생성

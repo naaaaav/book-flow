@@ -17,6 +17,7 @@ import java.util.Optional;
 public class BookService {
 
     private final BookRepository bookRepository;
+    private final BookImgService bookImgService;
 
     //책 등록
     @Transactional
@@ -69,6 +70,7 @@ public class BookService {
         List<BookImg> imgs = findBook.getBookImgList();
         for (BookImg bookImg : imgs) {
             bookImg.setDeleted(true);
+            bookImgService.save(bookImg);
         }
         findBook.setBookImgList(imgs);
         bookRepository.save(findBook);
