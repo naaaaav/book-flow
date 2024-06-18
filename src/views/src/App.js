@@ -1,19 +1,13 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import * as React from 'react'
+import * as React from 'react';
 import Home from "./routes/Home";
-// import OrderDetails from "./routes/order/OrderDetails";
-// import OrderList from "./routes/order/OrderList";
 import JoinTest from "./routes/loginTest/JoinTest";
 import LoginTest from "./routes/loginTest/LoginTest";
-// import OrderCompleted from "./routes/order/OrderCompleted";
 import AdminMenu from './routes/user/admin/AdminMenu';
 import Join from './routes/user/auth/Join';
 import Login from './routes/user/auth/Login';
 import AdminUserList from './routes/user/admin/AdminUserList';
-// import OrderListByAdmin from "./routes/order/OrderListByAdmin";
-// import OrderDetailsByAdmin from "./routes/order/OrderDetailsByAdmin";
-// import Order from "./routes/order/Order";
-import {Order, OrderCompleted, OrderDetails, OrderDetailsByAdmin, OrderList, OrderListByAdmin} from "./routes/order";
+import { Order, OrderCompleted, OrderDetails, OrderDetailsByAdmin, OrderList, OrderListByAdmin } from "./routes/order";
 import SearchPage from './routes/book/SearchPage';
 import Cart from "./routes/cart/Cart";
 import BookDetail from "./routes/book/BookDetail";
@@ -25,7 +19,7 @@ import BookDetailByAdmin from "./routes/book/BookDetailByAdmin";
 import { ChakraProvider } from '@chakra-ui/react';
 import MyPage from "./routes/testUser/MyPage";
 import MyInfo from "./routes/testUser/MyInfo";
-
+import CategoryPage from "./routes/category/CategoryPage"; 
 
 function App() {
   return (

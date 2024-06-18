@@ -43,12 +43,12 @@ function Categories({ activeCategory, setActiveCategory }) {
           {categories.length > 0 ? (
             categories.map((category) => (
               <div
-                key={category.categoryId}
+                key={category.id}
                 className={`navbar-item ${activeCategory === category.categoryName ? 'active' : ''}`}
                 onMouseEnter={() => handleMouseEnter(category)}
                 onMouseLeave={handleMouseLeave}
               >
-                <Link to={category.subCategories && category.subCategories.length > 0 ? '#' : `/category/${category.categoryId}/books`}>
+                <Link to={`/category/${category.id}`}>
                   {category.categoryName}
                 </Link>
                 {hoveredCategory === category.categoryName && category.subCategories.length > 0 && (
@@ -58,8 +58,8 @@ function Categories({ activeCategory, setActiveCategory }) {
                     </div>
                     <div className="sub-category-list">
                       {category.subCategories.map((subCategory) => (
-                        <div key={subCategory.categoryId} className="sub-category-item">
-                          <Link to={`/category/${subCategory.categoryId}/books`}>
+                        <div key={subCategory.id} className="sub-category-item">
+                          <Link to={`/category/${subCategory.id}`}>
                             {subCategory.categoryName}
                           </Link>
                         </div>

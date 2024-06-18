@@ -1,0 +1,49 @@
+.category-page {
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .category-page h1 {
+    margin-bottom: 40px;
+    font-size: 2em;
+    font-weight: bold;
+  }
+  
+  .books-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  .book-item {
+    flex: 1 1 calc(20% - 20px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    transition: transform 0.2s;
+  }
+  
+  .book-item:hover {
+    transform: translateY(-10px);
+  }
+  
+  .book-cover {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+  
+  .book-title {
+    margin-top: 20px;
+    font-size: 1.2em;
+    font-weight: bold;
+  }
+  
+  .book-authors {
+    margin-top: 10px;
+    color: #555;
+    font-size: 0.9em;
+  }
+  
