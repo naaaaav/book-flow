@@ -20,6 +20,7 @@ import { ChakraProvider } from '@chakra-ui/react';
 import MyPage from "./routes/testUser/MyPage";
 import MyInfo from "./routes/testUser/MyInfo";
 import CategoryPage from "./routes/category/CategoryPage"; 
+import Category from "./routes/testCategory/category";
 
 function App() {
   return (
@@ -100,6 +101,12 @@ function App() {
       <Route path="/bookDetail/:bookId">
         <BookDetail />
       </Route>
+
+      <Route exact path="/category/:categoryId" render={(props) => (
+        <ChakraProvider>
+          <Category {...props} />
+        </ChakraProvider>  
+      )} />
 
       <Route exact path="/admin/book/edit/:bookId" render={(props) => (
         <ChakraProvider>
