@@ -41,7 +41,7 @@ const CategoryDelete = () => {
       },
     })
     .then(response => {
-      if (!response.ok) {
+      if (!response) {
         throw new Error('카테고리 삭제 실패');
       }
       return response.json();
