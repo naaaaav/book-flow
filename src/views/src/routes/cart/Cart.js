@@ -1,4 +1,5 @@
 import HomeHeader from "../../components/home/HomeHeader";
+import Footer from "../../components/home/Footer";
 import CartBookList from "../../components/cart/CartBookList";
 import CartHeader from "../../components/cart/CartHeader";
 import CartPriceInfo from "../../components/cart/CartPriceInfo";
@@ -78,6 +79,7 @@ function Cart(){
                     </div>
                 </div>
                 }
+                <Footer />
             </div>
         </ChakraProvider>
     );

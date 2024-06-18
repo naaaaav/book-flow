@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import {ChakraProvider, Stack, Text, Button, Image, Box, Input} from '@chakra-ui/react';
 
 
-function BookInfo({book}){
+function BookInfo({book, images}){
     const history = useHistory();
     const token = localStorage.getItem('token');
 
@@ -105,7 +105,7 @@ function BookInfo({book}){
                                 w='350px'
                                 h='400px'
                                 objectFit='contain'
-                                src={book.img_url}
+                                src={images[0]}
                                 alt={book.book_name}
                             />
                         </Box>

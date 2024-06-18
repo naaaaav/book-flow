@@ -23,6 +23,11 @@ function CartPriceInfo({cart}){
 
     // 주문하기 클릭시
     const clickOrder = async () => {
+        if(checkedQuantity === 0){
+            alert("책을 선택해 주세요.");
+            return;
+        }
+
         if(token === null){
             alert("로그인 후 이용 가능합니다.");
         }else {

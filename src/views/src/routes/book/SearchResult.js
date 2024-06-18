@@ -45,7 +45,7 @@ const SearchResult = (props) => {
         <ul>
         {books.map(book => (
           <li key={book.id}>
-            <Link to={`/book/${book.id}`}><h2>{book.bookName}</h2></Link>
+            <Link to={`/bookDetail/${book.id}`}><h2>{book.bookName}</h2></Link>
             <p>{book.bookDetail}</p>
             {book.bookImgDtoList[0]? (
               <img src={book?.bookImgDtoList[0]?.imgUrl} />
