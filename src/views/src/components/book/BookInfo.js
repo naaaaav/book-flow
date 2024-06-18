@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
-import {ChakraProvider, Stack, Text, Button, Image, Box} from '@chakra-ui/react';
+import {ChakraProvider, Stack, Text, Button, Image, Box, Input} from '@chakra-ui/react';
 
 
-function BookInfo({book}){
+function BookInfo({book, images}){
     const history = useHistory();
     const token = localStorage.getItem('token');
 
@@ -92,8 +92,8 @@ function BookInfo({book}){
                 <Stack spacing={5} direction='row' mt={30} ml={20} mb={50} mr={20}>
                     <Stack>
                         <Box
-                            maxW='300px'
-                            maxH='350px'
+                            maxW='350px'
+                            maxH='400px'
                             borderWidth='1px'
                             overflow='hidden'
                             boxShadow='lg'
@@ -102,43 +102,54 @@ function BookInfo({book}){
                         >
                             <Image
                                 id="book-photo"
-                                w='300px'
-                                h='350px'
+                                w='350px'
+                                h='400px'
                                 objectFit='contain'
-                                src={book.img_url}
+                                src={images[0]}
                                 alt={book.book_name}
                             />
                         </Box>
                     </Stack>
-                    <Stack spacing={150} direction='column' mt={1}>
+                    <Stack spacing={105} direction='column' mt={1}>
                         <Stack spacing={5} direction='column'>
                             <Stack spacing={1} direction='column'>
-                                <Text fontSize='xl'>{book.book_name}</Text>
+                                <Text fontSize='3xl'>{book.book_name}</Text>
                                 <Stack spacing={1} direction='row'>
                                     <Text fontSize='xs' textColor='darkgray'>분야 : </Text>
-                                    <Text fontSize='xs' textColor='darkgray'>{book.category_name}</Text>
+                                    <Text fontSize='xs' textColor='darkgray'>{book.book_category}</Text>
                                 </Stack>
+                                <Stack spacing={1} direction='row'>
+                                    <Text fontSize='xs' textColor='darkgray'>출판사 : </Text>
+                                    <Text fontSize='xs' textColor='darkgray'>{book.book_publisher}</Text>
+                                </Stack>
+                                <Text fontSize='xl' color='dodgerblue'>{book.book_author}</Text>
                             </Stack>
-                            <Text fontSize='md' color='dodgerblue' alignSelf='flex-end'>{book.book_price}원</Text>
+                            <Text fontSize='xl' color='dodgerblue' alignSelf='flex-end'>{book.book_price}원</Text>
                         </Stack>
                         <Stack className="to_order" spacing={5}>
-                            <div className="book-quantity">
-                                <Button colorScheme='black' variant='link' onClick={clickMinus} mr={2}>-</Button>
-                                <input
+                            <Stack className="book-quantity" spacing={1} direction='row'>
+                                <Button colorScheme='black' variant='link' onClick={clickMinus} mr={2} size='lg' color="dimgray">
+                                    -
+                                </Button>
+                                <Input
+                                    size='md'
                                     type="number"
                                     min="1"
                                     max={book.book_stock}
                                     value={bookQuantity}
                                     onChange={(e) => setBookQuantity(parseInt(e.target.value))}
+                                    css={{textAlign: 'center'}}
                                 />
-                                <Button colorScheme='black' variant='link' onClick={clickPlus}>+</Button>
-                            </div>
-                            <Stack className="order-cart-button" direction='row' spacing={2} align='center'>
-                                <Button colorScheme='blue' size='md' onClick={clickBuyNow}>
-                                    바로구매
+                                <Button colorScheme='black' variant='link' onClick={clickPlus} size='lg' color="dimgray">
+                                    +
                                 </Button>
-                                <Button colorScheme='blue' variant='outline' size='md' onClick={clickAddCart}>
+                            </Stack>
+                            <Stack className="order-cart-button" direction='row' spacing={2} align='center'>
+                                <Button colorScheme='blue' variant='outline' size='lg' onClick={clickAddCart}>
                                     장바구니
+                                </Button>
+                                <Button colorScheme='blue' onClick={clickBuyNow} size='lg'>
+                                    바로구매
                                 </Button>
                             </Stack>
                         </Stack>

@@ -2,8 +2,8 @@ import { Box, Text, Image, Input, Button, Link, useToast, Stack, VStack, HStack,
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from 'react-router-dom';
 import HomeHeader from "../../components/home/HomeHeader";
+import DefaultCover from "../../resources/book/default book cover.png";
 
-const token = localStorage.getItem('token');
 const orderStatusKorean = {
   PAYMENT_COMPLETED: '결제 완료',
   SHIPPING: '배송 중',
@@ -12,6 +12,7 @@ const orderStatusKorean = {
 };
 
 function OrderDetails() {
+  const token = localStorage.getItem('token');
   const toast = useToast(); 
   const [orderDetails, setOrderDetails] = useState();
   const { orderId } = useParams();
@@ -114,12 +115,12 @@ function OrderDetails() {
           {orderDetails.orderItems && orderDetails.orderItems.map((item) => (
             <HStack key={item.id} spacing={4} align="center">
               <Image
-                boxSize="100px"
-                objectFit="cover"
-                src={item.book.bookImgList[0]?.imgUrl}
-                alt={item.book.name}
-                borderRadius="md"
-              />
+              boxSize="100px"
+              objectFit="cover"
+              src={item.book.bookImgList[0]?.imgUrl || DefaultCover}
+              alt={item.book.name}
+              borderRadius="md"
+            />
               <VStack align="stretch" spacing={1}>
                 <Text fontWeight="bold">{item.book.name}</Text>
                 <Text color="gray.600">{item.orderItemPrice}원</Text>

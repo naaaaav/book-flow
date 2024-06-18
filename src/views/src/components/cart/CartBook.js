@@ -74,6 +74,7 @@ function CartBook({userName, cart, setCart}){
                 <div key={book.book_id} className="each-book">
                     <Stack spacing={5} direction='row'>
                         <Checkbox
+                            size='md'
                             colorScheme='blue'
                             isChecked={book.checked}
                             onChange={(event) => checkEachBook(event, book)}
@@ -84,18 +85,20 @@ function CartBook({userName, cart, setCart}){
                     <div className={book.checked ? 'checkedAboutBook' : 'aboutBook'}>
                         <Link to={`/bookDetail/${book.book_id}`}>
                             <Box
-                                maxW='100px'
-                                maxH='80px'
+                                maxW='120px'
+                                maxH='150px'
                                 borderWidth='1px'
                                 overflow='hidden'
                                 boxShadow='lg'
+                                mt={3}
+                                mb={3}
                                 mr={3}
-                                ml={1}
+                                ml={2}
                             >
                                 <Image
                                     id="book-photo"
-                                    w='100px'
-                                    h='80px'
+                                    w='120px'
+                                    h='150px'
                                     objectFit='contain'
                                     src={book.img_url}
                                     alt={book.book_name}
@@ -108,7 +111,7 @@ function CartBook({userName, cart, setCart}){
                                     {book.book_name}
                                 </Text>
                             </Link>
-                            <Text id="book-price" fontSize='sm' fontWeight='normal'>{book.book_price}원</Text>
+                            <Text id="book-price" fontSize='lg' fontWeight='normal'>{book.book_price}원</Text>
                         </div>
                         <Stack direction='row' h='100px' p={0} mt={4}>
                             <Divider height='80px' orientation='vertical' />
@@ -116,12 +119,12 @@ function CartBook({userName, cart, setCart}){
                         <div id="quantity-edit">
                             <Stack spacing={0} direction='column'>
                                 <Stack spacing={0} direction='row'>
-                                    <Text id="total-price" fontSize='sm' fontWeight='bold' ml={3}>{book.book_price * book.book_quantity}</Text>
-                                    <Text fontSize='sm' fontWeight='normal' ml={1}>원</Text>
+                                    <Text id="total-price" fontSize='lg' fontWeight='bold' ml={3}>{book.book_price * book.book_quantity}</Text>
+                                    <Text fontSize='lg' fontWeight='normal' ml={1}>원</Text>
                                 </Stack>
                                 <Stack spacing={0} direction='row'>
                                     <Button colorScheme='black' variant='link' onClick={() => clickMinus(book)}>-</Button>
-                                    <Text id="total-quantity" fontSize='sm' fontWeight='normal'>{book.book_quantity}</Text>
+                                    <Text id="total-quantity" fontSize='lg' fontWeight='normal'>{book.book_quantity}</Text>
                                     <Button colorScheme='black' variant='link' onClick={() => clickPlus(book)}>+</Button>
                                 </Stack>
                             </Stack>
@@ -129,7 +132,7 @@ function CartBook({userName, cart, setCart}){
                         <div>
                             <Stack direction='row' spacing={6}>
                                 <CloseButton
-                                    size='sm'
+                                    size='md'
                                     onClick={() => deleteBook(book)}
                                     ml={5}
                                     mr={5}

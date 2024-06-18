@@ -1,6 +1,7 @@
 package io.elice.shoppingmall.user.controller;
 
 import io.elice.shoppingmall.user.exception.EmptyUsernamePasswordException;
+import io.elice.shoppingmall.user.model.dto.AuthRoleGetDto;
 import io.elice.shoppingmall.user.model.dto.ErrorResponseDto;
 import io.elice.shoppingmall.user.model.dto.JoinDto;
 import io.elice.shoppingmall.user.model.dto.LoginDto;
@@ -11,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,5 +38,10 @@ public class AuthController {
             return new ResponseEntity<ErrorResponseDto>(new ErrorResponseDto(400, errorMessage),HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(authService.join(joinDto), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/api/auth/check")
+    public ResponseEntity<AuthRoleGetDto> roleCheck() {
+        return new ResponseEntity<>(authService.roleCheck(), HttpStatus.OK);
     }
 }

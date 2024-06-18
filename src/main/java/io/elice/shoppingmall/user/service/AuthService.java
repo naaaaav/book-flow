@@ -1,6 +1,7 @@
 package io.elice.shoppingmall.user.service;
 
 import io.elice.shoppingmall.user.exception.DuplicateUsernameException;
+import io.elice.shoppingmall.user.model.dto.AuthRoleGetDto;
 import io.elice.shoppingmall.user.model.dto.JoinDto;
 import io.elice.shoppingmall.user.model.User;
 import io.elice.shoppingmall.user.model.UserMapper;
@@ -61,7 +62,7 @@ public class AuthService {
 
     public User getCurrentUser() {
 
-        User currentUser = authRepository.findByUsername(getCurrentUsername());
+        User currentUser = authRepository.findByUsernameAndIsDeletedFalse(getCurrentUsername());
         return currentUser;
     }
 
@@ -70,10 +71,22 @@ public class AuthService {
         user.setPassword(passwordEncoder.encode(joinDto.getPassword()));
         user.setRole(User.Role.USER.getKey());
 
-        if (authRepository.existsByUsername(user.getUsername())) {
+        if (authRepository.existsByUsernameAndIsDeletedFalse(user.getUsername())) {
             throw new DuplicateUsernameException("아이디가 중복 되었습니다");
         }
 
         return authRepository.save(user) != null ? true : false;
+    }
+
+    public AuthRoleGetDto roleCheck() {
+        AuthRoleGetDto authRoleGetDto = new AuthRoleGetDto();
+        String username = getCurrentUsername();
+        if (username.equals("anonymousUser")) {
+            authRoleGetDto.setRole("ROLE_ANONYMOUS");
+            return authRoleGetDto;
+        }
+        User user = getCurrentUser();
+        authRoleGetDto.setRole(user.getRole());
+        return authRoleGetDto;
     }
 }

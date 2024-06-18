@@ -1,38 +1,17 @@
 import HomeHeader from "../../components/home/HomeHeader";
+import Footer from "../../components/home/Footer";
 import BookInfoDetail from "../../components/book/BookInfoDetail";
 import BookInfo from "../../components/book/BookInfo";
 import {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
-import bookData from "../bookTest/testBookData.json";
+import {ChakraProvider, Flex, Stack, Image} from '@chakra-ui/react';
+
 
 function BookDetail(){
     const {bookId} = useParams();
-    const [books, setBooks] = useState([]);
+    const [book, setBook] = useState([]);
+    const [images, setImages] = useState([]);
 
-    // 테스트코드
-    useEffect(() => {
-        const thisBook = bookData.find((book) => book.id === parseInt(bookId));
-        if (thisBook) {
-            setBooks([
-                {
-                    book_id: thisBook.id,
-                    book_name: thisBook.bookName,
-                    book_price: thisBook.bookPrice,
-                    book_stock: thisBook.stock,
-                    book_detail: thisBook.bookDetail,
-                    category_id: thisBook.categoryId,
-                    category_name: thisBook.categoryName,
-                    img_url: thisBook.bookImgUrl,
-                    book_content: thisBook.tableOfContents,
-                }
-            ]);
-        } else {
-            throw new Error("해당 책 정보를 찾을 수 없습니다.");
-        }
-    }, [bookId]);
-
-    {/*
-    !부모카테고리추가!
     useEffect(() => {
         fetch(`${process.env.REACT_APP_API_URL}/api/book/${bookId}`)
             .then((response) => {
@@ -42,39 +21,45 @@ function BookDetail(){
                 return response.json();
             })
             .then((json) => {
-                const thisBook = json.find((book) => book.id === parseInt(bookId));
-                if (thisBook) {
-                    setBooks({
-                        book_id: thisBook.id,
-                        book_name: thisBook.bookName,
-                        book_price: thisBook.bookPrice,
-                        book_stock: thisBook.stock,
-                        book_detail: thisBook.bookDetail,
-                        category_id: thisBook.category.id,
-                        category_name: thisBook.category.categoryName,
-                        img_url: thisBook.bookImgDtoList[0].imgUrl,
-                        book_content: thisBook.tableOfContents,
-                    });
-                } else {
-                    throw new Error("해당 책 정보를 찾을 수 없습니다.");
-                }
+                setBook({
+                    book_id: json.id,
+                    book_name: json.bookName,
+                    book_price: json.bookPrice,
+                    book_stock: json.stock,
+                    book_author: json.author,
+                    book_publisher: json.publisher,
+                    book_detail: json.bookDetail,
+                    book_content: json.tableOfContents,
+                    book_category: json.category.categoryName,
+                    img_url: json.bookImgDtoList[0].imgUrl,
+                });
+                setImages(json.bookImgDtoList.map(img => img.imgUrl));
             })
             .catch((error) => (
                 console.log("책 상세 정보 조회 에러", error)
             ))
     }, [bookId]);
-    */}
 
     return (
-        <div>
-            {books.map((book) => (
+        <ChakraProvider>
+            <div>
                 <div key={book.book_id}>
                     <HomeHeader/>
-                    <BookInfo book={book} />
-                    <BookInfoDetail book={book} />
+                    <Flex
+                        justifyContent="center" /* 가로 중앙 정렬 */
+                        transform="scale(1.1)" /* 요소 크기 확대 */
+                        mt={100}
+                        mb={200}
+                    >
+                        <Stack direction='column' spacing={15}>
+                            <BookInfo book={book} images={images} />
+                            <BookInfoDetail book={book} images={images} />
+                        </Stack>
+                    </Flex>
+                    <Footer />
                 </div>
-            ))}
-        </div>
+            </div>
+        </ChakraProvider>
     );
 }
 
