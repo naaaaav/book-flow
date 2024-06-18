@@ -25,6 +25,12 @@ import BookDetailByAdmin from "./routes/book/BookDetailByAdmin";
 import { ChakraProvider } from '@chakra-ui/react';
 import MyPage from "./routes/testUser/MyPage";
 import MyInfo from "./routes/testUser/MyInfo";
+import CategoryPage from "./routes/category/CategoryPage"; 
+import Category from "./routes/testCategory/category";
+import CategoryAdminMenu from "./routes/testCategory/CategoryAdminMenu";
+import CategoryEdit from "./routes/testCategory/CategoryEdit";
+import CategoryCreate from "./routes/testCategory/CategoryCreate";
+import CategoryDelete from "./routes/testCategory/CategoryDelete";
 
 
 function App() {
