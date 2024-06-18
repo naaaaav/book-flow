@@ -22,7 +22,9 @@ const Logout = () => {
         alert('로그아웃 성공')
         history.push('/')
       } else if (response.status === 400) {
-        alert('로그아웃 실패')
+        localStorage.removeItem('token')
+        setToken(null)
+        alert('로그아웃 성공')
       }
     }).catch(error => {
       console.log(error)

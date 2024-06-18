@@ -89,13 +89,13 @@ function App() {
     
       <Route exact path="/login" render={(props) => (
         <ChakraProvider>
-          <Login />
+          <Login {...props} />
         </ChakraProvider>
       )} />
 
       <Route exact path="/admin/menu/userlist" render={(props) => (
         <ChakraProvider>
-          <AdminUserList />
+          <AdminUserList {...props} />
         </ChakraProvider>  
       )} />
 
@@ -108,10 +108,10 @@ function App() {
       </Route>
 
       <Route exact path="/admin/book/edit/:bookId" render={(props) => (
-  <ChakraProvider>
-    <BookAdminPage {...props} />
-  </ChakraProvider>
-)} />
+        <ChakraProvider>
+          <BookAdminPage {...props} />
+        </ChakraProvider>
+      )} />
 
 <Route exact path="/book/:bookId" render={(props) => (
   <BookDetailPage {...props} />

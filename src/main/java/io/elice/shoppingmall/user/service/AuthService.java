@@ -62,7 +62,7 @@ public class AuthService {
 
     public User getCurrentUser() {
 
-        User currentUser = authRepository.findByUsername(getCurrentUsername());
+        User currentUser = authRepository.findByUsernameAndIsDeletedFalse(getCurrentUsername());
         return currentUser;
     }
 
@@ -71,7 +71,7 @@ public class AuthService {
         user.setPassword(passwordEncoder.encode(joinDto.getPassword()));
         user.setRole(User.Role.USER.getKey());
 
-        if (authRepository.existsByUsername(user.getUsername())) {
+        if (authRepository.existsByUsernameAndIsDeletedFalse(user.getUsername())) {
             throw new DuplicateUsernameException("아이디가 중복 되었습니다");
         }
 
