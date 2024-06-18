@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import './Books.css';
+import { Link as RouterLink } from "react-router-dom";
+import {
+  Box, Flex, Heading, Image, SimpleGrid, Text, useBreakpointValue
+} from "@chakra-ui/react";
 import defaultBookCover from "../../resources/book/default book cover.png";
 
 function Books() {
-    const [categories, setCategories] = useState([]);
-    const [books, setBooks] = useState({});
+  const [categories, setCategories] = useState([]);
+  const [books, setBooks] = useState({});
+  const columnCount = useBreakpointValue({ base: 2, md: 5 });
 
     useEffect(() => {
         fetch(`${process.env.REACT_APP_API_URL}/api/categories`)
@@ -43,39 +46,45 @@ function Books() {
       
 
       return (
-        <div>
+        <Box>
           {categories.length > 0 ? (
             categories.map((category) => (
-              <div key={category.id}>
-                <h3>{category.categoryName}</h3>
-                <Link to={`/category/${category.id}`}>더보기</Link>
-                <div className="book-list">
+              <Box key={category.id} mb="10">
+                <Flex justify="space-between" align="center" mb="4">
+                  <Heading as="h3" size="lg">{category.categoryName}</Heading>
+                  <RouterLink to={`/category/${category.id}`}>더보기</RouterLink>
+                </Flex>
+                <SimpleGrid columns={columnCount} spacing="5">
                   {books[category.id] && books[category.id].length > 0 ? (
                     books[category.id].map((book) => (
-                      <div key={book.id} className="book-item">
-                        <Link to={`/bookDetail/${book.id}`}>
-                          {book.bookImgDtoList && book.bookImgDtoList.length > 0 && book.bookImgDtoList[0].imgUrl ? (
-                            <img src={book.bookImgDtoList[0].imgUrl} alt={book.bookName} />
-                          ) : (
-                            // <div>이미지가 없습니다</div>
-                            <img src={defaultBookCover} alt={defaultBookCover} />
-                          )}
-                        </Link>
-                        <div><Link to={`/bookDetail/${book.id}`}>{book.bookName}</Link></div>
-                        <div>{book.bookAuthor}</div>
-                      </div>
+                      <Box key={book.id} bg="white" shadow="md" borderRadius="lg" overflow="hidden">
+                        <RouterLink to={`/bookDetail/${book.id}`}>
+                          <Image
+                            src={book.bookImgDtoList && book.bookImgDtoList.length > 0 && book.bookImgDtoList[0].imgUrl ? book.bookImgDtoList[0].imgUrl : defaultBookCover}
+                            alt={book.bookName || 'Default book cover'}
+                            objectFit="cover"
+                            w="100%"
+                            h="300px"
+                          />
+                        </RouterLink>
+                        <Box p="4">
+                          <Text fontWeight="bold" noOfLines={1}><RouterLink to={`/bookDetail/${book.id}`}>{book.bookName}</RouterLink></Text>
+                          <Text fontSize="sm">{book.bookAuthor}</Text>
+                        </Box>
+                      </Box>
                     ))
                   ) : (
-                    <h2>책이 없습니다.</h2>
+                    <Heading as="h2" size="md">책이 없습니다.</Heading>
                   )}
-                </div>
-              </div>
+                </SimpleGrid>
+              </Box>
             ))
           ) : (
-            <h2>카테고리가 없습니다.</h2>
+            <Heading as="h2" size="md">카테고리가 없습니다.</Heading>
           )}
-        </div>
+        </Box>
       );
     }
+    
     export default Books;
 

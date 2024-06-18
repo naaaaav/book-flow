@@ -6,10 +6,9 @@ import HomeHeader from "../../components/home/HomeHeader";
 import {
   Box, Flex, Text, Button, Input, Image, VStack, FormControl, FormLabel, useToast, HStack,
 } from '@chakra-ui/react';
-const token = localStorage.getItem('token');
+
 
 const Order = () => {
-
   const location = useLocation();
   const orderData = location.state?.orderData?.orderItemDtos;
   const [bookDetails, setBookDetails] = useState({}); 
@@ -100,37 +99,37 @@ const Order = () => {
     </Box>;
   }
 
-  const handleOrderClick = async (e) => {
+  // const handleOrderClick = async (e) => {
 
-    const token = localStorage.getItem('token');
+  //   const token = localStorage.getItem('token');
   
-    if (!token) {
-      toast({
-        title: '로그인을 확인하고 있어요.',
-        description: '로그인 정보를 확인하고 있어요. 잠시만 기다려주세요.',
-        status: 'info',
-        duration: 9000,
-        isClosable: true,
-      });
-      for (let i = 0; i < 5; i++) {
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        const newToken = localStorage.getItem('token');
-        if (newToken) {
-          await handleOrder(e);
-          return;
-        }
-      }
-      toast({
-        title: '주문 실패',
-        description: '로그인 정보를 가져오지 못했어요. 다시 로그인해주세요.',
-        status: 'error',
-        duration: 9000,
-        isClosable: true,
-      });
-    } else {
-      await handleOrder(e);
-    }
-  };
+  //   if (!token) {
+  //     toast({
+  //       title: '로그인을 확인하고 있어요.',
+  //       description: '로그인 정보를 확인하고 있어요. 잠시만 기다려주세요.',
+  //       status: 'info',
+  //       duration: 9000,
+  //       isClosable: true,
+  //     });
+  //     for (let i = 0; i < 5; i++) {
+  //       await new Promise(resolve => setTimeout(resolve, 1000));
+  //       const newToken = localStorage.getItem('token');
+  //       if (newToken) {
+  //         await handleOrder(e);
+  //         return;
+  //       }
+  //     }
+  //     toast({
+  //       title: '주문 실패',
+  //       description: '로그인 정보를 가져오지 못했어요. 다시 로그인해주세요.',
+  //       status: 'error',
+  //       duration: 9000,
+  //       isClosable: true,
+  //     });
+  //   } else {
+  //     await handleOrder(e);
+  //   }
+  // };
 
   // api에 주문 생성 post 요청을 fetch로 함
   const handleOrder = async (e) => {
@@ -147,6 +146,7 @@ const Order = () => {
         });
     return; // 필수 입력값이 없으면 여기서 함수 실행을 중단합니다.
   }
+    const token = localStorage.getItem('token');
     const response = await fetch(`${process.env.REACT_APP_API_URL}/api/user/order`, {
       method: 'POST',
       headers: {
@@ -302,8 +302,8 @@ const Order = () => {
         <Text fontSize="xl" mr="20px">{
         orderData.reduce((acc, item) => acc + (bookDetails[item.bookId]?.bookPrice || 0) * item.orderItemQuantity, 0)}원을 결제할까요?
         </Text>
-        <Button mr="20px" colorScheme="teal" onClick={handleOrderClick}>결제할게요!</Button>
-        <Button colorScheme="yellow" onClick={() => handleCancel()}>다음에 할게요.</Button>
+        <Button mr="20px" colorScheme="teal" onClick={handleOrder}>결제할게요!</Button>
+        <Button colorScheme="yellow" onClick={handleCancel}>다음에 할게요.</Button>
       </Flex>
     </VStack>
   </Flex>
