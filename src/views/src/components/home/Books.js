@@ -55,7 +55,7 @@ function Books() {
                   <RouterLink to={`/category/${category.id}`}>더보기</RouterLink>
                 </Flex>
                 <SimpleGrid columns={columnCount} spacing="5">
-                  {books[category.id] && books[category.id].length > 0 ? (
+                  {books[category.id]?.length > 0 ? (
                     books[category.id].map((book) => (
                       <Box key={book.id} bg="white" shadow="md" borderRadius="lg" overflow="hidden">
                         <RouterLink to={`/bookDetail/${book.id}`}>

@@ -54,19 +54,19 @@ const BookAdminPage = () => {
       const fetchBookDetails = async () => {
         try {
           const response = await fetch(`${process.env.REACT_APP_API_URL}/api/book/${bookId}`);
-          const data = await response.json();
+          const {id, name, detail, price, stock, date, categoryId, author, publisher, tableOfContents} = await response.json();
           setBookForm(prevBookForm => ({
             ...prevBookForm,
-            id: data.id,
-            name: data.name,
-            detail: data.detail,
-            price: data.price,
-            stock: data.stock,
-            date: data.date,
-            categoryId: data.categoryId,
-            author: data.author,
-            publisher: data.publisher,
-            tableOfContents: data.tableOfContents || []
+            id,
+            name,
+            detail,
+            price,
+            stock,
+            date,
+            categoryId,
+            author,
+            publisher,
+            tableOfContents: tableOfContents || []
           }));
         } catch (error) {
           console.error('책 정보를 가져오는 중 에러가 발생했습니다:', error);
