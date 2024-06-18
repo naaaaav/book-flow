@@ -22,37 +22,46 @@ public class AuthService {
 
     @PostConstruct
     public void adminInit() {
-        User user = new User();
-        user.setUsername("admin");
-        user.setPassword(passwordEncoder.encode("1234"));
-        user.setRole(User.Role.ADMIN.getKey());
-        user.setName("관리자용 계정");
-        authRepository.save(user);
+        if (!authRepository.existsByUsername("admin")) {
+            User admin = new User();
+            admin.setUsername("admin");
+            admin.setPassword(passwordEncoder.encode("1234"));
+            admin.setRole(User.Role.ADMIN.getKey());
+            admin.setName("관리자용 계정");
+            authRepository.save(admin);
+        }
         dummyUser();
     }
 
     public void dummyUser() {
-        User user = new User();
-        user.setUsername("user01");
-        user.setPassword(passwordEncoder.encode("1234"));
-        user.setRole(User.Role.USER.getKey());
-        user.setName("홍길동");
-        authRepository.save(user);
+        if (!authRepository.existsByUsername("user01")) {
+            User user01 = new User();
+            user01.setUsername("user01");
+            user01.setPassword(passwordEncoder.encode("1234"));
+            user01.setRole(User.Role.USER.getKey());
+            user01.setName("홍길동");
+            authRepository.save(user01);
+        }
 
-        user = new User();
-        user.setUsername("user02");
-        user.setPassword(passwordEncoder.encode("1234"));
-        user.setRole(User.Role.USER.getKey());
-        user.setName("고미숙");
-        authRepository.save(user);
+        if (!authRepository.existsByUsername("user02")) {
+            User user02 = new User();
+            user02.setUsername("user02");
+            user02.setPassword(passwordEncoder.encode("1234"));
+            user02.setRole(User.Role.USER.getKey());
+            user02.setName("고미숙");
+            authRepository.save(user02);
+        }
 
-        user = new User();
-        user.setUsername("user03");
-        user.setPassword(passwordEncoder.encode("1234"));
-        user.setRole(User.Role.USER.getKey());
-        user.setName("바루스");
-        authRepository.save(user);
+        if (!authRepository.existsByUsername("user03")) {
+            User user03 = new User();
+            user03.setUsername("user03");
+            user03.setPassword(passwordEncoder.encode("1234"));
+            user03.setRole(User.Role.USER.getKey());
+            user03.setName("바루스");
+            authRepository.save(user03);
+        }
     }
+
 
     public String getCurrentUsername() {
 
