@@ -99,44 +99,13 @@ const Order = () => {
     </Box>;
   }
 
-  // const handleOrderClick = async (e) => {
-
-  //   const token = localStorage.getItem('token');
-  
-  //   if (!token) {
-  //     toast({
-  //       title: '로그인을 확인하고 있어요.',
-  //       description: '로그인 정보를 확인하고 있어요. 잠시만 기다려주세요.',
-  //       status: 'info',
-  //       duration: 9000,
-  //       isClosable: true,
-  //     });
-  //     for (let i = 0; i < 5; i++) {
-  //       await new Promise(resolve => setTimeout(resolve, 1000));
-  //       const newToken = localStorage.getItem('token');
-  //       if (newToken) {
-  //         await handleOrder(e);
-  //         return;
-  //       }
-  //     }
-  //     toast({
-  //       title: '주문 실패',
-  //       description: '로그인 정보를 가져오지 못했어요. 다시 로그인해주세요.',
-  //       status: 'error',
-  //       duration: 9000,
-  //       isClosable: true,
-  //     });
-  //   } else {
-  //     await handleOrder(e);
-  //   }
-  // };
-
   // api에 주문 생성 post 요청을 fetch로 함
   const handleOrder = async (e) => {
     e.preventDefault();
     if (!orderCreateDto.orderDeliveryDto.orderDeliveryPostalCode ||
       !orderCreateDto.orderDeliveryDto.orderDeliveryAddress1 ||
-      !orderCreateDto.orderDeliveryDto.orderDeliveryAddress2) {
+      !orderCreateDto.orderDeliveryDto.orderDeliveryAddress2 ||
+      !orderCreateDto.orderDeliveryDto.orderDeliveryReceiverPhoneNumber) {
         toast({
           title: '주문 실패',
           description: '주문에 실패했어요. 모든 정보를 입력해주세요. ',
@@ -144,7 +113,7 @@ const Order = () => {
           duration: 9000,
           isClosable: true,
         });
-    return; // 필수 입력값이 없으면 여기서 함수 실행을 중단합니다.
+    return; 
   }
     const token = localStorage.getItem('token');
     const response = await fetch(`${process.env.REACT_APP_API_URL}/api/user/order`, {
@@ -192,20 +161,13 @@ const Order = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     // 입력 변경 로직
-    if (name === 'orderRequest') {
-      setOrderCreateDto({
-        ...orderCreateDto,
-        orderDto: { ...orderCreateDto.orderDto, orderRequest: value }
-      });
-    } else {
-      setOrderCreateDto({
-        ...orderCreateDto,
-        orderDeliveryDto: {
-          ...orderCreateDto.orderDeliveryDto,
-          [name]: value
-        }
-      });
-    }
+    setOrderCreateDto({
+      ...orderCreateDto,
+      orderDeliveryDto: {
+        ...orderCreateDto.orderDeliveryDto,
+        [name]: value
+      }
+    });
   };
 
   // 주문 취소버튼 누르면 장바구니로 리다이렉트
@@ -251,6 +213,16 @@ const Order = () => {
               <FormLabel>받으시는 분</FormLabel>
               <Input name="orderDeliveryReceiverName" onChange={handleInputChange} placeholder="홍길동" />
             </FormControl>
+            <FormControl isRequired>
+            <FormLabel>전화번호</FormLabel>
+            <Input
+              type="text"
+              name="orderDeliveryReceiverPhoneNumber"
+              placeholder="전화번호를 입력해주세요"
+              onChange={handleInputChange}
+              className="input-field"
+            />
+          </FormControl>
               {/* 주소 입력 폼 */}
             <FormControl isRequired>
               <FormLabel>우편번호</FormLabel>
