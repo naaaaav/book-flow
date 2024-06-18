@@ -100,6 +100,38 @@ const Order = () => {
     </Box>;
   }
 
+  const handleOrderClick = async () => {
+
+    const token = localStorage.getItem('token');
+  
+    if (!token) {
+      toast({
+        title: '로그인을 확인하고 있어요.',
+        description: '로그인 정보를 확인하고 있어요. 잠시만 기다려주세요.',
+        status: 'info',
+        duration: 9000,
+        isClosable: true,
+      });
+      for (let i = 0; i < 5; i++) {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        const newToken = localStorage.getItem('token');
+        if (newToken) {
+          handleOrder();
+          return;
+        }
+      }
+      toast({
+        title: '주문 실패',
+        description: '로그인 정보를 가져오지 못했어요. 다시 로그인해주세요.',
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      });
+    } else {
+      handleOrder();
+    }
+  };
+
   // api에 주문 생성 post 요청을 fetch로 함
   const handleOrder = async (e) => {
     e.preventDefault();
@@ -267,7 +299,7 @@ const Order = () => {
         <Text fontSize="xl" mr="20px">{
         orderData.reduce((acc, item) => acc + (bookDetails[item.bookId]?.bookPrice || 0) * item.orderItemQuantity, 0)}원을 결제할까요?
         </Text>
-        <Button mr="20px" colorScheme="teal" onClick={handleOrder}>결제할게요!</Button>
+        <Button mr="20px" colorScheme="teal" onClick={handleOrderClick}>결제할게요!</Button>
         <Button colorScheme="yellow" onClick={handleCancel}>다음에 할게요.</Button>
       </Flex>
     </VStack>
