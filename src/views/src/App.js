@@ -9,7 +9,6 @@ import Login from './routes/user/auth/Login';
 import AdminUserList from './routes/user/admin/AdminUserList';
 import { Order, OrderCompleted, OrderDetails, OrderDetailsByAdmin, OrderList, OrderListByAdmin } from "./routes/order";
 import SearchPage from './routes/book/SearchPage';
-import BookDetailTest from "./routes/bookTest/BookDetailTest";
 import Cart from "./routes/cart/Cart";
 import BookDetail from "./routes/book/BookDetail";
 import BookDetailPage from "./routes/book/BookDetailPage";
@@ -31,18 +30,6 @@ function App() {
   return (
     <Router>
       <Switch>
-        {/* test */}
-        <Route path="/bookDetailTest/:bookId">
-          <BookDetailTest />
-        </Route>
-        <Route path="/joinTest">
-          <JoinTest />
-        </Route>
-        <Route path="/loginTest">
-          <LoginTest />
-        </Route>
-        {/* test */}
-
         <Route exact path="/order-details/:orderId" render={(props) => (
           <ChakraProvider>
             <OrderDetails {...props} />
