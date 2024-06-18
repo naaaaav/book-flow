@@ -1,6 +1,9 @@
 package io.elice.shoppingmall.user.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.elice.shoppingmall.user.exception.EmptyUsernamePasswordException;
+import io.elice.shoppingmall.user.exception.ErrorCode;
+import io.elice.shoppingmall.user.model.dto.ErrorResponseDto;
 import io.elice.shoppingmall.user.model.dto.LoginDto;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletInputStream;
@@ -9,19 +12,21 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.util.StreamUtils;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 @Slf4j
 @RequiredArgsConstructor
-public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter  {
 
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
@@ -44,17 +49,31 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String username = loginDto.getUsername();
         String password = loginDto.getPassword();
 
-        if (username == null || password == null) {
-            log.error("로그인 유효성 오류");
-            new RuntimeException("로그인 유효성 오류");
-        }
-        log.info("로그인 테스트 : " + username + " " + password);
-
         //username와 password를 authenticationManager에게 전달할때 필요한 객체
         UsernamePasswordAuthenticationToken authToken
                 = new UsernamePasswordAuthenticationToken(username, password);
 
+        if (loginDto.getUsername().equals("") || loginDto.getUsername() == null || loginDto.getPassword().equals("") || loginDto.getPassword() == null) {
+            try {
+                ObjectMapper objectMapper = new ObjectMapper();
+                response.setContentType("application/json");
+                response.setCharacterEncoding("utf-8");
+                response.setStatus(400);
+
+                ErrorResponseDto error = new ErrorResponseDto();
+                error.setStatus(400);
+                error.setMessage(ErrorCode.EMPTY_USERNAME_PASSWORD.getDetailMessage());
+                String result = objectMapper.writeValueAsString(error);
+                response.getWriter().write(result);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            return null;
+        }
+        log.info("로그인 테스트 : " + username + " " + password);
+
         Authentication authenticate = authenticationManager.authenticate(authToken);
+
         JwtUserDetails jwtUserDetails = (JwtUserDetails) authenticate.getPrincipal();
         log.info("jwtUserDetails.getUsername() : " + jwtUserDetails.getUsername());
         log.info("jwtUserDetails.getPassword() : " + jwtUserDetails.getPassword());
@@ -92,6 +111,17 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     //로그인 실패시 실행되는 메서드
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        response.setContentType("application/json");
+        response.setCharacterEncoding("utf-8");
+        response.setStatus(401);
+
+        ErrorResponseDto error = new ErrorResponseDto();
+        error.setStatus(401);
+        error.setMessage(ErrorCode.LOGIN_FAILED.getDetailMessage());
+        String result = objectMapper.writeValueAsString(error);
+        response.getWriter().write(result);
+
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
     }
 }

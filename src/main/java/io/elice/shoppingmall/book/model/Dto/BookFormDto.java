@@ -13,20 +13,29 @@ import java.util.List;
 @Getter
 @Setter
 public class BookFormDto {
-    private Long id;
+    //db에 저장전이기 때문에 id가 없음,
+    //id는 사용자가 정하는것이 아니라 db에 저장할때 생성됨
+//    private Long id;
 
     @NotBlank(message = "책이름은 필수 입력 값입니다.")
-    private String bookName;
+    private String name;
 
     @NotNull(message = "가격은 필수 입력 값입니다.")
-    private Integer price;
+    private int price;
 
     @NotBlank(message = "책 상세 정보는 필수 입력 값입니다.")
-    private String bookDetail;
+    private String detail;
 
     @NotNull(message = "재고는 필수 입력 값입니다.")
-    private Integer stock;
+    private int stock;
 
+    private Integer categoryId;
+
+    private String date;
+
+    private String author;
+    private String publisher;
+    private List<String> tableOfContents = new ArrayList<>();
     //private BookSellStatus bookSellStatus;
 
     // 상품 수정 시 사용되는 멤버변수들

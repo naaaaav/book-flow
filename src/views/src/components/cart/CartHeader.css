@@ -1,26 +1,8 @@
-h2{
-    margin-left: 10px;
+
+.cartHeader {
+    padding: 10px 15px 10px 15px;
 }
 
-label{
-    font-size: 14px;
-    margin-bottom: 5px;
-}
-
-.delete, #checkAll{
-    background: none;
-    cursor: default;
-    appearance: auto;
-    box-sizing: border-box;
-    margin: 3px 3px 3px 11px;
-    padding: initial;
-    border: initial;
-    font-size: 15px;
-}
-
-.delete {
-    float: right;
-    cursor: pointer;
-    border: none;
-    font-size: 14px;
+.check-delete {
+    margin-top: 45px;
 }

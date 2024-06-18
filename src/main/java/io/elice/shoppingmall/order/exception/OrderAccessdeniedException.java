@@ -9,10 +9,13 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
 @ResponseStatus(HttpStatus.BAD_REQUEST)
 public class OrderAccessdeniedException extends RuntimeException {
 
     private OrderErrorMessages orderErrorMessages;
+
+    public OrderAccessdeniedException(OrderErrorMessages messages) {
+        super(messages.getMessage());
+        this.orderErrorMessages = messages;
+    }
 }

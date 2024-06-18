@@ -1,9 +1,7 @@
 package io.elice.shoppingmall.user.model;
 
-import io.elice.shoppingmall.user.model.dto.AdminPostDto;
-import io.elice.shoppingmall.user.model.dto.AdminRolePutDto;
+import io.elice.shoppingmall.user.model.dto.AdminGetDto;
 import io.elice.shoppingmall.user.model.dto.JoinDto;
-import io.elice.shoppingmall.user.model.dto.TotalCountDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
@@ -12,7 +10,7 @@ import java.util.List;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface UserMapper {
-    default User JoinDtoToUser(JoinDto joinDto) {
+    default User joinDtoToUser(JoinDto joinDto) {
         User user = new User();
         user.setUsername(joinDto.getUsername());
         user.setName(joinDto.getName());
@@ -20,17 +18,28 @@ public interface UserMapper {
         return user;
     }
 
-    default List<AdminPostDto> UserListToAdminPostDtoList(List<User> userList) {
-        List<AdminPostDto> adminPostDtoList = new ArrayList<>();
+    default AdminGetDto userToAdminGetDto(User user) {
+        AdminGetDto adminGetDto = new AdminGetDto();
+        adminGetDto.setId(user.getId());
+        adminGetDto.setUsername(user.getUsername());
+        adminGetDto.setRole(user.getRole());
+        adminGetDto.setName(user.getName());
+        adminGetDto.setPhoneNumber(user.getPhoneNumber());
+
+        return adminGetDto;
+    }
+
+    default List<AdminGetDto> userListToAdminGetDtoList(List<User> userList) {
+        List<AdminGetDto> adminGetDtoList = new ArrayList<>();
         for (User user : userList) {
-            AdminPostDto dto = new AdminPostDto();
+            AdminGetDto dto = new AdminGetDto();
             dto.setId(user.getId());
             dto.setUsername(user.getUsername());
             dto.setName(user.getName());
             dto.setRole(user.getRole());
             dto.setPhoneNumber(user.getPhoneNumber());
-            adminPostDtoList.add(dto);
+            adminGetDtoList.add(dto);
         }
-        return adminPostDtoList;
+        return adminGetDtoList;
     }
 }

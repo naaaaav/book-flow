@@ -1,0 +1,17 @@
+#Book-Price{
+    margin-top: 10px;
+    padding: 20px;
+
+    display: flex;
+    align-items: flex-start; /* 수직 정렬을 필요에 따라 조절 */
+    gap: 30px; /* 요소 간의 간격 */
+}
+
+#main {
+    margin-left:10px;
+    margin-right: 10px;
+}
+
+#cartHeader {
+    padding: 10px 15px 10px 15px;
+}

@@ -1,0 +1,33 @@
+
+.home-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    width: 100%;
+}
+
+#title img {
+    max-width: 30px;
+}
+
+#title a {
+    text-decoration: none;
+    color: black;
+}
+
+#icons {
+    display: flex;
+    justify-content: space-around; 
+}
+
+
+#icons img {
+    width: 30px; 
+    height: 30px;
+    margin-left: 10px; 
+}
+
+h1 {
+    margin-top: auto;
+}

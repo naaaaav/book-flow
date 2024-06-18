@@ -43,6 +43,7 @@ public class SecurityConfig {
                         .requestMatchers("/", "/join", "/login", "/reissue").permitAll()
                         .requestMatchers("/api/user/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/user/**").hasAnyRole("USER")
                         .anyRequest().permitAll()
                 );
         http

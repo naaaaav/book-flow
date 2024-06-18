@@ -1,196 +1,124 @@
+import { Box, Image, Text, VStack, Input, Link, Flex, Heading, Divider, HStack } from '@chakra-ui/react';
 import HomeHeader from "../../components/home/HomeHeader";
 import { useEffect, useState } from "react";
-import ReactModal from 'react-modal';
-import { Link } from "react-router-dom";
 import { useParams } from 'react-router-dom';
-import './OrderDetails.css';
+import withAdminCheck from '../../components/adminCheck/withAdminCheck';
+import DefaultCover from "../../resources/book/default book cover.png";
+
 function OrderDetailsByadmin() {
+  const token = localStorage.getItem('token');
+  const [orderDetails, setOrderDetails] = useState();
+  const { orderId } = useParams();
+  const orderStatusKorean = {
+    PAYMENT_COMPLETED: '결제 완료',
+    SHIPPING: '배송 중',
+    DELIVERED: '배송 완료',
+    PREPARING_PRODUCT: '상품 준비 중'
+  };
 
-    const token = localStorage.getItem('token');
+  const [formData, setFormData] = useState({
+    name: '',
+    phoneNumber: '',
+    address1: '',
+    address2: '',
+    orderRequest: ''
+  });
 
+  useEffect(() => {
+    fetch(`${process.env.REACT_APP_API_URL}/api/admin/order/${orderId}`, {
+      headers: {
+        'access': token,
+      }
+    })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Details 조회 에러");
+      }
+      return response.json();
+    })
+    .then((json) => {
+      setOrderDetails(json);
+      setFormData((prev) => ({
+        ...prev,
+        name: json.orderDelivery.orderDeliveryReceiverName,
+        phoneNumber: json.orderDelivery.orderDeliveryReceiverPhoneNumber,
+        address1: json.orderDelivery.orderDeliveryAddress1,
+        address2: json.orderDelivery.orderDeliveryAddress2,
+        orderRequest: json.order.orderRequest
+      }));
+    })
+    .catch((e) => {
+      console.log("OrderDetails 조회에러", e);
+    });
+  }, [orderId]);
 
-    const [orderDetails, setOrderDetails] = useState();
-    const {orderId} = useParams();
-    const orderStatusKorean = {
-        PAYMENT_COMPLETED: '결제 완료',
-        SHIPPING: '배송 중',
-        DELIVERED: '배송 완료',
-        PREPARING_PRODUCT: '상품 준비 중'
-      };
-
-    const [name, setName] = useState("");
-    const [phoneNumber, setPhonenumber] = useState("");
-    const [address1, setAddress1] = useState("");
-    const [address2, setAddress2] = useState("");
-    const [orderRequest, setOrderRequest] = useState("");
-
-    useEffect(() => {
-        fetch(`http://localhost:8080/api/admin/order/${orderId}`, {
-            headers: {
-                'access': token,
-              }
-        })
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error("Details 조회 에러");
-            }
-            return response.json();
-        })
-        .then((json) => {
-            setOrderDetails(json);
-            setName(json.orderDelivery.orderDeliveryReceiverName);
-            setPhonenumber(json.orderDelivery.orderDeliveryReceiverPhoneNumber);
-            setAddress1(json.orderDelivery.orderDeliveryAddress1);
-            setAddress2(json.orderDelivery.orderDeliveryAddress2);
-            setOrderRequest(json.order.orderRequest);
-        })
-        .catch((e) => (
-            console.log("OrderDetails 조회에러", e)
-        ))
-    }, [orderId]);
-
-    const handleUpdate = () => {
-        const updatedDetails = {
-            ...orderDetails,
-            orderDto: {
-                ...orderDetails.order,
-                orderRequest: orderRequest
-            },
-            orderDeliveryDto: {
-                ...orderDetails.orderDelivery,
-                orderDeliveryReceiverName: name,
-                orderDeliveryReceiverPhoneNumber: phoneNumber,
-                orderDeliveryAddress1: address1,
-                orderDeliveryAddress2: address2
-            },
-            orderItemDtos: [
-                ...orderDetails.orderItems
-            ]
-        };
-    
-        fetch(`http://localhost:8080/api/admin/order/${orderId}`, {
-            method: 'PUT',
-            headers: {
-                'access': token,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(updatedDetails)
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('배송지 수정에 실패하였습니다.');
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('배송지 수정 성공', data);
-        })
-        .catch(error => {
-            console.error('배송지 수정 실패', error);
-        });
-    };
-
-    if (!orderDetails) {
-        return (
-            <div>
-                <h1>주문 상세정보를 찾을수 없어요.</h1>
-                <h2><Link to={"/orderList"}>주문내역을 찾으시나요?</Link></h2>
-            </div>
-            
-        );
-    }
-
+  if (!orderDetails) {
     return (
-
-        <div className="root">
-            <div>
-                <HomeHeader />
-            </div>
-            <h2>주문 상세정보</h2>
-            <div className="order-item-container">
-                {orderDetails.orderItems && orderDetails.orderItems.map((item) => (
-                                <div className="order-item">
-                                    {item.book ? (
-                                            <div>
-                                            <img src={item.book.img}></img>
-                                            <span>{item.book.name}</span>
-                                            <span>{item.orderItemPrice}원</span>
-                                            <span>{item.orderItemQuantity}권</span>
-                                            </div>
-                                        )
-                                        : (
-                                            <div>
-                                            <span>책 표지가 없어요.</span>
-                                            <span>책 이름이 없어요.</span>
-                                            <span>{item.orderItemPrice}원</span>
-                                            <span>{item.orderItemQuantity}권</span>
-                                            </div>
-                                        )
-                                    }
-                                </div>
-                    ))}
-            </div>
-            <div>
-                
-            </div>
-            {orderDetails.order && ( orderDetails.order.orderStatus == 'PAYMENT_COMPLETED' || orderDetails.order.orderStatus == 'PREPARING_PRODUCT') ? (
-                <div className="formRootDiv">
-                    <div className="orderStatusDiv">
-                    <h3>상태: {orderStatusKorean[orderDetails.order.orderStatus]}</h3>
-                    <h3 className="totalH3">합계: {orderDetails.order.orderTotalPrice}원</h3>
-                    </div>
-                    <h3 className="editH3">배송지 정보를 수정할 수 있어요.</h3>
-                    <form className="form" onSubmit={handleUpdate}>
-                        <h4>성함은 어떻게 되시나요?</h4>
-                        <input 
-                            type="text"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            placeholder={name}
-                        />
-                        <h4>연락처를 알려주세요.</h4>
-                        <input 
-                            type="text"
-                            value={phoneNumber}
-                            onChange={(e) => setPhonenumber(e.target.value)}
-                            placeholder={phoneNumber}
-                        />
-                        <h4>받으실 주소를 알려주세요.</h4>
-                        <input 
-                            type="text"
-                            value={address1}
-                            onChange={(e) => setAddress1(e.target.value)}
-                            placeholder={address1}
-                        /><br />
-                        <input 
-                            type="text"
-                            value={address2}
-                            onChange={(e) => setAddress2(e.target.value)}
-                            placeholder={address2}
-                        />
-                        <h4>배송 메모를 적어주세요.</h4>
-                        <input 
-                            type="text"
-                            value={orderRequest}
-                            onChange={(e) => setOrderRequest(e.target.value)}
-                            placeholder={orderRequest}
-                        /><br />
-                        <button type="submit">배송 정보 수정</button>
-                    </form>
-                </div>
-                ) : orderDetails.order.orderStatus === 'SHIPPING' ? (
-                        <div>
-                            <h3>배송이 시작되었어요.</h3>
-                            <h4>배송정보를 수정할 수 없어요.</h4>
-                        </div>
-                    ) : orderDetails.order.orderStatus === 'DELIVERED' && (
-                        <div>
-                            <h3>배송이 완료되었어요.</h3>
-                        </div>
-                )
-            } 
-        </div>
+      <Box textAlign="center" my="6">
+        <Heading as="h1">주문 상세정보를 찾을수 없어요.</Heading>
+        <Text fontSize="xl" mt="4">
+          <Link to={"/admin/orders"} color="teal.500">주문내역을 찾으시나요?</Link>
+        </Text>
+      </Box>
     );
+  }
 
+  return (
+    // <VStack spacing={4} align="stretch">
+    //   <HomeHeader />
+    //   <Heading as="h2" size="lg">주문 상세정보</Heading>
+    //   <VStack spacing={4}>
+    //     {orderDetails.orderItems && orderDetails.orderItems.map((item, index) => (
+    //       <Flex key={index} p={4} borderWidth="1px" borderRadius="lg" align="center">
+    //         <Image boxSize="100px" src={item.book?.bookImgList[0]?.imgUrl || '책 표지 조회 중...'} alt="Book cover" />
+    //         <Box ml={6}>
+    //           <Text fontWeight="bold">{item.book?.name || '책 이름이 없어요.'}</Text>
+    //           <Text>{item.orderItemPrice}원</Text>
+    //           <Text>{item.orderItemQuantity}권</Text>
+    //         </Box>
+    //       </Flex>
+    //     ))}
+    //   </VStack>
+    <Box p={5}>
+      <HomeHeader />
+      <VStack spacing={4} align="stretch">
+        <Heading my={5}>주문 상세정보</Heading>
+        <Divider />
+        <Box borderWidth="1px" borderRadius="lg" overflow="hidden" p={5}>
+          {orderDetails.orderItems && orderDetails.orderItems.map((item) => (
+            <HStack key={item.id} spacing={4} align="center">
+              <Image
+              boxSize="100px"
+              objectFit="cover"
+              src={item.book.bookImgList[0]?.imgUrl || DefaultCover}
+              alt={item.book.name}
+              borderRadius="md"
+            />
+              <VStack align="stretch" spacing={1}>
+                <Text fontWeight="bold">{item.book.name}</Text>
+                <Text color="gray.600">{item.orderItemPrice}원</Text>
+                <Text color="gray.500">{item.orderItemQuantity}권</Text>
+              </VStack>
+            </HStack>
+          ))}
+        </Box>
+      {orderDetails.order && (
+        <Box p={4} borderWidth="1px" borderRadius="lg">
+          <Text fontSize="lg">상태: {orderStatusKorean[orderDetails.order.orderStatus]}</Text>
+          <Text fontSize="lg">합계: {orderDetails.order.orderTotalPrice}원</Text>
+          <Text fontSize="lg" mt={4}>고객님의 배송 정보에요.</Text>
+          <VStack spacing={2}>
+            <Input type="text" placeholder={formData.name} isReadOnly />
+            <Input type="text" placeholder={formData.phoneNumber} isReadOnly />
+            <Input type="text" placeholder={formData.address1} isReadOnly />
+            <Input type="text" placeholder={formData.address2} isReadOnly />
+            <Input type="text" placeholder={formData.orderRequest} isReadOnly />
+          </VStack>
+        </Box>
+      )}
+    </VStack>
+    </Box>
+  );
 }
-export default OrderDetailsByadmin;
+
+export default withAdminCheck(OrderDetailsByadmin);

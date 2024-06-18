@@ -9,6 +9,7 @@ import io.elice.shoppingmall.order.model.dto.OrdersPageDto;
 import io.elice.shoppingmall.order.model.dto.OrdersResponseDto;
 import io.elice.shoppingmall.order.repository.OrderRepository;
 import io.elice.shoppingmall.order.service.OrderService;
+import io.elice.shoppingmall.user.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,6 +29,16 @@ public class AdminOrderController {
     private final OrderService orderService;
     private final OrderRepository orderRepository;
     private final OrderMapper orderMapper;
+    private final AuthService authService;
+
+    @GetMapping("/check")
+    public ResponseEntity<HttpStatus> adminCheck() {
+        if (authService.getCurrentUser().getRole().equals("ROLE_ADMIN")) {
+            return  new ResponseEntity<>(HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+    }
 
     /*@GetMapping("/orders")
     public ResponseEntity<OrdersResponseDto> getOrdersByAdmin() {
@@ -39,7 +50,7 @@ public class AdminOrderController {
     }*/
 
     @GetMapping("/orders")
-    public ResponseEntity<OrdersPageDto> getOrdersByAdmin(@PageableDefault(page = 0, size = 10,sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
+    public ResponseEntity<OrdersPageDto> getOrdersByAdmin(@PageableDefault(page = 0, size = 10,sort = "orderId", direction = Sort.Direction.DESC) Pageable pageable) {
 
         Page<Order> orders = orderService.findOrdersByAdmin(pageable);
         OrdersPageDto ordersPageDto = orderMapper.pageToOrdersPageDto(orders);;

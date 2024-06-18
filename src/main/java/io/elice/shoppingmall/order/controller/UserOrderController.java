@@ -6,9 +6,11 @@ import io.elice.shoppingmall.order.model.OrderDelivery;
 import io.elice.shoppingmall.order.model.OrderItem;
 import io.elice.shoppingmall.order.model.OrderMapper;
 import io.elice.shoppingmall.order.model.dto.OrderCreateDto;
+import io.elice.shoppingmall.order.model.dto.OrderDeliveryEditDto;
 import io.elice.shoppingmall.order.model.dto.OrderResponseCombinedDto;
 import io.elice.shoppingmall.order.model.dto.OrdersPageDto;
 import io.elice.shoppingmall.order.service.OrderService;
+import io.elice.shoppingmall.user.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,6 +32,7 @@ public class UserOrderController {
 
     private final OrderService orderService;
     private final OrderMapper orderMapper;
+    private final AuthService authService;
 
     /*@GetMapping("/orders")
     public ResponseEntity<OrdersResponseDto> getOrders() {
@@ -41,7 +44,7 @@ public class UserOrderController {
     }*/
 
     @GetMapping("/orders")
-    public ResponseEntity<OrdersPageDto> getOrders(@PageableDefault(page = 0, size = 10,sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
+    public ResponseEntity<OrdersPageDto> getOrders(@PageableDefault(page = 0, size = 10,sort = "orderId", direction = Sort.Direction.DESC) Pageable pageable) {
 
         Page<Order> orders = orderService.findOrders(pageable);
         OrdersPageDto ordersPageDto = orderMapper.pageToOrdersPageDto(orders);;
@@ -87,10 +90,23 @@ public class UserOrderController {
     }
 
     @PutMapping("/order/{orderId}")
-    public ResponseEntity<OrderResponseCombinedDto> putOrder(@PathVariable Long orderId, @RequestBody OrderCreateDto dto) {
+    public ResponseEntity<?> putOrder(@PathVariable Long orderId, @RequestBody @Validated OrderDeliveryEditDto dto, BindingResult error) {
+
+        if (error.hasErrors()) {
+            return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+        }
 
         Order editedOrder = orderService.editOrder(orderId, dto);
         OrderResponseCombinedDto  orderResponseDto = orderMapper.orderToOrderResponseCombinedDto(editedOrder);
         return new ResponseEntity<>(orderResponseDto, HttpStatus.OK);
+    }
+
+    @GetMapping("/check")
+    public ResponseEntity<HttpStatus> userCheck() {
+        if (authService.getCurrentUser().getRole().equals("ROLE_USER") || authService.getCurrentUser().getRole().equals("ROLE_ADMIN")) {
+            return  new ResponseEntity<>(HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
 }

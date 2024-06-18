@@ -29,6 +29,10 @@ public class CategoryService {
     // 관리자용 메소드
     @PreAuthorize("hasRole('ADMIN')")
     public Category createCategory(Category category) {
+        if (category.getParentCategory() != null) {
+            Category parentCategory = getCategoryById(category.getParentCategory().getId());
+            category.setParentCategory(parentCategory);
+        }
         return categoryRepository.save(category);
     }
 
@@ -37,13 +41,24 @@ public class CategoryService {
         Category existingCategory = getCategoryById(id);
         existingCategory.setCategoryName(category.getCategoryName());
         existingCategory.setIsDeleted(category.getIsDeleted());
+        if (category.getParentCategory() != null) {
+            existingCategory.setParentCategory(getCategoryById(category.getParentCategory().getId()));
+        }
         return categoryRepository.save(existingCategory);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     public void deleteCategory(Integer id) {
         Category category = getCategoryById(id);
-        category.setIsDeleted(true);
-        categoryRepository.save(category);
+        deleteSubcategories(category);
+        categoryRepository.delete(category);
+    }
+
+    private void deleteSubcategories(Category category) {
+        List<Category> subcategories = category.getSubCategories();
+        for (Category subcategory : subcategories) {
+            deleteSubcategories(subcategory);
+            categoryRepository.delete(subcategory);
+        }
     }
 }

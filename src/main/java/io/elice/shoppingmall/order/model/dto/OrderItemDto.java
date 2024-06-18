@@ -17,7 +17,7 @@ public class OrderItemDto {
         private int orderItemQuantity;
 
         @Min(1)
-        private int bookId;
+        private Long bookId;
 
         private Book book;
 }
