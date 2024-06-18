@@ -41,7 +41,7 @@ function Categories({ activeCategory, setActiveCategory }) {
       {isCategoriesVisible && (
         <div className="navbar">
           {categories.length > 0 ? (
-            categories.filter(category => !category.parentCategory).map((category) => (
+            categories.filter(category => !category.parentCategory && category.categoryName !== hoveredCategory).map((category) => (
               <div
                 key={category.id}
                 className={`navbar-item ${activeCategory === category.categoryName ? 'active' : ''}`}
@@ -75,7 +75,7 @@ function Categories({ activeCategory, setActiveCategory }) {
         </div>
       )}
     </div>
-  );
-  
+  );  
+}
 
 export default Categories;
