@@ -47,7 +47,7 @@ function HomeHeader()  {
       }, []);
 
       return (
-        <Flex className="home-header" align="center" justify="space-between">
+        <Flex className="home-header" align="center" justify="space-between" p="0" mt="10px">
           <Link as={RouterLink} to="/" display="flex" alignItems="center">
             <Heading as="h1" my="auto" size="lg">BookFlow</Heading>
           </Link>
