@@ -100,7 +100,7 @@ const Order = () => {
     </Box>;
   }
 
-  const handleOrderClick = async () => {
+  const handleOrderClick = async (e) => {
 
     const token = localStorage.getItem('token');
   
@@ -116,7 +116,7 @@ const Order = () => {
         await new Promise(resolve => setTimeout(resolve, 1000));
         const newToken = localStorage.getItem('token');
         if (newToken) {
-          handleOrder();
+          await handleOrder(e);
           return;
         }
       }
@@ -128,7 +128,7 @@ const Order = () => {
         isClosable: true,
       });
     } else {
-      handleOrder();
+      await handleOrder(e);
     }
   };
 
@@ -242,7 +242,10 @@ const Order = () => {
               </HStack>
             </Box>
           ))}
-        <form onSubmit={handleOrder}>
+        <form onSubmit={(e) => {
+          e.preventDefault();
+          handleOrder(e);
+        }}>
             {/* 받으시는 분 정보 입력 폼 */}
             <FormControl id="name" isRequired>
               <FormLabel>받으시는 분</FormLabel>
@@ -300,7 +303,7 @@ const Order = () => {
         orderData.reduce((acc, item) => acc + (bookDetails[item.bookId]?.bookPrice || 0) * item.orderItemQuantity, 0)}원을 결제할까요?
         </Text>
         <Button mr="20px" colorScheme="teal" onClick={handleOrderClick}>결제할게요!</Button>
-        <Button colorScheme="yellow" onClick={handleCancel}>다음에 할게요.</Button>
+        <Button colorScheme="yellow" onClick={() => handleCancel()}>다음에 할게요.</Button>
       </Flex>
     </VStack>
   </Flex>
