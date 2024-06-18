@@ -161,13 +161,20 @@ const Order = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     // 입력 변경 로직
-    setOrderCreateDto({
-      ...orderCreateDto,
-      orderDeliveryDto: {
-        ...orderCreateDto.orderDeliveryDto,
-        [name]: value
-      }
-    });
+    if (name === 'orderRequest') {
+      setOrderCreateDto({
+        ...orderCreateDto,
+        orderDto: { ...orderCreateDto.orderDto, orderRequest: value }
+      });
+    } else {
+      setOrderCreateDto({
+        ...orderCreateDto,
+        orderDeliveryDto: {
+          ...orderCreateDto.orderDeliveryDto,
+          [name]: value
+        }
+      });
+    }
   };
 
   // 주문 취소버튼 누르면 장바구니로 리다이렉트
