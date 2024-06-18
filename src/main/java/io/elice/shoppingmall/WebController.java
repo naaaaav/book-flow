@@ -20,6 +20,7 @@ public class WebController {
             "/my**/**",
             "/search**/**",
             "/product**/**",
+            "/category**/**"
 
     })
     public String forward() {
