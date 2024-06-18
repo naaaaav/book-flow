@@ -1,6 +1,7 @@
 package io.elice.shoppingmall.user.exception;
 
 
+import io.elice.shoppingmall.user.model.dto.ErrorResponseDto;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -13,20 +14,26 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(UserNotExistException.class)
-    public ResponseEntity userNotFoundException(HttpServletResponse response, UserNotExistException ex) {
+    public ResponseEntity<ErrorResponseDto> userNotFoundException(HttpServletResponse response, UserNotExistException ex) {
         log.error("message: {}", ex.getErrorCode().getDetailMessage());
-        return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity(new ErrorResponseDto(ex.getErrorCode().getStatus(), ex.getErrorCode().getDetailMessage()),HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(RoleNotExistException.class)
-    public ResponseEntity roleNotExistException(HttpServletResponse response, RoleNotExistException ex) {
+    public ResponseEntity<ErrorResponseDto> roleNotExistException(HttpServletResponse response, RoleNotExistException ex) {
         log.error("message: {}", ex.getErrorCode().getDetailMessage());
-        return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity(new ErrorResponseDto(ex.getErrorCode().getStatus(), ex.getErrorCode().getDetailMessage()), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(DuplicateUsernameException.class)
-    public ResponseEntity duplicateUsernameException(HttpServletResponse response, DuplicateUsernameException ex) {
+    public ResponseEntity<ErrorResponseDto> duplicateUsernameException(HttpServletResponse response, DuplicateUsernameException ex) {
         log.error("message: {}", ex.getErrorCode().getDetailMessage());
-        return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity(new ErrorResponseDto(ex.getErrorCode().getStatus(), ex.getErrorCode().getDetailMessage()), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(PasswordNotMatchException.class)
+    public ResponseEntity<ErrorResponseDto> passwordNotMatchException(HttpServletResponse response, PasswordNotMatchException ex) {
+        log.error("message: {}", ex.getErrorCode().getDetailMessage());
+        return new ResponseEntity(new ErrorResponseDto(ex.getErrorCode().getStatus(), ex.getErrorCode().getDetailMessage()),HttpStatus.BAD_REQUEST);
     }
 }

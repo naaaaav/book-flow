@@ -1,0 +1,104 @@
+/* .root {
+    margin: 0 auto;
+    max-width: 1200px;
+    padding: 0 20px;
+  }
+  
+  .order-container {
+    display: flex;
+    flex-direction: row;
+    max-width: 1200px;
+    margin: auto;
+  }
+  
+  .order-details {
+    flex: 2; 
+    padding-right: 20px; 
+  }
+  
+  .payment-summary {
+    margin-top: 50px;
+    flex: 1;
+    text-align: right;
+    display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  }
+  
+  .book-details {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  
+  .book-details span {
+    margin: 0 10px;
+  }
+  
+  .total-amount {
+    text-align: right;
+    margin-top: 20px;
+    font-weight: bold;
+  }
+
+  .won {
+    margin-top: 20px;
+  }
+  
+  .order-form {
+    margin-top: 100px;
+  }
+  
+  .order-form h2, .order-form h3 {
+    margin-bottom: 20px;
+  } */
+  
+  .address-search-btn {
+    float: right;
+    margin-bottom: 20px;
+    margin-top: 20px;
+  }
+  
+  /* .input-field {
+    display: block;
+    width: 100%;
+    margin-bottom: 20px;
+  } */
+  
+  /* .action-buttons {
+    width: 100%; 
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; 
+    margin-top: 20px; 
+  }
+  
+  .action-buttons button {
+    margin-left: 10px;
+  }
+
+  .payBtn,
+.payCancelBtn {
+  margin-bottom: 10px;
+}
+
+.payBtn button,
+.payCancelBtn button {
+  width: auto; 
+}
+
+.payBtn{
+margin-top: 30px;
+font-size: 2em;
+}
+
+.payCancelBtn{
+margin-top: 30px;
+font-size: 1.5em;
+} */
+
+.homeHeader {
+  width: 100%;
+}
+
+ 

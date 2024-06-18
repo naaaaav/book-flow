@@ -1,12 +1,15 @@
 package io.elice.shoppingmall.user.service;
 
 import io.elice.shoppingmall.user.exception.DuplicateUsernameException;
+import io.elice.shoppingmall.user.model.dto.AuthRoleGetDto;
 import io.elice.shoppingmall.user.model.dto.JoinDto;
 import io.elice.shoppingmall.user.model.User;
 import io.elice.shoppingmall.user.model.UserMapper;
 import io.elice.shoppingmall.user.repository.AuthRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -51,15 +54,39 @@ public class AuthService {
         authRepository.save(user);
     }
 
+    public String getCurrentUsername() {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication.getName();
+    }
+
+    public User getCurrentUser() {
+
+        User currentUser = authRepository.findByUsernameAndIsDeletedFalse(getCurrentUsername());
+        return currentUser;
+    }
+
     public boolean join(JoinDto joinDto) {
-        User user = userMapper.JoinDtoToUser(joinDto);
+        User user = userMapper.joinDtoToUser(joinDto);
         user.setPassword(passwordEncoder.encode(joinDto.getPassword()));
         user.setRole(User.Role.USER.getKey());
 
-        if (authRepository.existsByUsername(user.getUsername())) {
+        if (authRepository.existsByUsernameAndIsDeletedFalse(user.getUsername())) {
             throw new DuplicateUsernameException("아이디가 중복 되었습니다");
         }
 
         return authRepository.save(user) != null ? true : false;
+    }
+
+    public AuthRoleGetDto roleCheck() {
+        AuthRoleGetDto authRoleGetDto = new AuthRoleGetDto();
+        String username = getCurrentUsername();
+        if (username.equals("anonymousUser")) {
+            authRoleGetDto.setRole("ROLE_ANONYMOUS");
+            return authRoleGetDto;
+        }
+        User user = getCurrentUser();
+        authRoleGetDto.setRole(user.getRole());
+        return authRoleGetDto;
     }
 }

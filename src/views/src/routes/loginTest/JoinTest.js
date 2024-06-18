@@ -22,7 +22,7 @@ function JoinTest() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await fetch('http://localhost:8080/join', {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/join`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -30,7 +30,12 @@ function JoinTest() {
         body: JSON.stringify(formData)
       });
       if (response.ok) {
-        history.push('/loginTest'); 
+          /* 회원가입 완료시, 사용자별 장바구니 생성
+          const userName = formData.username;
+          localStorage.setItem('userName',userName);
+          localStorage.setItem(`cart-${userName}`, JSON.stringify([]));
+           */
+          history.push('/loginTest');
       } else {
         console.error('회원가입 실패');
       }

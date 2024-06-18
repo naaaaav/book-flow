@@ -1,0 +1,24 @@
+.book-list {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+
+.book-item {
+  width: calc(20% - 10px);
+  margin: 5px;
+  height: 300px;
+  object-fit: cover;
+}
+
+@media (max-width: 768px) {
+  .book-item {
+    width: calc(50% - 10px);
+  }
+}
+.book-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

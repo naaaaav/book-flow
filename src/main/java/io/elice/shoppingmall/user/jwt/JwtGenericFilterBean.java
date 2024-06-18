@@ -2,6 +2,7 @@ package io.elice.shoppingmall.user.jwt;
 
 import io.elice.shoppingmall.user.repository.RefreshRepository;
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.filter.GenericFilterBean;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 @RequiredArgsConstructor
 public class JwtGenericFilterBean extends GenericFilterBean {
@@ -46,7 +48,7 @@ public class JwtGenericFilterBean extends GenericFilterBean {
             }
         }
 
-        if (refresh == null) {
+        if (refresh == null || refresh.equals("null")) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return;
         }
@@ -54,7 +56,14 @@ public class JwtGenericFilterBean extends GenericFilterBean {
         try {
             jwtService.isTokenExpired(refresh);
         } catch (ExpiredJwtException e) {
+            PrintWriter writer = response.getWriter();
+            writer.print("access token expired");
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            return;
+        }  catch (MalformedJwtException e) {
+            PrintWriter writer = response.getWriter();
+            writer.print("access token unsupported types");
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return;
         }
 
