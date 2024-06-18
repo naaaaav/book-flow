@@ -150,9 +150,11 @@ function App() {
         <Cart />
       </Route>
 
-      <Route path="/">
-        <Home />
-      </Route>
+        <Route exact path="/" render={(props) => (
+    <ChakraProvider>
+      <Home {...props} />
+    </ChakraProvider>
+  )} />
     </Switch>
   </Router>
   );

@@ -8,7 +8,10 @@ import Logout from '../../routes/user/auth/logout';
 import { useState, useEffect } from 'react';
 
 
-function HomeHeader()  {
+function HomeHeader({ activeCategory })  {
+  const headerPadding = activeCategory === '홈' ? '0px' : '20px';
+  const headerMt = activeCategory === '홈' ? '10px' : '0px';
+  const headerMb = activeCategory === '홈' ? '10px' : '0px';
     const history = useHistory();
     // 장바구니: 로그인 안 했을 경우, 로그인 페이지로 이동
     const cartClick = () => {
@@ -47,7 +50,7 @@ function HomeHeader()  {
       }, []);
 
       return (
-        <Flex className="home-header" align="center" justify="space-between" p="0" mt="10px">
+        <Flex className="home-header" align="center" justify="space-between" p={headerPadding} mt={headerMt}j mb={headerMb}>
           <Link as={RouterLink} to="/" display="flex" alignItems="center">
             <Heading as="h1" my="auto" size="lg">BookFlow</Heading>
           </Link>
