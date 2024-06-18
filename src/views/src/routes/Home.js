@@ -13,7 +13,9 @@ function Home() {
     return (
         <div className="container">
             <div>
-                <HomeHeader />
+                <ChakraProvider>
+                    <HomeHeader />
+                </ChakraProvider>
             </div>
             <div>
                 <Categories 

@@ -1,10 +1,9 @@
-import { Link, useHistory } from 'react-router-dom';
+import { Flex, Image, Link, Heading } from '@chakra-ui/react';
+import { Link as RouterLink, useHistory } from 'react-router-dom';
 import SearchButton from "../../resources/home/header/Searchbutton.png";
-import Logo from "../../resources/home/header/logo.jpg";
-import MenuButton from "../../resources/home/header/menu.png";
 import CartButton from "../../resources/home/header/Cart.png";
 import UserButton from "../../resources/home/header/user.png";
-import './HomeHeader.css';
+import MenuButton from "../../resources/home/header/menu.png";
 import Logout from '../../routes/user/auth/logout';
 import { useState, useEffect } from 'react';
 
@@ -47,19 +46,30 @@ function HomeHeader()  {
         checkRoleAccess();
       }, []);
 
-    return(
-        <div className="home-header">
-            <div id="title">
-                <Link to="/"><h1>BookFlow</h1></Link>
-            </div>
-            <div id="icons">
-                <Link to="/search"><img src={SearchButton} /></Link>
-                <img src={CartButton} onClick={cartClick} />
-                {isRole !== "ROLE_ANONYMOUS" ? <Link to="/my"><img src={UserButton} /></Link> : null}
-                <Logout />
-                {isRole === "ROLE_ADMIN" ? <Link to="/admin/menu"><img src={MenuButton} /></Link> : null}
-            </div>
-        </div>
-    );
-}
-export default HomeHeader;
+      return (
+        <Flex className="home-header" align="center" justify="space-between" p="2">
+          <Link as={RouterLink} to="/" display="flex" alignItems="center">
+            <Heading as="h1" ml="2" my="auto" size="lg">BookFlow</Heading>
+          </Link>
+          <Flex id="icons" justify="space-around" align="center">
+            <Link as={RouterLink} to="/search">
+              <Image src={SearchButton} boxSize="30px" m="1" />
+            </Link>
+            <Image src={CartButton} boxSize="30px" m="1" onClick={cartClick} cursor="pointer" />
+            {isRole !== "ROLE_ANONYMOUS" && (
+              <Link as={RouterLink} to="/my">
+                <Image src={UserButton} boxSize="30px" m="1" />
+              </Link>
+            )}
+            <Logout />
+            {isRole === "ROLE_ADMIN" && (
+              <Link as={RouterLink} to="/admin/menu">
+                <Image src={MenuButton} boxSize="30px" m="1" />
+              </Link>
+            )}
+          </Flex>
+        </Flex>
+      );
+    }
+    
+    export default HomeHeader;
