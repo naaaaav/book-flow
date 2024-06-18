@@ -4,7 +4,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 import HomeHeader from "../../components/home/HomeHeader";
 import DefaultCover from "../../resources/book/default book cover.png";
 
-const token = localStorage.getItem('token');
 const orderStatusKorean = {
   PAYMENT_COMPLETED: '결제 완료',
   SHIPPING: '배송 중',
@@ -13,6 +12,7 @@ const orderStatusKorean = {
 };
 
 function OrderDetails() {
+  const token = localStorage.getItem('token');
   const toast = useToast(); 
   const [orderDetails, setOrderDetails] = useState();
   const { orderId } = useParams();
