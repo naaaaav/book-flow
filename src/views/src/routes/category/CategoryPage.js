@@ -12,13 +12,13 @@ const CategoryPage = () => {
   useEffect(() => {
     const fetchCategoryData = async () => {
       try {
-        const categoryResponse = await fetch(`http://localhost:8080/api/categories/${categoryId}`);
+        const categoryResponse = await fetch(`${process.env.REACT_APP_API_URL}/api/categories/${categoryId}/books`);
         const categoryData = await categoryResponse.json();
         setCategoryName(categoryData.categoryName);
 
-        const booksResponse = await fetch(`http://localhost:8080/api/categories/${categoryId}/books`);
+        const booksResponse = await fetch(`${process.env.REACT_APP_API_URL}/api/books/category/${categoryId}`);
         const booksData = await booksResponse.json();
-        setBooks(booksData);
+        setBooks(booksData.bookMainDtoList);
       } catch (e) {
         console.error('Failed to fetch category data', e);
       }
@@ -36,9 +36,9 @@ const CategoryPage = () => {
           <div className="books-container">
             {books.map(book => (
               <div key={book.id} className="book-item">
-                <img src={book.coverImage} alt={book.title} className="book-cover" />
-                <h2 className="book-title">{book.title}</h2>
-                <p className="book-authors">{book.authors.join(', ')}</p>
+                <img src={book.bookImgDtoList[0].imgUrl} alt={book.title} className="book-cover" />
+                <h2 className="book-title">{book.bookName}</h2>
+                <p className="book-authors">{book.author}</p>
               </div>
             ))}
           </div>

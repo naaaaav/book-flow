@@ -50,7 +50,7 @@ function HomeHeader({ activeCategory })  {
       }, []);
 
       return (
-        <Flex className="home-header" align="center" justify="space-between" p={headerPadding} mt={headerMt}j mb={headerMb}>
+        <Flex className="home-header" align="center" justify="space-between" p={headerPadding} mt={headerMt} mb={headerMb}>
           <Link as={RouterLink} to="/" display="flex" alignItems="center">
             <Heading as="h1" my="auto" size="lg">BookFlow</Heading>
           </Link>

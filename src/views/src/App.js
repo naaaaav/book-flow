@@ -21,6 +21,10 @@ import MyPage from "./routes/testUser/MyPage";
 import MyInfo from "./routes/testUser/MyInfo";
 import CategoryPage from "./routes/category/CategoryPage"; 
 import Category from "./routes/testCategory/category";
+import CategoryAdminMenu from "./routes/testCategory/CategoryAdminMenu";
+import CategoryEdit from "./routes/testCategory/CategoryEdit";
+import CategoryCreate from "./routes/testCategory/CategoryCreate";
+import CategoryDelete from "./routes/testCategory/CategoryDelete";
 
 function App() {
   return (
@@ -101,6 +105,30 @@ function App() {
       <Route path="/bookDetail/:bookId">
         <BookDetail />
       </Route>
+
+      <Route exact path="/category/add" render={(props) => (
+        <ChakraProvider>
+          <CategoryAdminMenu {...props} />
+        </ChakraProvider>
+      )} />
+
+      <Route exact path="/category-edit" render={(props) => (
+              <ChakraProvider>
+                <CategoryEdit {...props} />
+              </ChakraProvider>
+            )} />
+
+      <Route exact path="/category-create" render={(props) => (
+              <ChakraProvider>
+                <CategoryCreate {...props} />
+              </ChakraProvider>
+            )} />
+
+      <Route exact path="/category-delete" render={(props) => (
+                    <ChakraProvider>
+                      <CategoryDelete {...props} />
+                    </ChakraProvider>
+                  )} />
 
       <Route exact path="/category/:categoryId" render={(props) => (
         <ChakraProvider>

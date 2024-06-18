@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { Box, Image, Text, VStack, SimpleGrid, Button } from '@chakra-ui/react';
 import HomeHeader from '../../components/home/HomeHeader';
 import Footer from '../../components/home/Footer';
+import DefaultCover from '../../resources/book/default book cover.png';
 
 const Category = () => {
   const { categoryId } = useParams();
@@ -57,15 +58,19 @@ const Category = () => {
       <HomeHeader />
       <VStack spacing={8}>
         <Text fontSize="2xl">{categoryName}</Text>
-        {books.length > 0 ? (
+        {books?.length? (
           <SimpleGrid columns={[1, 2, 3]} spacing={10}>
-            {books.map(book => (
-              <Box key={book.id} as={Link} to={`/bookDetail/${book.id}`} boxShadow="md" p="6" rounded="md" bg="white">
+           {books.map(book => (
+            <Box key={book.id} as={Link} to={`/bookDetail/${book.id}`} boxShadow="md" p="6" rounded="md" bg="white">
+              {book?.bookImgDtoList?.length? (
                 <Image src={book.bookImgDtoList[0].imgUrl} alt={book.title} />
-                <Text fontWeight="bold">{book.name}</Text>
-                <Text>{book.author}</Text>
-              </Box>
-            ))}
+              ) : (
+                <Image src="defaultCover" alt="기본 이미지" />
+              )}
+              <Text fontWeight="bold">{book.name}</Text>
+              <Text>{book.author}</Text>
+            </Box>
+          ))}
           </SimpleGrid>
         ) : (
           <Text>카테고리에 속한 책이 없습니다.</Text>
