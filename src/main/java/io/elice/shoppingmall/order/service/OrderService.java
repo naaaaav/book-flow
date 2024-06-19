@@ -12,8 +12,10 @@ import io.elice.shoppingmall.order.repository.OrderDeliveryRepository;
 import io.elice.shoppingmall.order.repository.OrderItemRepository;
 import io.elice.shoppingmall.order.repository.OrderRepository;
 import io.elice.shoppingmall.user.model.User;
+import io.elice.shoppingmall.user.model.dto.UserPostDto;
 import io.elice.shoppingmall.user.repository.AuthRepository;
 import io.elice.shoppingmall.user.service.AuthService;
+import io.elice.shoppingmall.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -36,6 +38,7 @@ public class OrderService {
     private final OrderMapper orderMapper;
     private final AuthService authService;
     private final BookService bookService;
+    private final UserService userService;
 
    @Transactional
     public Order creatOrder(Order requestOrder, OrderDelivery requestOrderDelivery, List<OrderItem> requestOrderItems) {
@@ -48,6 +51,15 @@ public class OrderService {
 
         OrderDelivery savedOrderDelivery = orderDeliveryRepository.save(requestOrderDelivery);
         savedOrder.setOrderDelivery(savedOrderDelivery);
+
+        if (currentUser.getAddress().isEmpty()) {
+            UserPostDto userPostDto = new UserPostDto();
+            userPostDto.setName(currentUser.getName());
+            userPostDto.setPassword(currentUser.getPassword());
+            userPostDto.setPhoneNumber(currentUser.getPhoneNumber());
+            userPostDto.setAddress(savedOrderDelivery.getOrderDeliveryAddress2());
+            userService.updateUser(userPostDto);
+        }
 
         int orderTotalPrice = 0;
 
@@ -63,8 +75,6 @@ public class OrderService {
             Book book = orderItem.getBook();
             book.setStock(book.getStock() - orderItem.getOrderItemQuantity());
             bookService.saveBook(book);
-//            테스트용 임시 가격
-//            orderItem.setOrderItemPrice(10000);
 
             int totalPrice = orderItem.getOrderItemPrice() * orderItem.getOrderItemQuantity();
             orderItem.setOrderItemTotalPrice(totalPrice);
