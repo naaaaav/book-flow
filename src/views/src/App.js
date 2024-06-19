@@ -161,7 +161,10 @@ function App() {
 )} />
 
 <Route exact path="/search" render={(props) => (
-  <SearchPage {...props} />
+  <ChakraProvider>
+    <SearchPage {...props} />
+  </ChakraProvider>
+  
 )} />
 
 <Route exact path="/admin/books" render={(props) => (

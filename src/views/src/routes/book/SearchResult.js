@@ -3,6 +3,8 @@ import { useLocation, useHistory } from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
 import { Link } from "react-router-dom";
 import queryString from 'query-string';
+import { ChakraProvider, Box, Input, Button, VStack, Heading, Text, Image, LinkBox, LinkOverlay, Pagination, HStack } from '@chakra-ui/react';
+import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 
 const SearchResult = (props) => {
 
@@ -39,40 +41,47 @@ const SearchResult = (props) => {
   };
 
   return (
-    <div>
-      <h1>책 제목으로 검색할수 있어요.</h1>
+    <VStack spacing={4} align="stretch">
+      <Heading as="h1" size="lg">책 제목으로 검색할수 있어요.</Heading>
       {books.length ? (
-        <ul>
-        {books.map(book => (
-          <li key={book.id}>
-            <Link to={`/bookDetail/${book.id}`}><h2>{book.bookName}</h2></Link>
-            <p>{book.bookDetail}</p>
-            {book.bookImgDtoList[0]? (
-              <img src={book?.bookImgDtoList[0]?.imgUrl} />
-            ) : (<span>책 표지가 없어요.</span>)}
-            
-          </li>
-          
-        ))}
-      </ul>
+        <Box as="ul">
+          {books.map(book => (
+            <LinkBox as="li" key={book.id} p={4} borderWidth="1px" rounded="md">
+              <Heading as="h2" size="md">
+                <LinkOverlay as={Link} to={`/bookDetail/${book.id}`}>
+                  {book.bookName}
+                </LinkOverlay>
+              </Heading>
+              <Text>{book.bookDetail}</Text>
+              {book.bookImgDtoList[0] ? (
+                <Image src={book?.bookImgDtoList[0]?.imgUrl} alt={`Cover of ${book.bookName}`} />
+              ) : (
+                <Text>책 표지가 없어요.</Text>
+              )}
+            </LinkBox>
+          ))}
+        </Box>
       ) : (
-        <h2>검색 결과가 없어요.</h2>
-      )
-      }
-       <ReactPaginate
-              previousLabel={'previous'}
-              nextLabel={'next'}
-              breakLabel={'...'}
-              breakClassName={'break-me'}
-              pageCount={totalPages}
-              marginPagesDisplayed={2}
-              pageRangeDisplayed={5}
-              onPageChange={handlePageClick}
-              containerClassName={'pagination'}
-              subContainerClassName={'pages pagination'}
-              activeClassName={'active'}
-            />
-    </div>
+        <Heading as="h2" size="md">검색 결과가 없어요.</Heading>
+      )}
+       <HStack spacing={1} justifyContent="center">
+        <Button onClick={() => handlePageClick({ selected: page - 1 })} disabled={page === 0}>
+          <ChevronLeftIcon />
+        </Button>
+        {Array.from({ length: totalPages }, (_, index) => (
+          <Button
+            key={index}
+            onClick={() => handlePageClick({ selected: index })}
+            isActive={page === index}
+          >
+            {index + 1}
+          </Button>
+        ))}
+        <Button onClick={() => handlePageClick({ selected: page + 1 })} disabled={page === totalPages - 1}>
+          <ChevronRightIcon />
+        </Button>
+      </HStack>
+    </VStack>
   );
 };
 
