@@ -52,7 +52,7 @@ public class OrderService {
         OrderDelivery savedOrderDelivery = orderDeliveryRepository.save(requestOrderDelivery);
         savedOrder.setOrderDelivery(savedOrderDelivery);
 
-        if (currentUser.getAddress().isEmpty()) {
+        if (currentUser.getAddress() == null ||currentUser.getAddress().isEmpty()) {
             UserPostDto userPostDto = new UserPostDto();
             userPostDto.setName(currentUser.getName());
             userPostDto.setPassword(currentUser.getPassword());
