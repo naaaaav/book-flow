@@ -26,12 +26,15 @@ function Categories({ activeCategory, setActiveCategory }) {
   };
 
   const handleMouseEnter = (category) => {
-    setHoveredCategory(category.categoryName);
+    if (category.subCategories && category.subCategories.length > 0 && activeCategory !== category.categoryName) {
+      setHoveredCategory(category.id);
+    }
   };
 
   const handleMouseLeave = () => {
     setHoveredCategory(null);
   };
+
 
   return (
     <div className="category-container">
@@ -41,7 +44,7 @@ function Categories({ activeCategory, setActiveCategory }) {
       {isCategoriesVisible && (
         <div className="navbar">
           {categories.length > 0 ? (
-            categories.filter(category => !category.parentCategory && category.categoryName !== hoveredCategory).map((category) => (
+            categories.filter(category => category.parentCategory === null).map((category) => (
               <div
                 key={category.id}
                 className={`navbar-item ${activeCategory === category.categoryName ? 'active' : ''}`}
@@ -51,11 +54,8 @@ function Categories({ activeCategory, setActiveCategory }) {
                 <Link to={`/category/${category.id}`}>
                   {category.categoryName}
                 </Link>
-                {hoveredCategory === category.categoryName && (
+                {hoveredCategory === category.id && (
                   <div className="sub-categories">
-                    <div className="sub-category-header">
-                      <h2>{hoveredCategory}</h2>
-                    </div>
                     <div className="sub-category-list">
                       {category.subCategories.map((subCategory) => (
                         <div key={subCategory.id} className="sub-category-item">
@@ -75,7 +75,7 @@ function Categories({ activeCategory, setActiveCategory }) {
         </div>
       )}
     </div>
-  );  
+  );
 }
 
 export default Categories;

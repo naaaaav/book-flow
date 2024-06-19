@@ -1,5 +1,6 @@
 import {ChakraProvider, Divider, Stack, Text, Box, Image, Flex} from '@chakra-ui/react';
 import {Link} from "react-router-dom";
+import defaultImage from '../../resources/book/default book cover.png';
 
 function BookInfoDetail({book, images}){
     const Divider = ({ width, color }) => (
@@ -32,22 +33,24 @@ function BookInfoDetail({book, images}){
                     <Stack spacing={2} direction='column'>
                         <Text fontSize='lg' fontWeight='bold'> 상세 사진 </Text>
                         <Divider width={66} color="darkgray" />
-                        <Flex
-                            justifyContent="center" /* 가로 중앙 정렬 */
-                        >
-                            <Box>
-                                {images && images.map((imgUrl, index) => (
-                                    <Image
-                                        mt={5}
-                                        ml={5}
-                                        key={index}
-                                        src={imgUrl}
-                                        alt={`book image ${index + 1}`}
-                                        heigit='500px'
-                                        width='450px'
-                                    />
-                                ))}
-                            </Box>
+                        <Flex justifyContent="center">
+                        <Box>
+                            {images && images.length > 0 ? (
+                            images.map((imgUrl, index) => (
+                                <Image
+                                mt={5}
+                                ml={5}
+                                key={index}
+                                src={imgUrl}
+                                alt={`book image ${index + 1}`}
+                                height='500px'
+                                width='450px'
+                                />
+                            ))
+                            ) : (
+                            <Image src={defaultImage} />
+                            )}
+                        </Box>
                         </Flex>
                     </Stack>
                 </Stack>

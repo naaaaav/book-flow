@@ -5,7 +5,7 @@ import BookInfo from "../../components/book/BookInfo";
 import {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import {ChakraProvider, Flex, Stack, Image} from '@chakra-ui/react';
-
+import defaultImage from '../../resources/book/default book cover.png';
 
 function BookDetail(){
     const {bookId} = useParams();
@@ -21,6 +21,7 @@ function BookDetail(){
                 return response.json();
             })
             .then((json) => {
+                const bookImages = json.bookImgDtoList.map(img => img.imgUrl);    
                 setBook({
                     book_id: json.id,
                     book_name: json.bookName,
@@ -31,14 +32,15 @@ function BookDetail(){
                     book_detail: json.bookDetail,
                     book_content: json.tableOfContents,
                     book_category: json.category.categoryName,
-                    img_url: json.bookImgDtoList[0].imgUrl,
+                    img_url: bookImages.length > 0 ? bookImages[0] : defaultImage, // 이미지 URL이 없으면 기본 이미지 경로 사용
                 });
-                setImages(json.bookImgDtoList.map(img => img.imgUrl));
+                setImages(bookImages.length > 0 ? bookImages : [defaultImage]); // 이미지 배열이 비어있으면 기본 이미지 경로 배열 사용
             })
             .catch((error) => (
                 console.log("책 상세 정보 조회 에러", error)
             ))
     }, [bookId]);
+    
 
     return (
         <ChakraProvider>

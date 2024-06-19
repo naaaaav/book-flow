@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import {ChakraProvider, Stack, Text, Button, Image, Box, Input} from '@chakra-ui/react';
-
+import defaultImage from '../../resources/book/default book cover.png';
 
 function BookInfo({book, images}){
     const history = useHistory();
@@ -105,7 +105,7 @@ function BookInfo({book, images}){
                                 w='350px'
                                 h='400px'
                                 objectFit='contain'
-                                src={images[0]}
+                                src={images && images.length > 0 ? images[0] : defaultImage}
                                 alt={book.book_name}
                             />
                         </Box>

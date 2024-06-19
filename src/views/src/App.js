@@ -19,6 +19,7 @@ import Cart from "./routes/cart/Cart";
 import BookDetail from "./routes/book/BookDetail";
 import BookDetailPage from "./routes/book/BookDetailPage";
 import BookAdminPage from "./routes/book/BookAdminPage";
+import BookAdminMenu from "./routes/book/BookAdminMenu";
 import CategoriesByAdmin from "./routes/book/CategoriesByAdmin";
 import BooksByAdmin from "./routes/book/BooksByAdmin";
 import BookDetailByAdmin from "./routes/book/BookDetailByAdmin";
@@ -112,6 +113,12 @@ function App() {
       <Route path="/bookDetail/:bookId">
         <BookDetail />
       </Route>
+
+      <Route exact path="/admin/book" render={(props) => (
+        <ChakraProvider>
+          <BookAdminMenu {...props} />
+        </ChakraProvider>
+      )} />
 
       <Route exact path="/admin/book/edit/:bookId" render={(props) => (
         <ChakraProvider>

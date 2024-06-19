@@ -55,7 +55,7 @@ const AdminMenu = () => {
               </div>
               </Link>
             
-            <Link to="/product/add">
+            <Link to="/admin/book">
               <div className="menu-icon">
                 <span className="icon has-text-info">
                   <i className="fa-solid fa-gift"></i>

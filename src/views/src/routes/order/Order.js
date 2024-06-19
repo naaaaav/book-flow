@@ -6,7 +6,7 @@ import HomeHeader from "../../components/home/HomeHeader";
 import {
   Box, Flex, Text, Button, Input, Image, VStack, FormControl, FormLabel, useToast, HStack,
 } from '@chakra-ui/react';
-
+import DefaultCover from '../../resources/book/default book cover.png';
 
 const Order = () => {
   const location = useLocation();
@@ -202,7 +202,7 @@ const Order = () => {
           {orderData.map((item, index) => (
             <Box key={index} p="4" borderWidth="1px" borderRadius="lg">
               <HStack spacing="4">
-                <Image boxSize="100px" src={bookDetails[item.bookId]?.bookImgDtoList[0]?.imgUrl || '책 표지 조회 중...'} alt="Book cover" />
+                <Image boxSize="100px" src={bookDetails[item.bookId]?.bookImgDtoList[0]?.imgUrl || DefaultCover} alt="Book cover" />
                 <VStack align="left">
                   <Text fontWeight="bold">도서명: {bookDetails[item.bookId]?.bookName || '책 이름 조회 중...'}</Text>
                   <Text>권당 가격: {bookDetails[item.bookId]?.bookPrice || '책 가격 조회 중...'}원</Text>
