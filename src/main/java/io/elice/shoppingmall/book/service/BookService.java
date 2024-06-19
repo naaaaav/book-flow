@@ -55,6 +55,17 @@ public class BookService {
         return findBooks;
     }
 
+    public List<Book> findBooksByCategoryId(Integer categoryId) {
+
+        List<Book> findBooks = bookRepository.findAllByCategoryIdAndIsDeletedFalse(categoryId);
+
+        if(findBooks.isEmpty()) {
+            return null;
+        }
+
+        return findBooks;
+    }
+
     public Page<Book> findBooksByKeyword(String keyword, Pageable pageable) {
 
         Page<Book> findBooks = bookRepository.findAllByNameContaining(keyword, pageable);
@@ -67,6 +78,7 @@ public class BookService {
 
     }
 
+    @Transactional
     public void deleteBook(Long bookId) {
 
         Book findBook = getbookDetail(bookId);
