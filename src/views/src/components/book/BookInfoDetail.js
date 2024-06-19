@@ -10,11 +10,15 @@ function BookInfoDetail({book, images}){
     return (
         <ChakraProvider>
             <div>
-                <Stack spacing={10} direction='column' ml={110}>
+                <Stack spacing={10} direction='column' ml='110px'>
                     <Stack spacing={1} direction='column'>
                         <Text fontSize='lg' fontWeight='bold'> 책 소개 </Text>
                         <Divider width={53} color="darkgray" />
-                        <Text fontSize='md' mt={1}> {book.book_detail} </Text>
+                        <Box maxW='560px'> {/* 최대 너비를 설정 */}
+                            <Text fontSize='md' mt={1} whiteSpace="pre-wrap" wordBreak="break-word">
+                                {book.book_detail}
+                            </Text>
+                        </Box>
                     </Stack>
                     <Stack spacing={1} direction='column'>
                         <Text fontSize='lg' fontWeight='bold'> 목차 </Text>

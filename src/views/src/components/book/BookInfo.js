@@ -44,16 +44,10 @@ function BookInfo({book, images}){
     };
 
     const clickAddCart = () => {
-            let userName = localStorage.getItem('userName') || 'guest';
+            const userName = localStorage.getItem('userName') || 'guest';
             const cartName = `cart-${userName}`;
             console.log(userName);
             let cart = JSON.parse(localStorage.getItem(cartName)) || [];
-
-            // 빈카트이면빈배열로 초기화
-            if (cart === null) {
-                cart = [];
-                console.log("빈 장바구니: " + cart);
-            }
 
             // 카트에 상품 존재하면 위치, 없으면-1
             const existingBookIndex = cart.findIndex((index) => index.book_id === book.book_id);

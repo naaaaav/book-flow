@@ -8,14 +8,12 @@ function CartPriceInfo({cart}){
     const token = localStorage.getItem('token');
 
     // 체크된 책 총 가격, 총 수량
-    let totalBookPrice = 0;
-    let checkedQuantity = 0;
-    checkedCart.forEach((book) => {
-        const bookPrice = book.book_price;
-        const bookQuantity = book.book_quantity;
-        totalBookPrice += bookPrice * bookQuantity;
-        checkedQuantity += bookQuantity;
-    });
+    const { totalBookPrice, checkedQuantity } = checkedCart.reduce((acc, book) => {
+        acc.totalBookPrice += book.book_price * book.book_quantity;
+        acc.checkedQuantity += book.book_quantity;
+        return acc;
+    }, { totalBookPrice: 0, checkedQuantity: 0 });
+
 
     // 배송비, 최종 금액
     const deliveryPrice = (totalBookPrice >= 50000)? 0 : 3000;
@@ -30,22 +28,22 @@ function CartPriceInfo({cart}){
 
         if(token === null){
             alert("로그인 후 이용 가능합니다.");
-        }else {
-            const orderData = {
-                orderItemDtos: checkedCart.map(book => ({
-                    orderItemQuantity: book.book_quantity,
-                    bookId: book.book_id
-                }))
-            };
-            try {
-                history.push({
-                    pathname: '/order',
-                    state: {orderData}
-                });
-            } catch (error) {
-                console.error('Error:', error);
-                alert('주문 처리 중 오류가 발생했어요.');
-            }
+            return;
+        }
+        const orderData = {
+            orderItemDtos: checkedCart.map(book => ({
+                orderItemQuantity: book.book_quantity,
+                bookId: book.book_id
+            }))
+        };
+        try {
+            history.push({
+                pathname: '/order',
+                state: {orderData}
+            });
+        } catch (error) {
+            console.error('Error:', error);
+            alert('주문 처리 중 오류가 발생했어요.');
         }
     };
 
