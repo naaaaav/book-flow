@@ -26,7 +26,7 @@ function Home() {
                     setActiveCategory={setActiveCategory} 
                 />
             </div>
-            <div>
+            <div className='banner'>
                 <BannerSlider />
             </div>
             <div>

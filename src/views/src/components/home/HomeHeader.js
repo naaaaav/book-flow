@@ -6,11 +6,12 @@ import UserButton from "../../resources/home/header/user.png";
 import MenuButton from "../../resources/home/header/menu.png";
 import Logout from '../../routes/user/auth/logout';
 import { useState, useEffect } from 'react';
+import Logo from '../../resources/home/header/bookflow.png';
 
 
 function HomeHeader({ activeCategory })  {
   const headerPadding = activeCategory === '홈' ? '0px' : '20px';
-  const headerMt = activeCategory === '홈' ? '10px' : '0px';
+  const headerMt = activeCategory === '홈' ? '20px' : '0px';
   const headerMb = activeCategory === '홈' ? '10px' : '0px';
     const history = useHistory();
     // 장바구니: 로그인 안 했을 경우, 로그인 페이지로 이동
@@ -52,7 +53,8 @@ function HomeHeader({ activeCategory })  {
       return (
         <Flex className="home-header" align="center" justify="space-between" p={headerPadding} mt={headerMt} mb={headerMb}>
           <Link as={RouterLink} to="/" display="flex" alignItems="center">
-            <Heading as="h1" my="auto" size="lg">BookFlow</Heading>
+            <Image src={Logo} objectFit="cover" h="50px" />
+            {/* <Heading as="h1" my="auto" size="lg">BookFlow</Heading> */}
           </Link>
           <Flex id="icons" justify="space-around" align="center">
             <Link as={RouterLink} to="/search">
