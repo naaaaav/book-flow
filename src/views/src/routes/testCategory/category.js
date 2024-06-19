@@ -59,19 +59,22 @@ const Category = () => {
       <VStack spacing={8}>
         <Text fontSize="2xl">{categoryName}</Text>
         {books?.length? (
-          <SimpleGrid columns={[1, 2, 3]} spacing={10}>
-           {books.map(book => (
+          <SimpleGrid columns={[3, null, 4]} spacing={10}>
+          {books.map(book => (
             <Box key={book.id} as={Link} to={`/bookDetail/${book.id}`} boxShadow="md" p="6" rounded="md" bg="white">
-              {book?.bookImgDtoList?.length? (
-                <Image src={book.bookImgDtoList[0].imgUrl} alt={book.title} />
-              ) : (
-                <Image src= {DefaultCover} alt="기본 이미지" />
-              )}
-              <Text fontWeight="bold">{book.name}</Text>
+              <Image
+                src={book?.bookImgDtoList?.length ? book.bookImgDtoList[0].imgUrl : DefaultCover}
+                alt={book.title || "기본 이미지"}
+                width="100%"
+                height="300px"
+                objectFit="contain"
+              />
+              <Text mt='10px' fontWeight="bold">{book.bookName}</Text>
               <Text>{book.author}</Text>
             </Box>
           ))}
-          </SimpleGrid>
+        </SimpleGrid>
+        
         ) : (
           <Text>카테고리에 속한 책이 없습니다.</Text>
         )}
