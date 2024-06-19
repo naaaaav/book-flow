@@ -65,7 +65,7 @@ const Category = () => {
               {book?.bookImgDtoList?.length? (
                 <Image src={book.bookImgDtoList[0].imgUrl} alt={book.title} />
               ) : (
-                <Image src="defaultCover" alt="기본 이미지" />
+                <Image src= {DefaultCover} alt="기본 이미지" />
               )}
               <Text fontWeight="bold">{book.name}</Text>
               <Text>{book.author}</Text>
