@@ -115,8 +115,9 @@ function OrderDetails() {
           {orderDetails.orderItems && orderDetails.orderItems.map((item) => (
             <HStack key={item.id} spacing={4} align="center">
               <Image
-              boxSize="100px"
-              objectFit="cover"
+              width="100px"
+              height="300%"
+              objectFit="contain"
               src={item.book.bookImgList[0]?.imgUrl || DefaultCover}
               alt={item.book.name}
               borderRadius="md"

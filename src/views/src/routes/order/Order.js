@@ -15,6 +15,7 @@ const Order = () => {
   const toast = useToast()
   const history = useHistory();  
   const [cartItems, setCartItems] = useState([]);
+  const [userData, setUserData] = useState({});
   const [orderCreateDto, setOrderCreateDto] = useState({
     orderDto: {
       orderRequest: ''
@@ -28,6 +29,42 @@ const Order = () => {
     },
     orderItemDtos: []
   });
+
+//사용자 정보 불러와서 채워주기
+useEffect(() => {
+  const token = localStorage.getItem('token');
+  fetchUserData(token);
+}, []);
+
+async function fetchUserData(token) {
+  try {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/user/member`, {
+      method: 'GET',
+      headers: {
+        'access': token
+      }
+    });
+    if (!response.ok) {
+      throw new Error('유저정보 조회 에러');
+    }
+    const user = await response.json();
+    setUserData(user); 
+    setOrderCreateDto(prevDto => ({
+      ...prevDto,
+      orderDeliveryDto: {
+        ...prevDto.orderDeliveryDto,
+        orderDeliveryReceiverName: user.name || '',
+        orderDeliveryReceiverPhoneNumber: user.phoneNumber || '',
+        orderDeliveryAddress1: user.address || '',
+      }
+    }));
+  } catch (error) {
+    console.error('유저정보 조회 실패', error);
+  }
+}
+
+
+
 
   useEffect(() => {
     

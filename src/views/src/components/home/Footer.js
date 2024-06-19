@@ -1,10 +1,11 @@
-import {ChakraProvider, Stack, Text} from '@chakra-ui/react';
+import {ChakraProvider, Stack, Text, Spacer} from '@chakra-ui/react';
 
 
 function Footer() {
     return (
         <div>
             <ChakraProvider>
+            <Spacer />
                 <Stack className="footer" spacing={2} mt={10} p={5} background='rgba(0, 0, 0, 0.05)' direction='column' align='center'>
                     <Text fontSize='sm' fontWeight='bold'>북플로우(주)</Text>
                     <Stack spacing={2} direction='row' color='dimgray'>

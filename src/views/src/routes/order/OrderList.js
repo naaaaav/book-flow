@@ -136,10 +136,56 @@ function OrderList() {
 
     if (!dto.ordersResponseDto.orderList || dto.ordersResponseDto.orderList.length === 0) {
         return (
-            <div className="container">
-              <HomeHeader />
-              <h2>주문하신 내역이 없어요.</h2>  
-            </div>
+          <Box className="container" w="100vw" textAlign="center">
+          <Box><HomeHeader /></Box>
+          <Heading as="h1" size="xl" mb="8">결제하신 내역이에요.</Heading>
+          <Flex justify="space-around" p="4" mb="4">
+      <Box className="status-summary" textAlign="center">
+        <Text fontSize="xl" fontWeight="bold">총 주문</Text>
+        <Badge colorScheme="purple" p="2" borderRadius="lg">
+          {dto.ordersResponseDto.orderList.length}건
+        </Badge>
+      </Box>
+      <Box className="status-summary" textAlign="center">
+        <Text fontSize="xl" fontWeight="bold">상품 준비중</Text>
+        <Badge colorScheme="orange" p="2" borderRadius="lg">
+          {dto.ordersResponseDto.orderList.filter(order => order.order.orderStatus === 'PREPARING_PRODUCT').length}건
+        </Badge>
+      </Box>
+      <Box className="status-summary" textAlign="center">
+        <Text fontSize="xl" fontWeight="bold">배송중</Text>
+        <Badge colorScheme="blue" p="2" borderRadius="lg">
+          {dto.ordersResponseDto.orderList.filter(order => order.order.orderStatus === 'SHIPPING').length}건
+        </Badge>
+      </Box>
+      <Box className="status-summary" textAlign="center">
+        <Text fontSize="xl" fontWeight="bold">배송완료</Text>
+        <Badge colorScheme="green" p="2" borderRadius="lg">
+          {dto.ordersResponseDto.orderList.filter(order => order.order.orderStatus === 'DELIVERED').length}건
+        </Badge>
+      </Box>
+    </Flex>
+          <Flex display="flex" alignItems="center" justifyContent="center" w="100%">
+          <Box width="100%" mx="auto">
+            <Table variant="simple" textAlign="center">
+            <Thead>
+              <Tr>
+                <Th textAlign="center">주문일</Th>
+                <Th textAlign="center">주문정보</Th>
+                <Th textAlign="center">결제 금액</Th>
+                <Th textAlign="center">상태</Th>
+                <Th textAlign="center">주문취소</Th>
+              </Tr>
+            </Thead>
+            <Tbody>
+                <Tr>
+                  <Td colSpan="5" textAlign="center">주문하신 내역이 없어요.</Td>
+                </Tr>
+            </Tbody>
+          </Table>
+          </Box>
+          </Flex>
+          </Box>
             
         )
     }
