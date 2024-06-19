@@ -1,36 +1,44 @@
 import React from 'react';
 import { Link as RouterLink } from "react-router-dom";
-import { Box, Image, Text, VStack, HStack, Button, Link } from '@chakra-ui/react';
+import { Box, Text, VStack, HStack, Button, Link } from '@chakra-ui/react';
 import HomeHeader from "../../components/home/HomeHeader";
-import {CheckCircleIcon} from '@chakra-ui/icons';
-import "./OrderCompleted.css";
+import { CheckCircleIcon } from '@chakra-ui/icons';
+
 function OrderCompleted() {
   return (
-    <Box className="root">
+    <Box className="root" maxW="1200px" mx="auto" px={4}>
       <HomeHeader />
-      <HStack className="content" spacing={8} align="center" justify="center" p={8}>
+      <HStack
+        spacing={8}
+        align="center"
+        justify="center"
+        p={8}
+        mt={10}
+        bg="white"
+        boxShadow="xl"
+        borderRadius="lg"
+      >
         {/* 체크마크 아이콘 */}
-        <Box color="green.500" fontSize="4xl">
-          <CheckCircleIcon />
+        <Box color="green.500" boxSize="10rem">
+          <CheckCircleIcon w="100%" h="100%" />
         </Box>
         {/* 텍스트 및 링크 버튼 */}
         <VStack
-          className="textContainer"
           spacing={4}
           p={5}
-          bg="gray.100" // 배경색 추가
-          borderRadius="md" // 모서리 둥글게
-          shadow="md" // 그림자 효과
+          bg="gray.100"
+          borderRadius="md"
+          shadow="md"
         >
-          <Text lineHeight="0" fontSize="lg">감사합니다. 결제가 완료되었어요.</Text>
-          <Text lineHeight="0">빠르게 배송해 드릴게요.</Text>
-          <Text lineHeight="0">배송이 시작되면 결제 내역에서</Text>
-          <Text lineHeight="0">확인 하실 수 있어요.</Text>
-          <Link as={RouterLink} to='/order-list' style={{ textDecoration: 'none' }}>
-            <Button colorScheme="teal" variant="solid">결제 내역을 확인해 볼까요?</Button>
+          <Text fontSize="2xl" fontWeight="bold">감사합니다. 결제가 완료되었어요.</Text>
+          <Text>빠르게 배송해 드릴게요.</Text>
+          <Text>배송이 시작되면 결제 내역에서</Text>
+          <Text>확인 하실 수 있어요.</Text>
+          <Link as={RouterLink} to='/order-list'>
+            <Button colorScheme="teal" size="lg">결제 내역을 확인해 볼까요?</Button>
           </Link>
-          <Link as={RouterLink} to='/' style={{ textDecoration: 'none' }}>
-            <Button colorScheme="teal" variant="solid">메인 페이지로 갈까요?</Button>
+          <Link as={RouterLink} to='/'>
+            <Button colorScheme="teal" size="lg">메인 페이지로 갈까요?</Button>
           </Link>
         </VStack>
       </HStack>

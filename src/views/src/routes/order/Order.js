@@ -55,7 +55,7 @@ async function fetchUserData(token) {
         ...prevDto.orderDeliveryDto,
         orderDeliveryReceiverName: user.name || '',
         orderDeliveryReceiverPhoneNumber: user.phoneNumber || '',
-        orderDeliveryAddress1: user.address || '',
+        orderDeliveryAddress2: user.address || '',
       }
     }));
   } catch (error) {
@@ -124,7 +124,6 @@ async function fetchUserData(token) {
         ...orderCreateDto.orderDeliveryDto,
         orderDeliveryPostalCode: data.zonecode,
         orderDeliveryAddress1: data.roadAddress, 
-        orderDeliveryAddress2: '' 
       }
     });
   };
@@ -255,61 +254,78 @@ async function fetchUserData(token) {
             {/* 받으시는 분 정보 입력 폼 */}
             <FormControl id="name" isRequired>
               <FormLabel>받으시는 분</FormLabel>
-              <Input name="orderDeliveryReceiverName" onChange={handleInputChange} placeholder="홍길동" />
+              <Input 
+              name="orderDeliveryReceiverName" 
+              onChange={handleInputChange} 
+              placeholder="홍길동" 
+              value={orderCreateDto.orderDeliveryDto.orderDeliveryReceiverName}
+              />
+            </FormControl>
+            <FormControl id="name" isRequired>
+              <FormLabel>받으시는 분</FormLabel>
+              <Input 
+              name="orderDeliveryReceiverName" 
+              onChange={handleInputChange} 
+              placeholder="홍길동" 
+              value={orderCreateDto.orderDeliveryDto.orderDeliveryReceiverName}
+              />
             </FormControl>
             <FormControl isRequired>
             <FormLabel>전화번호</FormLabel>
             <Input
               type="text"
               name="orderDeliveryReceiverPhoneNumber"
-              placeholder="전화번호를 입력해주세요"
               onChange={handleInputChange}
-              className="input-field"
+              value={orderCreateDto.orderDeliveryDto.orderDeliveryReceiverPhoneNumber}
+              placeholder="전화번호를 입력해주세요"
             />
           </FormControl>
-              {/* 주소 입력 폼 */}
-            <FormControl isRequired>
-              <FormLabel>우편번호</FormLabel>
-              <Input
-                type="text"
-                name="orderDeliveryPostalCode"
-                placeholder="우편번호"
-                value={orderCreateDto.orderDeliveryDto.orderDeliveryPostalCode}
-                readOnly
-                className="input-field"
-              />
-            </FormControl>
-            <Button type="button" onClick={openPostcode} className="address-search-btn">
-                주소 검색
-              </Button><br />
-            <FormControl isRequired>
-              <FormLabel className='roadnameaddress'>도로명주소</FormLabel>
-              <Input
-                type="text"
-                name="orderDeliveryAddress1"
-                placeholder="도로명주소"
-                value={orderCreateDto.orderDeliveryDto.orderDeliveryAddress1}
-                readOnly
-                className="input-field"
-              />
-            </FormControl>
-            <FormControl isRequired>
-              <FormLabel>상세주소</FormLabel>
-              <Input
-                type="text"
-                name="orderDeliveryAddress2"
-                placeholder="상세주소"
-                value={orderCreateDto.orderDeliveryDto.orderDeliveryAddress2}
-                onChange={handleInputChange}
-                className="input-field"
-              />
-            </FormControl>
 
-            {/* 배송 메모 입력 폼 */}
-            <FormControl>
-              <FormLabel>배송 요청사항</FormLabel>
-              <Input type="text" name="orderRequest" onChange={handleInputChange} placeholder="배송 요청사항을 적어주세요." className="input-field"  />
-            </FormControl>
+          <Button mt="10px" mb="10px" type="button" onClick={openPostcode} className="address-search-btn">
+                주소 검색
+          </Button><br />
+          <FormControl isRequired>
+            <FormLabel>우편번호</FormLabel>
+            <Input
+              type="text"
+              name="orderDeliveryPostalCode"
+              value={orderCreateDto.orderDeliveryDto.orderDeliveryPostalCode}
+              placeholder="주소검색 버튼을 눌러주세요"
+              readOnly
+            />
+          </FormControl>
+          <FormControl isRequired>
+            <FormLabel>도로명주소</FormLabel>
+            <Input
+              type="text"
+              name="orderDeliveryAddress1"
+              value={orderCreateDto.orderDeliveryDto.orderDeliveryAddress1}
+              placeholder="주소검색 버튼을 눌러주세요"
+              readOnly
+            />
+          </FormControl>
+
+          <FormControl isRequired>
+            <FormLabel>상세주소</FormLabel>
+            <Input
+              type="text"
+              name="orderDeliveryAddress2"
+              onChange={handleInputChange}
+              value={orderCreateDto.orderDeliveryDto.orderDeliveryAddress2}
+              placeholder="상세주소"
+            />
+          </FormControl>
+
+          <FormControl>
+            <FormLabel>배송 요청사항</FormLabel>
+            <Input
+              type="text"
+              name="orderRequest"
+              onChange={handleInputChange}
+              value={orderCreateDto.orderDto.orderRequest}
+              placeholder="배송 요청사항을 적어주세요."
+            />
+          </FormControl>  
             
           </form>
         </Box>

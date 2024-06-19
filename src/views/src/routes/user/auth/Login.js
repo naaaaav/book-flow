@@ -36,12 +36,12 @@ const Login = () => {
             isClosable: true,
           });
           history.push('/');
-          return;
+        } else {
+          return response.json();
         }
-        return response.json();
       })
       .then((json) => {
-        if (json.status === 400 || json.status === 401) {
+        if (json && (json.status === 400 || json.status === 401)) {
           toast({
             title: '로그인 실패',
             description: json.message,
@@ -60,7 +60,7 @@ const Login = () => {
           isClosable: true,
         });
       });
-  };
+  };  
 
   return (
     <Box p={5} maxW="md" mx="auto" mt="5%">
