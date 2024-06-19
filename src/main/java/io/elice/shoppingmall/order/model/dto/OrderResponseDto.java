@@ -20,6 +20,10 @@ public class OrderResponseDto {
 
     private OrderStatus orderStatus;
 
+    private int bookTotalPrice;
+
+    private int shippingPrice;
+
     private int orderTotalPrice;
 
     private String orderRequest;

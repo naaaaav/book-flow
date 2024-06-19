@@ -27,6 +27,10 @@ public class Order extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
+    private int bookTotalPrice;
+
+    private int shippingPrice;
+
     @Column(nullable = false)
     private int orderTotalPrice;
 

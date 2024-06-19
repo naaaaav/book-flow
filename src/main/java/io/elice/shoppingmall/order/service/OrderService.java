@@ -6,21 +6,17 @@ import io.elice.shoppingmall.book.service.BookService;
 import io.elice.shoppingmall.order.exception.*;
 import io.elice.shoppingmall.order.model.*;
 import io.elice.shoppingmall.order.model.dto.OrderCreateDto;
-import io.elice.shoppingmall.order.model.dto.OrderDeliveryDto;
 import io.elice.shoppingmall.order.model.dto.OrderDeliveryEditDto;
 import io.elice.shoppingmall.order.repository.OrderDeliveryRepository;
 import io.elice.shoppingmall.order.repository.OrderItemRepository;
 import io.elice.shoppingmall.order.repository.OrderRepository;
 import io.elice.shoppingmall.user.model.User;
 import io.elice.shoppingmall.user.model.dto.UserPostDto;
-import io.elice.shoppingmall.user.repository.AuthRepository;
 import io.elice.shoppingmall.user.service.AuthService;
 import io.elice.shoppingmall.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -61,7 +57,7 @@ public class OrderService {
             userService.updateUser(userPostDto);
         }
 
-        int orderTotalPrice = 0;
+        int bookTotalPrice = 0;
 
         for (OrderItem orderItem : requestOrderItems) {
 
@@ -78,11 +74,17 @@ public class OrderService {
 
             int totalPrice = orderItem.getOrderItemPrice() * orderItem.getOrderItemQuantity();
             orderItem.setOrderItemTotalPrice(totalPrice);
-            orderTotalPrice += totalPrice;
+            bookTotalPrice += totalPrice;
         }
 
         List<OrderItem> savedOrderItems = orderItemRepository.saveAll(requestOrderItems);
-        savedOrder.setOrderTotalPrice(orderTotalPrice);
+        savedOrder.setBookTotalPrice(bookTotalPrice);
+        int shippingPrice = 3000;
+        if (bookTotalPrice >= 50000) {
+            shippingPrice = 0;
+        }
+        savedOrder.setShippingPrice(shippingPrice);
+        savedOrder.setOrderTotalPrice(bookTotalPrice + shippingPrice);
         savedOrder.setOrderItems(savedOrderItems);
 
         String orderSummaryTitle = savedOrderItems.get(0).getBook().getName();
