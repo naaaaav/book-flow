@@ -1,21 +1,19 @@
-import { Input, Button, Container, FormControl,  FormLabel } from '@chakra-ui/react'
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-import Footer from '../../../components/home/Footer';
-import NotLoginHomeHeader from '../../../components/home/NotLoginHomeHeader';
+import { Box, Button, HStack, Image, Input, Text, VStack, useToast } from '@chakra-ui/react';
+import React, { useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import Bookflow from '../../../resources/home/header/bookflow.png';
 
 const Login = () => {
-  const [username, setUsername] = useState("")
-  const [password, setPassword] = useState("")
-  const history = useHistory()
-
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const history = useHistory();
+  const toast = useToast();
 
   const LoginProcess = (e) => {
     e.preventDefault();
     fetch(`${process.env.REACT_APP_API_URL}/login`, {
       method: "POST",
-      credentials : 'include',
+      credentials: 'include',
       headers: {
         "Content-Type": "application/json",
       },
@@ -26,57 +24,89 @@ const Login = () => {
     })
       .then((response) => {
         if (response.status === 200) {
-          const token = response.headers.get('access')
-          localStorage.setItem('token', token)
-          // cart
-          localStorage.setItem('userName', username)
+          const token = response.headers.get('access');
+          localStorage.setItem('token', token);
+          localStorage.setItem('userName', username);
           let cart = JSON.parse(localStorage.getItem(`cart-${username}`)) || [];
-          localStorage.setItem(`cart-${username}`, JSON.stringify(cart))
-          alert('로그인 성공')
-          history.push('/')
-          return
+          localStorage.setItem(`cart-${username}`, JSON.stringify(cart));
+          toast({
+            title: '로그인 성공',
+            status: 'success',
+            duration: 9000,
+            isClosable: true,
+          });
+          history.push('/');
+          return;
         }
-        return response.json()
+        return response.json();
       })
-      .then((json)=>{
-        //console.log(json);
+      .then((json) => {
         if (json.status === 400 || json.status === 401) {
-          alert(json.message)
+          toast({
+            title: '로그인 실패',
+            description: json.message,
+            status: 'error',
+            duration: 9000,
+            isClosable: true,
+          });
         }
       })
       .catch((error) => {
         console.log(error);
-      })
-  }
+        toast({
+          title: '로그인 중 에러 발생',
+          status: 'error',
+          duration: 9000,
+          isClosable: true,
+        });
+      });
+  };
 
   return (
-    <div>
-      <Container maxW='1500px'>
-      <NotLoginHomeHeader />
-        <form>
-          <FormControl>
-            <FormLabel>아이디 : </FormLabel>
-            <Input 
-              type='text' 
+    <Box p={5} maxW="md" mx="auto" mt="5%">
+      <VStack spacing={4} align="stretch">
+        <Box display="flex" justifyContent="center" alignItems="center">
+          <Image
+            src={Bookflow}
+            alt="Bookflow"
+            maxH="200px"
+            objectFit="contain"
+          />
+        </Box>
+        <br />
+        <form onSubmit={LoginProcess}>
+          <VStack spacing={4}>
+            <Input
+              type="text"
+              placeholder="아이디"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
+              isRequired
             />
-          </FormControl>
-          <FormControl mb={3}>
-            <FormLabel>비밀번호 : </FormLabel>
-            <Input 
-              type='password' 
+            <Input
+              type="password"
+              placeholder="비밀번호"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              isRequired
             />
-          </FormControl>
-          <Button colorScheme='blue' onClick={LoginProcess}>로그인</Button>
-          <Button onClick={(e) => history.push('/join')}>회원가입</Button>
+            <HStack w="full" justifyContent="center" alignItems="center"></HStack>
+            <Button type="submit" colorScheme="green" width="full">
+              로그인
+            </Button>
+          </VStack>
         </form>
-        <Footer />
-      </Container>
-    </div>
-  )
-}
-
+        <br />
+        <Text textAlign="center">
+          Bookflow와 함께 하세요!
+          <br />
+          <Button as={Link} to="/join" colorScheme="blue" width="full">
+            회원가입
+          </Button>
+        </Text>
+      </VStack>
+    </Box>
+  );
+};
+//ui
 export default Login;

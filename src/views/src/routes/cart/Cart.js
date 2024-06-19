@@ -36,7 +36,7 @@ function Cart(){
         <ChakraProvider>
             <div>
                 <div>
-                    <HomeHeader/>
+                    <HomeHeader cart={cart} />
                 </div>
                 <Divider orientation='horizontal' color='rgb(239, 239, 239)'/>
                 {cart.length === 0 ?

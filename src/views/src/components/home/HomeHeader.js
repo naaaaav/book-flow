@@ -1,4 +1,4 @@
-import { Flex, Image, Link, Heading } from '@chakra-ui/react';
+import { Flex, Image, Link, Heading, Badge } from '@chakra-ui/react';
 import { Link as RouterLink, useHistory } from 'react-router-dom';
 import SearchButton from "../../resources/home/header/Searchbutton.png";
 import CartButton from "../../resources/home/header/Cart.png";
@@ -8,13 +8,20 @@ import Logout from '../../routes/user/auth/logout';
 import { useState, useEffect } from 'react';
 import Logo from '../../resources/home/header/bookflow.png';
 
-
-function HomeHeader({ activeCategory })  {
+function HomeHeader({ activeCategory, cart })  {
   const headerPadding = activeCategory === '홈' ? '0px' : '20px';
   const headerMt = activeCategory === '홈' ? '20px' : '0px';
   const headerMb = activeCategory === '홈' ? '10px' : '0px';
+  
+  const [logoutRender, setLogoutRender] = useState(false);
+  const handleLogoutRender = () => {
+    setLogoutRender(!logoutRender)
+  }
+    
     const history = useHistory();
-    // 장바구니: 로그인 안 했을 경우, 로그인 페이지로 이동
+    const [cartItems, setCartItems] = useState([]);
+    
+    // 장바구니: 로그인 안 했을 경우, 게스트 장바구니 생성
     const cartClick = () => {
         let userName = 'guest';
         const token = localStorage.getItem('token');
@@ -28,6 +35,16 @@ function HomeHeader({ activeCategory })  {
         history.push(`/cart/${userName}`)
     };
 
+    useEffect( () => {
+        const getCartItems = () => {
+            const cartName = localStorage.getItem('userName') ? `cart-${localStorage.getItem('userName')}` : `cart-guest`;
+            const items = JSON.parse(localStorage.getItem(cartName)) || [];
+            setCartItems(items);
+        };
+        getCartItems();
+    }, [cart]);
+    const totalQuantity = cartItems.reduce((total, item) => total + item.book_quantity, 0);
+
     const [isRole, setIsRole] = useState();
     useEffect(() => {
         const checkRoleAccess = async () => {
@@ -40,7 +57,6 @@ function HomeHeader({ activeCategory })  {
             });
             const json = await response.json();
             const role = json.role;
-            console.log("권한 : " + role);
             setIsRole(role);
           } catch (error) {
             console.error('Admin check failed:', error);
@@ -48,7 +64,7 @@ function HomeHeader({ activeCategory })  {
         };
     
         checkRoleAccess();
-      }, []);
+      }, [logoutRender]);
 
       return (
         <Flex className="home-header" align="center" justify="space-between" p={headerPadding} mt={headerMt} mb={headerMb}>
@@ -60,13 +76,20 @@ function HomeHeader({ activeCategory })  {
             <Link as={RouterLink} to="/search">
               <Image src={SearchButton} boxSize="30px" m="1" />
             </Link>
-            <Image src={CartButton} boxSize="30px" m="1" onClick={cartClick} cursor="pointer" />
+              <Flex alignItems="center" position="relative">
+                  <Image src={CartButton} boxSize="30px" m="1" onClick={cartClick} cursor="pointer" />
+                  {totalQuantity === 0? null :
+                      <Badge colorScheme="blue" borderRadius="full" ml="2" position="absolute" top="-1px" right="-5px">
+                          {totalQuantity}
+                      </Badge>
+                  }
+              </Flex>
             {isRole !== "ROLE_ANONYMOUS" && (
               <Link as={RouterLink} to="/my">
                 <Image src={UserButton} boxSize="30px" m="1" />
               </Link>
             )}
-            <Logout />
+            <Logout handleLogoutRender = {handleLogoutRender} />
             {isRole === "ROLE_ADMIN" && (
               <Link as={RouterLink} to="/admin/menu">
                 <Image src={MenuButton} boxSize="30px" m="1" />
