@@ -20,7 +20,7 @@ public class BookImgService {
 
     private final BookImgRepository bookImgRepository;
 
-
+    @Transactional
     public BookImg save(BookImg bookImg) {
 
         return bookImgRepository.save(bookImg);
