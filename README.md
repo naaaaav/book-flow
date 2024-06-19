@@ -1,4 +1,4 @@
-![로고](.\src\views\public\bookflow.png)
+![로고](src/views/public/bookflow.png)
 
 # BookFlow - 지식과 이야기가 흐르는 곳
 
