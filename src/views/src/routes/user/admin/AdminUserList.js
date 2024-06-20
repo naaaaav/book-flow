@@ -19,6 +19,7 @@ import {
 import NotLoginHomeHeader from '../../../components/home/NotLoginHomeHeader';
 import Footer from '../../../components/home/Footer';
 import HomeHeader from '../../../components/home/HomeHeader';
+import withAdminCheck from '../../../components/adminCheck/withAdminCheck';
 
 const AdminUserList = () => {
   const[page, setPage] = useState(0)
@@ -208,4 +209,4 @@ const AdminUserList = () => {
   )
 }
 
-export default AdminUserList;
+export default withAdminCheck(AdminUserList);

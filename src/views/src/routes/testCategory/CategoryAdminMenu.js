@@ -5,6 +5,7 @@ import {
 import { FaEdit, FaPlus, FaTrash } from 'react-icons/fa';
 import { useHistory } from 'react-router-dom';
 import HomeHeader from '../../components/home/HomeHeader';
+import withAdminCheck from '../../components/adminCheck/withAdminCheck';
 
 const CategoryAdminMenu = () => {
   const history = useHistory();
@@ -54,4 +55,4 @@ const CategoryAdminMenu = () => {
   );
 };
 
-export default CategoryAdminMenu;
+export default withAdminCheck(CategoryAdminMenu);

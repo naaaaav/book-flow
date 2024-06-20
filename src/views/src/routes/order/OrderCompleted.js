@@ -3,6 +3,7 @@ import { Link as RouterLink } from "react-router-dom";
 import { Box, Text, VStack, HStack, Button, Link } from '@chakra-ui/react';
 import HomeHeader from "../../components/home/HomeHeader";
 import { CheckCircleIcon } from '@chakra-ui/icons';
+import withLoginCheck from '../../components/loginCheck/withLoginCheck';
 
 function OrderCompleted() {
   return (
@@ -46,4 +47,4 @@ function OrderCompleted() {
   );
 }
 
-export default OrderCompleted;
+export default withLoginCheck(OrderCompleted);

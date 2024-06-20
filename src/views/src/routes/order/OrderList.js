@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton } from '@chakra-ui/react';
 import { Link } from "react-router-dom";
 import PaginationComponent from "../../components/order/PaginationComponent";
+import withLoginCheck from '../../components/loginCheck/withLoginCheck';
 
 function OrderList() {
 
@@ -291,4 +292,4 @@ function OrderList() {
       );
     }
     
-    export default OrderList;
+    export default withLoginCheck(OrderList);

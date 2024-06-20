@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import Footer from '../../../components/home/Footer';
 import HomeHeader from '../../../components/home/HomeHeader';
 import './AdminMenu.css';
-
+import withAdminCheck from '../../../components/adminCheck/withAdminCheck';
 const AdminMenu = () => {
   return (
     <div className="container">
@@ -76,4 +76,4 @@ const AdminMenu = () => {
   )
 }
 
-export default AdminMenu;
+export default withAdminCheck(AdminMenu);

@@ -10,6 +10,7 @@ import {
   Heading
 } from '@chakra-ui/react';
 import HomeHeader from '../../components/home/HomeHeader';
+import withAdminCheck from '../../components/adminCheck/withAdminCheck';
 
 const CategoryEdit = () => {
   const [categories, setCategories] = useState([]);
@@ -126,4 +127,4 @@ const CategoryEdit = () => {
   );
 };
 
-export default CategoryEdit;
+export default withAdminCheck(CategoryEdit);

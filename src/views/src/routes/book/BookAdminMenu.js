@@ -5,6 +5,7 @@ import {
 import { FaBook, FaPlus, FaTrash } from 'react-icons/fa';
 import { useHistory } from 'react-router-dom';
 import HomeHeader from '../../components/home/HomeHeader';
+import withAdminCheck from '../../components/adminCheck/withAdminCheck';
 
 const BookAdminMenu = () => {
   const history = useHistory();
@@ -44,4 +45,4 @@ const BookAdminMenu = () => {
   );
 };
 
-export default BookAdminMenu;
+export default withAdminCheck(BookAdminMenu);

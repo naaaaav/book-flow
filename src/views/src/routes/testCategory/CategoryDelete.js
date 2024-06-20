@@ -9,6 +9,7 @@ import {
   Heading
 } from '@chakra-ui/react';
 import HomeHeader from '../../components/home/HomeHeader';
+import withAdminCheck from '../../components/adminCheck/withAdminCheck';
 
 const CategoryDelete = () => {
   const [categories, setCategories] = useState([]);
@@ -95,4 +96,4 @@ const CategoryDelete = () => {
   );
 };
 
-export default CategoryDelete;
+export default withAdminCheck(CategoryDelete);

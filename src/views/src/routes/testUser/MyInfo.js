@@ -10,6 +10,7 @@ import {
   FormErrorMessage
 } from '@chakra-ui/react';
 import HomeHeader from '../../components/home/HomeHeader';
+import withLoginCheck from '../../components/loginCheck/withLoginCheck';
 
 function MyInfo() {
   const token = localStorage.getItem('token');
@@ -164,4 +165,4 @@ function MyInfo() {
   );
 }
 
-export default MyInfo;
+export default withLoginCheck(MyInfo);

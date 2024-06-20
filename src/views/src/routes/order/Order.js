@@ -7,6 +7,7 @@ import {
   Box, Flex, Text, Button, Input, Image, VStack, FormControl, FormLabel, useToast, HStack,
 } from '@chakra-ui/react';
 import DefaultCover from '../../resources/book/default book cover.png';
+import withLoginCheck from '../../components/loginCheck/withLoginCheck';
 
 const Order = () => {
   const location = useLocation();
@@ -361,4 +362,4 @@ async function fetchUserData(token) {
   );
 };
 
-export default Order;
+export default withLoginCheck(Order);
