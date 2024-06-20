@@ -188,9 +188,10 @@ const BookAdminPage = () => {
     };
 
     return (
-      <Box p={5}>
+      <Box p={5} mx="auto" maxW="80%">
         <HomeHeader />
-      <Link to='/admin/books'>
+        <Box mx="auto" maxW="80%">
+          <Link to='/admin/books'>
         <Button colorScheme='gray' leftIcon={<ArrowBackIcon />}> 책 목록</Button>
       </Link>
       <VStack spacing={4} align="stretch">
@@ -269,6 +270,8 @@ const BookAdminPage = () => {
             </HStack>
           </form>
         </VStack>
+        </Box>
+      
       </Box>
     );
   };

@@ -92,7 +92,8 @@ const CategoryEdit = () => {
   return (
     <Box p={5}>
         <HomeHeader />
-      <form onSubmit={handleSubmit}>
+        <Box mx="auto" maxW="80%">
+          <form onSubmit={handleSubmit}>
         <FormControl isRequired>
           <FormLabel>카테고리 선택</FormLabel>
           <Select placeholder="카테고리 선택" onChange={handleCategoryChange}>
@@ -119,6 +120,8 @@ const CategoryEdit = () => {
         </FormControl>
         <Button mt={4} colorScheme="teal" type="submit">수정하기</Button>
       </form>
+        </Box>
+      
     </Box>
   );
 };

@@ -16,6 +16,10 @@ const Order = () => {
   const history = useHistory();  
   const [cartItems, setCartItems] = useState([]);
   const [userData, setUserData] = useState({});
+  const totalAmount = orderData.reduce((acc, item) => acc + (bookDetails[item.bookId]?.bookPrice || 0) * item.orderItemQuantity, 0);
+  const shippingFee = totalAmount <= 50000 ? 3000 : 0;
+  const amountToPay = totalAmount + shippingFee;
+
   const [orderCreateDto, setOrderCreateDto] = useState({
     orderDto: {
       orderRequest: ''
@@ -330,13 +334,28 @@ async function fetchUserData(token) {
           </form>
         </Box>
       {/* 결제 요약 및 버튼 */}
-      <Flex justify="space-between" mt="8" p="4" shadow="md" borderWidth="1px">
-        <Text fontSize="xl" mr="20px">{
-        orderData.reduce((acc, item) => acc + (bookDetails[item.bookId]?.bookPrice || 0) * item.orderItemQuantity, 0)}원을 결제할까요?
+      <Flex
+      justify="space-between"
+      align="center"
+      mt="8"
+      p="4"
+      shadow="md"
+      borderWidth="1px"
+    >
+      <VStack align="left">
+        <Text fontSize="xl">총 주문 금액: {totalAmount.toLocaleString()}원</Text>
+        <Text fontSize="xl">배송비: {shippingFee.toLocaleString()}원</Text>
+        <Text fontSize="xl" fontWeight="bold">
+          총 결제 금액: {amountToPay.toLocaleString()}원 을 결제할까요?
         </Text>
-        <Button mr="20px" colorScheme="teal" onClick={handleOrder}>결제할게요!</Button>
-        <Button colorScheme="yellow" onClick={handleCancel}>다음에 할게요.</Button>
-      </Flex>
+      </VStack>
+      <Button ml="20px" mr="20px" colorScheme="teal" onClick={handleOrder}>
+        결제할게요!
+      </Button>
+      <Button colorScheme="yellow" onClick={handleCancel}>
+        다음에 할게요.
+      </Button>
+    </Flex>
     </VStack>
   </Flex>
   );

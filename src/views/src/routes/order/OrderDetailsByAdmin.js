@@ -105,8 +105,14 @@ function OrderDetailsByadmin() {
         </Box>
       {orderDetails.order && (
         <Box p={4} borderWidth="1px" borderRadius="lg">
-          <Text fontSize="lg">상태: {orderStatusKorean[orderDetails.order.orderStatus]}</Text>
-          <Text fontSize="lg">합계: {orderDetails.order.orderTotalPrice}원</Text>
+          <Box p="4" shadow="lg" borderWidth="1px" borderRadius="lg" bg="gray.50">
+            <VStack spacing="2" align="stretch">
+              <Text fontSize="lg" fontWeight="semibold" color="teal.600">상태: {orderStatusKorean[orderDetails.order.orderStatus]}</Text>
+              <Text fontSize="lg" fontWeight="semibold" color="teal.600">상품 금액: {orderDetails.order.bookTotalPrice.toLocaleString()}원</Text>
+              <Text fontSize="lg" fontWeight="semibold" color="teal.600">배송비: {orderDetails.order.shippingPrice.toLocaleString()}원</Text>
+              <Text fontSize="lg" fontWeight="semibold" color="teal.600">합계: {orderDetails.order.orderTotalPrice.toLocaleString()}원</Text>
+            </VStack>
+          </Box>
           <Text fontSize="lg" mt={4}>고객님의 배송 정보에요.</Text>
           <VStack spacing={2}>
             <Input type="text" placeholder={formData.name} isReadOnly />

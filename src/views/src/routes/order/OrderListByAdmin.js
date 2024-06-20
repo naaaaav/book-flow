@@ -216,7 +216,7 @@ import {
                     {list.order.orderSummaryTitle}
                   </Link>
                 </Td>
-                <Td>{list.order.orderTotalPrice}</Td>
+                <Td>{list.order.orderTotalPrice.toLocaleString()}원</Td>
                 <Td>
                   <Select
                     value={list.order.orderStatus}

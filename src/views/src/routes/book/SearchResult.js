@@ -41,7 +41,7 @@ const SearchResult = (props) => {
   };
 
   return (
-    <VStack spacing={4} align="stretch">
+    <VStack spacing={4} align="stretch" mx="auto" maxW="80%">
       <Heading as="h1" size="lg">책 제목으로 검색할수 있어요.</Heading>
       {books.length ? (
         <Box as="ul">

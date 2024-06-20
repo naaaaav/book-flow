@@ -76,7 +76,8 @@ const CategoryDelete = () => {
   return (
     <Box p={5}>
       <HomeHeader />
-      <Heading as="h2" size="lg" mb={6}>카테고리 삭제</Heading>
+      <Box mx="auto" maxW="80%">
+        <Heading as="h2" size="lg" mb={6}>카테고리 삭제</Heading>
       <form onSubmit={handleSubmit}>
         <FormControl isRequired mt={4}>
           <FormLabel>삭제할 카테고리 선택</FormLabel>
@@ -88,6 +89,8 @@ const CategoryDelete = () => {
         </FormControl>
         <Button mt={4} colorScheme="red" type="submit">삭제하기</Button>
       </form>
+      </Box>
+      
     </Box>
   );
 };

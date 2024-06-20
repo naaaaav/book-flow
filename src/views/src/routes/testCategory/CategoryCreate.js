@@ -82,8 +82,9 @@ const CategoryCreate = () => {
   return (
     <Box p={5}>
       <HomeHeader />
+      <Box mx="auto" maxW="80%">
       <Heading as="h2" size="lg" mb={6}>새 카테고리 생성</Heading>
-      <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}>
         <FormControl isRequired mt={4}>
           <FormLabel>카테고리 이름</FormLabel>
           <Input
@@ -103,6 +104,8 @@ const CategoryCreate = () => {
         </FormControl>
         <Button mt={4} colorScheme="teal" type="submit">생성하기</Button>
       </form>
+      </Box>
+      
     </Box>
   );
 };

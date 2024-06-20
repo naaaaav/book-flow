@@ -28,7 +28,7 @@ const SearchPage = () => {
   };
 
   return (
-    <VStack p={4} spacing={4}>
+    <VStack p={4} spacing={4} mx="auto" maxW="80%">
       <HomeHeader/>
       <form onSubmit={handleSearch} style={{ width: '100%' }}>
         <Flex>

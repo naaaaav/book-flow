@@ -250,7 +250,7 @@ function OrderList() {
                         {list.order.orderSummaryTitle}
                     </Link>
                     </Td>
-                  <Td textAlign="center">{list.order.orderTotalPrice}</Td>
+                  <Td textAlign="center">{list.order.orderTotalPrice.toLocaleString()}원</Td>
                   <Td textAlign="center">{orderStatusKorean[list.order.orderStatus]}</Td>
                   <Td textAlign="center">
                     {list.order.orderStatus !== 'SHIPPING' && list.order.orderStatus !== 'DELIVERED' && (

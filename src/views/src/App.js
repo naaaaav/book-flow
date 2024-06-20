@@ -122,7 +122,7 @@ function App() {
 )} />
 
 <Route exact path="/admin/books" render={(props) => (
-    <CategoriesByAdmin {...props} />
+    <BooksByAdmin {...props} />
 )} />
 
 <Route exact path="/admin/books/category/:categoryId" render={(props) => (
