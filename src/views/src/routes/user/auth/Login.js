@@ -32,12 +32,21 @@ const Login = () => {
           // 게스트용 장바구니 상품 이동
           const guestCart = localStorage.getItem('cart-guest');
           if (guestCart) {
-            const guestCartItems = JSON.parse(guestCart);
-            cart = [...cart, ...guestCartItems];
-            localStorage.setItem(`cart-${username}`, guestCart);
+            const guestCartBooks = JSON.parse(guestCart);
+
+            // 게스트 장바구니 상품 + 기존 사용자 장바구니 상품 (동일 상품 존재시 수량 수정)
+            guestCartBooks.forEach(guestBook => {
+              const existingBook = cart.find(cartBook => cartBook.book_id === guestBook.book_id);
+              if (existingBook) {
+                existingBook.book_quantity += guestBook.book_quantity;
+              } else {
+                cart.push(guestBook);
+              }
+            });
+
+            localStorage.setItem(`cart-${username}`, JSON.stringify(cart));
             localStorage.removeItem('cart-guest');
-          }
-          if (!guestCart){
+          } else {
             localStorage.setItem(`cart-${username}`, JSON.stringify(cart));
           }
 
