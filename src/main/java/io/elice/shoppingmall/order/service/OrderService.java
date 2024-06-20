@@ -12,6 +12,7 @@ import io.elice.shoppingmall.order.repository.OrderItemRepository;
 import io.elice.shoppingmall.order.repository.OrderRepository;
 import io.elice.shoppingmall.user.model.User;
 import io.elice.shoppingmall.user.model.dto.UserPostDto;
+import io.elice.shoppingmall.user.repository.UserRepository;
 import io.elice.shoppingmall.user.service.AuthService;
 import io.elice.shoppingmall.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +35,7 @@ public class OrderService {
     private final OrderMapper orderMapper;
     private final AuthService authService;
     private final BookService bookService;
-    private final UserService userService;
+    private final UserRepository userRepository;
 
    @Transactional
     public Order creatOrder(Order requestOrder, OrderDelivery requestOrderDelivery, List<OrderItem> requestOrderItems) {
@@ -49,12 +50,8 @@ public class OrderService {
         savedOrder.setOrderDelivery(savedOrderDelivery);
 
         if (currentUser.getAddress() == null ||currentUser.getAddress().isEmpty()) {
-            UserPostDto userPostDto = new UserPostDto();
-            userPostDto.setName(currentUser.getName());
-            userPostDto.setPassword(currentUser.getPassword());
-            userPostDto.setPhoneNumber(currentUser.getPhoneNumber());
-            userPostDto.setAddress(savedOrderDelivery.getOrderDeliveryAddress2());
-            userService.updateUser(userPostDto);
+            currentUser.setAddress(savedOrderDelivery.getOrderDeliveryAddress2());
+            userRepository.save(currentUser);
         }
 
         int bookTotalPrice = 0;
