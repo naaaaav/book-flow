@@ -2,6 +2,7 @@
 
 # BookFlow - 지식과 이야기가 흐르는 곳
 
+![alt text](image.png)
 
 ## 프로젝트 소개
 책을 통해 배움을 얻고,  
