@@ -12,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -75,6 +76,7 @@ public class AuthService {
         return currentUser;
     }
 
+    @Transactional
     public boolean join(JoinDto joinDto) {
         User user = userMapper.joinDtoToUser(joinDto);
         user.setPassword(passwordEncoder.encode(joinDto.getPassword()));

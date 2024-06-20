@@ -49,7 +49,7 @@ public class BookController {
     }
 
     //배포시 http://34.64.32.227, 개발시 http://localhost:8080사용하기
-    private String serverHost = "http://localhost:8080";
+    private String serverHost = "http://34.64.32.227";
 
     @PostMapping("/admin/book")
     public ResponseEntity<?> postBook(@ModelAttribute BookFormDto bookFormDto, @RequestParam(value = "images", required = false) List<MultipartFile> images) throws IOException {
