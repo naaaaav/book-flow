@@ -69,7 +69,8 @@ function Books() {
                         </RouterLink>
                         <Box p="4">
                           <Text fontWeight="bold" noOfLines={1}><RouterLink to={`/bookDetail/${book.id}`}>{book.bookName}</RouterLink></Text>
-                          <Text fontSize="sm">{book.bookAuthor}</Text>
+                          <Text fontSize="sm">{book.author}</Text>
+                          <Text>{book.bookPrice.toLocaleString()}원</Text>
                         </Box>
                       </Box>
                     ))

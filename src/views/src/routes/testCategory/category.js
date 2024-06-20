@@ -71,6 +71,7 @@ const Category = () => {
               />
               <Text mt='10px' fontWeight="bold">{book.bookName}</Text>
               <Text>{book.author}</Text>
+              <Text>{book.bookPrice.toLocaleString()}원</Text>
             </Box>
           ))}
         </SimpleGrid>
