@@ -32,6 +32,8 @@ const Login = () => {
           // 게스트용 장바구니 상품 이동
           const guestCart = localStorage.getItem('cart-guest');
           if (guestCart) {
+            const guestCartItems = JSON.parse(guestCart);
+            cart = [...cart, ...guestCartItems];
             localStorage.setItem(`cart-${username}`, guestCart);
             localStorage.removeItem('cart-guest');
           }
