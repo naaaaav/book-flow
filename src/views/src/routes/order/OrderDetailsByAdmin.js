@@ -81,7 +81,7 @@ function OrderDetailsByadmin() {
     //   </VStack>
     <Box p={5}>
       <HomeHeader />
-      <VStack spacing={4} align="stretch">
+      <VStack spacing={4} align="stretch" mx="auto" maxW="80%">
         <Heading my={5}>주문 상세정보</Heading>
         <Divider />
         <Box borderWidth="1px" borderRadius="lg" overflow="hidden" p={5}>
