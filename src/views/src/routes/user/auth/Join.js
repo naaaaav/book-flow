@@ -131,6 +131,9 @@ const Join = () => {
           history.push('/login')
           return
         }
+        if (response.status === 500) {
+          alert('회원가입에 실패했어요. 아이디가 중복이거나 일시적인 에러에요.')
+        }
         return response.json();
       })
       .then((json)=>{
