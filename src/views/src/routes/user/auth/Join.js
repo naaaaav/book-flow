@@ -131,7 +131,16 @@ const Join = () => {
           // 장바구니생성
           const userName = formData.username;
           localStorage.setItem('userName',userName);
-          localStorage.setItem(`cart-${userName}`, JSON.stringify([]));
+
+          // 게스트용 장바구니 상품 이동
+          const guestCart = localStorage.getItem('cart-guest');
+          if (guestCart) {
+            localStorage.setItem(`cart-${userName}`, guestCart);
+            localStorage.removeItem('cart-guest');
+          }
+          if (!guestCart){
+            localStorage.setItem(`cart-${userName}`, JSON.stringify([]));
+          }
 
           alert('회원가입 성공')
           history.push('/login')

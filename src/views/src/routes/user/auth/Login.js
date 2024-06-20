@@ -28,7 +28,17 @@ const Login = () => {
           localStorage.setItem('token', token);
           localStorage.setItem('userName', username);
           let cart = JSON.parse(localStorage.getItem(`cart-${username}`)) || [];
-          localStorage.setItem(`cart-${username}`, JSON.stringify(cart));
+
+          // 게스트용 장바구니 상품 이동
+          const guestCart = localStorage.getItem('cart-guest');
+          if (guestCart) {
+            localStorage.setItem(`cart-${username}`, guestCart);
+            localStorage.removeItem('cart-guest');
+          }
+          if (!guestCart){
+            localStorage.setItem(`cart-${username}`, JSON.stringify(cart));
+          }
+
           toast({
             title: '로그인 성공',
             status: 'success',

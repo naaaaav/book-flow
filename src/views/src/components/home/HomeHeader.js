@@ -76,8 +76,8 @@ function HomeHeader({ activeCategory, cart })  {
             <Link as={RouterLink} to="/search">
               <Image src={SearchButton} boxSize="30px" m="1" />
             </Link>
-              <Flex alignItems="center" position="relative">
-                  <Image src={CartButton} boxSize="30px" m="1" onClick={cartClick} cursor="pointer" />
+              <Flex alignItems="center"  mr='2' position="relative">
+                  <Image src={CartButton} boxSize="30px" onClick={cartClick} cursor="pointer" />
                   {totalQuantity === 0? null :
                       <Badge colorScheme="blue" borderRadius="full" ml="2" position="absolute" top="-1px" right="-5px">
                           {totalQuantity}

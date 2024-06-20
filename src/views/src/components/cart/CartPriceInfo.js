@@ -1,6 +1,6 @@
 import "./CartPriceInfo.css"
 import {Link, useHistory} from "react-router-dom";
-import {ChakraProvider, Divider, Stack, Text, Button} from '@chakra-ui/react';
+import {ChakraProvider, Divider, Stack, Text, Button, Flex} from '@chakra-ui/react';
 
 function CartPriceInfo({cart}){
     const history = useHistory();
@@ -14,10 +14,10 @@ function CartPriceInfo({cart}){
         return acc;
     }, { totalBookPrice: 0, checkedQuantity: 0 });
 
-
-    // 배송비, 최종 금액
+    // 배송비, 최종금액, 안내문구
     const deliveryPrice = (totalBookPrice >= 50000)? 0 : 3000;
     const totalPrice = totalBookPrice + deliveryPrice;
+    const deliveryMessage = (totalBookPrice >= 50000)? null : "(50,000원 이상 주문시 무료배송)";
 
     // 주문하기 클릭시
     const clickOrder = async () => {
@@ -28,6 +28,7 @@ function CartPriceInfo({cart}){
 
         if(token === null){
             alert("로그인 후 이용 가능합니다.");
+            history.push('/login');
             return;
         }
         const orderData = {
@@ -53,7 +54,6 @@ function CartPriceInfo({cart}){
                 {/*{checkedCart.length > 0 && (*/}
                     <div className="price-info">
                         <Stack spacing={0} direction='column'>
-                            {/* 크기 키우기 - 현재 적용 안됨 */}
                             <Text as='b' id="but-info" fontSize='2xl'>결제정보</Text>
                             <div className="each-price">
                                 <Stack spacing={0} direction='column' mt={15}>
@@ -62,9 +62,10 @@ function CartPriceInfo({cart}){
                                         <Text fontSize='lg' fontWeight='normal' textAlign="right">{totalBookPrice}원</Text>
                                     </Stack>
                                     <Stack id="delivery-price" spacing={2} direction='row' ml={1} mr={1} justifyContent="space-between">
-                                        <Text fontSize='lg' fontWeight='normal'>상품금액: </Text>
+                                        <Text fontSize='lg' fontWeight='normal'>배송비: </Text>
                                         <Text fontSize='lg' fontWeight='normal' textAlign="right">+ {deliveryPrice}원</Text>
                                     </Stack>
+                                    <Text fontSize='xs' color='dodgerblue' fontWeight='normal' textAlign="right">{deliveryMessage}</Text>
                                 </Stack>
                                 <Stack direction='row' p={1} mt={2}>
                                     <Divider width='230px' borderColor='lightgray' />
