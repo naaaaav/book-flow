@@ -55,16 +55,16 @@ const BookAdminPage = () => {
       const fetchBookDetails = async () => {
         try {
           const response = await fetch(`${process.env.REACT_APP_API_URL}/api/book/${bookId}`);
-          const {id, name, detail, price, stock, date, categoryId, author, publisher, tableOfContents} = await response.json();
+          const {id, bookName, bookDetail, bookPrice, stock, date, category, author, publisher, tableOfContents} = await response.json();
           setBookForm(prevBookForm => ({
             ...prevBookForm,
             id,
-            name,
-            detail,
-            price,
+            bookName,
+            bookDetail,
+            bookPrice,
             stock,
             date,
-            categoryId,
+            category : category || {},
             author,
             publisher,
             tableOfContents: tableOfContents || []
@@ -203,7 +203,7 @@ const BookAdminPage = () => {
             <FormControl id="category" isRequired>
               <FormLabel>카테고리</FormLabel>
               <HStack>
-                <Select name="categoryId" value={bookForm.categoryId} onChange={handleInputChange} placeholder="카테고리를 골라주세요.">
+                <Select name="categoryId" value={bookForm.category.Id} onChange={handleInputChange} placeholder="카테고리를 골라주세요.">
                   {categories.map(category => (
                     <option key={category.id} value={category.id}>
                       {category.categoryName}
@@ -217,7 +217,7 @@ const BookAdminPage = () => {
   
             <FormControl id="name" isRequired>
               <FormLabel>책 제목</FormLabel>
-              <Input type="text" name="name" value={bookForm.name} onChange={handleInputChange} placeholder="책 이름을 적어주세요." />
+              <Input type="text" name="name" value={bookForm.bookName} onChange={handleInputChange} placeholder="책 이름을 적어주세요." />
             </FormControl>
   
             <FormControl id="author">
@@ -237,12 +237,12 @@ const BookAdminPage = () => {
 
             <FormControl id="detail" isRequired>
               <FormLabel>책 설명</FormLabel>
-              <Textarea name="detail" value={bookForm.detail} onChange={handleInputChange} placeholder="책 설명을 적어주세요." />
+              <Textarea name="detail" value={bookForm.BookDetail} onChange={handleInputChange} placeholder="책 설명을 적어주세요." />
             </FormControl>
   
             <FormControl id="price" isRequired>
               <FormLabel>가격</FormLabel>
-              <Input type="number" name="price" value={bookForm.price} onChange={handleInputChange} placeholder="책 가격을 적어주세요." />
+              <Input type="number" name="price" value={bookForm.bookPrice} onChange={handleInputChange} placeholder="책 가격을 적어주세요." />
             </FormControl>
   
             <FormControl id="stock" isRequired>
