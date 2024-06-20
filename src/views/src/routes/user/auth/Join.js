@@ -1,16 +1,10 @@
 import { 
-  Input, 
-  Button, 
-  Container, 
-  FormControl,
-  FormLabel,
-  FormErrorMessage,
-  FormHelperText,
+  Input, Button, Container, FormControl, FormLabel,
+  FormErrorMessage, FormHelperText, Box, VStack, Image
 } from '@chakra-ui/react'
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-import Footer from '../../../components/home/Footer';
-import NotLoginHomeHeader from '../../../components/home/NotLoginHomeHeader';
+import Bookflow from '../../../resources/home/header/bookflow.png';
 
 const Join = () => {
   const history = useHistory()
@@ -47,7 +41,7 @@ const Join = () => {
 
     //password
     if (formData.password === "") {
-      const valied = {isError : true, message : '비밀번호를 입력해주세요'}
+      const valied = {isError : true, message : '영문(a-z,A-Z)과 숫자를 조합해 비밀번호를 입력해주세요'}
       setValiedData(prev => ({...prev, password : valied}))
     } else if (/^(?=.*[a-zA-Z])(?=.*[0-9]).{8,25}$/.test(formData.password)) {
       const valied = {isError : false, message : '비밀번호가 옳바른 형식입니다'}
@@ -83,7 +77,7 @@ const Join = () => {
 
     //valiedPassword
     if (formData.valiedPassword === "") {
-      const valied = {isError : true, message : '비밀번호를 입력해주세요'}
+      const valied = {isError : true, message : '비밀번호를 다시 한 번 입력해주세요'}
       setValiedData(prev => ({...prev, valiedPassword : valied}))
     } else if (formData.password === formData.valiedPassword) {
       const valied = {isError : false, message : '비밀번호가 일치합니다'}
@@ -131,16 +125,7 @@ const Join = () => {
           // 장바구니생성
           const userName = formData.username;
           localStorage.setItem('userName',userName);
-
-          // 게스트용 장바구니 상품 이동
-          const guestCart = localStorage.getItem('cart-guest');
-          if (guestCart) {
-            localStorage.setItem(`cart-${userName}`, guestCart);
-            localStorage.removeItem('cart-guest');
-          }
-          if (!guestCart){
-            localStorage.setItem(`cart-${userName}`, JSON.stringify([]));
-          }
+          localStorage.setItem(`cart-${userName}`, JSON.stringify([]));
 
           alert('회원가입 성공')
           history.push('/login')
@@ -158,96 +143,105 @@ const Join = () => {
       })
   }
 
-  return (
-    <div>
-      <Container maxW='1500px'>
-        <NotLoginHomeHeader />
-        <form>
-            <FormControl isInvalid={valiedData.username.isError}>
-              <FormLabel>아이디 : </FormLabel>
-              <Input
-                name='username'
-                type={"text"}
-                value={formData.username}
-                onChange={onChangeForm}
-              />
-            {!valiedData.username.isError ? (
-              <FormHelperText>{valiedData.username.message}</FormHelperText>
-            ) : (
-              <FormErrorMessage>{valiedData.username.message}</FormErrorMessage>
-            )}
-            </FormControl>
-            <FormControl isInvalid={valiedData.password.isError}>
-              <FormLabel>비밀번호 : </FormLabel>
-              <Input
-                name='password'
-                type={"password"}
-                value={formData.password}
-                onChange={onChangeForm}
-              />
-            {!valiedData.password.isError ? (
-              <FormHelperText>{valiedData.password.message}</FormHelperText>
-            ) : (
-              <FormErrorMessage>{valiedData.password.message}</FormErrorMessage>
-            )}
-          </FormControl>
-            <FormControl isInvalid={valiedData.valiedPassword.isError}>
-              <FormLabel>비밀번호 재확인 : </FormLabel>
-              <Input
-                name='valiedPassword'
-                type={"password"}
-                value={formData.valiedPassword}
-                onChange={onChangeForm}
-              />
-            {!valiedData.valiedPassword.isError ? (
-              <FormHelperText>{valiedData.valiedPassword.message}</FormHelperText>
-            ) : (
-              <FormErrorMessage>{valiedData.valiedPassword.message}</FormErrorMessage>
-            )}
-          </FormControl>
-          <FormControl isInvalid = {valiedData.name.isError}>
-            <FormLabel>이름 : </FormLabel>
-            <Input
-              name='name'
-              type={"text"}
-              value={formData.name}
-              onChange={onChangeForm}
-            />
-            {!valiedData.name.isError ? (
-              <FormHelperText>{valiedData.name.message}</FormHelperText>
-            ) : (
-              <FormErrorMessage>{valiedData.name.message}</FormErrorMessage>
-            )}
-          </FormControl>
-          <FormControl mb={3} isInvalid={valiedData.phoneNumber.isError}>
-            <FormLabel>전화번호 : </FormLabel>
-            <Input
-              name='phoneNumber'
-              type={"number"}
-              value={formData.phoneNumber}
-              onChange={onChangeForm}
-            />
-            {!valiedData.phoneNumber.isError ? (
-              <FormHelperText>{valiedData.phoneNumber.message}</FormHelperText>
-            ) : (
-              <FormErrorMessage>{valiedData.phoneNumber.message}</FormErrorMessage>
-            )}
-          </FormControl>
-          <FormControl>
-            <Button 
-              colorScheme='blue' 
-              onClick={joinProccess}
-              isDisabled={formData.isNotJoin}
-            >
-              회원가입
-            </Button>
-            <Button onClick={(e) => history.push('/login')}>뒤로</Button>
-          </FormControl>
-        </form>
-        <Footer />
-      </Container>
-    </div>
-  )
+    return (
+      <div>
+        <Container maxW='1500px'>
+          <form onSubmit={joinProccess}>
+            <Box p={5} maxW="md" mx="auto" mt="1%">
+              <VStack spacing={4} align="stretch">
+                <Box display="flex" justifyContent="center" alignItems="center">
+                  <Image
+                    src={Bookflow}
+                    alt="Bookflow"
+                    maxH="200px"
+                    objectFit="contain"
+                  />
+                </Box>
+                <FormControl isInvalid={valiedData.username.isError}>
+                  <FormLabel>아이디 :</FormLabel>
+                  <Input
+                    name='username'
+                    type="text"
+                    value={formData.username}
+                    onChange={onChangeForm}
+                  />
+                  {!valiedData.username.isError ? (
+                    <FormHelperText>{valiedData.username.message}</FormHelperText>
+                  ) : (
+                    <FormErrorMessage>{valiedData.username.message}</FormErrorMessage>
+                  )}
+                </FormControl>
+                <FormControl isInvalid={valiedData.password.isError}>
+                  <FormLabel>비밀번호 :</FormLabel>
+                  <Input
+                    name='password'
+                    type="password"
+                    value={formData.password}
+                    onChange={onChangeForm}
+                  />
+                  {!valiedData.password.isError ? (
+                    <FormHelperText>{valiedData.password.message}</FormHelperText>
+                  ) : (
+                    <FormErrorMessage>{valiedData.password.message}</FormErrorMessage>
+                  )}
+                </FormControl>
+                <FormControl isInvalid={valiedData.valiedPassword.isError}>
+                  <FormLabel>비밀번호 재확인 :</FormLabel>
+                  <Input
+                    name='valiedPassword'
+                    type="password"
+                    value={formData.valiedPassword}
+                    onChange={onChangeForm}
+                  />
+                  {!valiedData.valiedPassword.isError ? (
+                    <FormHelperText>{valiedData.valiedPassword.message}</FormHelperText>
+                  ) : (
+                    <FormErrorMessage>{valiedData.valiedPassword.message}</FormErrorMessage>
+                  )}
+                </FormControl>
+                <FormControl isInvalid={valiedData.name.isError}>
+                  <FormLabel>이름 :</FormLabel>
+                  <Input
+                    name='name'
+                    type="text"
+                    value={formData.name}
+                    onChange={onChangeForm}
+                  />
+                  {!valiedData.name.isError ? (
+                    <FormHelperText>{valiedData.name.message}</FormHelperText>
+                  ) : (
+                    <FormErrorMessage>{valiedData.name.message}</FormErrorMessage>
+                  )}
+                </FormControl>
+                <FormControl mb={3} isInvalid={valiedData.phoneNumber.isError}>
+                  <FormLabel>전화번호 :</FormLabel>
+                  <Input
+                    name='phoneNumber'
+                    type="number"
+                    value={formData.phoneNumber}
+                    onChange={onChangeForm}
+                  />
+                  {!valiedData.phoneNumber.isError ? (
+                    <FormHelperText>{valiedData.phoneNumber.message}</FormHelperText>
+                  ) : (
+                    <FormErrorMessage>{valiedData.phoneNumber.message}</FormErrorMessage>
+                  )}
+                </FormControl>
+                <Button
+                  colorScheme='blue'
+                  onClick={joinProccess}
+                  isDisabled={formData.isNotJoin}
+                  width="full"
+                >
+                  회원가입
+                </Button>
+                <br />
+              </VStack>
+            </Box>
+          </form>
+        </Container>
+      </div>
+    );
 }
 
 export default Join;
