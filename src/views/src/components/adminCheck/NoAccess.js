@@ -1,8 +1,16 @@
+import { Button, Flex, Heading } from '@chakra-ui/react';
 function NoAccess() {
 
     return (
         
-           <h1>권한이 없습니다.</h1> 
+        <Flex
+        direction="column"
+        align="center"
+        justify="center"
+        height="100vh"
+      >
+        <Heading mb="20px" as="h2" size="lg">권한이 없어요.</Heading>
+      </Flex> 
         
         
     )

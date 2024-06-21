@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import NoAccess from './NoAccess'; // 권한 없음 페이지 컴포넌트
+import { Button, Flex, Heading } from '@chakra-ui/react';
 
 const withAdminCheck = (WrappedComponent) => {
   return (props) => {
@@ -31,7 +32,14 @@ const withAdminCheck = (WrappedComponent) => {
     }, []);
 
     if (isLoading) {
-      return <div>관리자권한을 확인하고 있어요.</div>;
+      return <Flex
+      direction="column"
+      align="center"
+      justify="center"
+      height="100vh"
+    >
+      <Heading mb="20px" as="h2" size="lg">관리자 권한을 확인하고 있어요.</Heading>
+    </Flex> ;
     }
 
     return hasAccess ? <WrappedComponent {...props} /> : <NoAccess />;
