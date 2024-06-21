@@ -266,15 +266,6 @@ async function fetchUserData(token) {
               value={orderCreateDto.orderDeliveryDto.orderDeliveryReceiverName}
               />
             </FormControl>
-            <FormControl id="name" isRequired>
-              <FormLabel>받으시는 분</FormLabel>
-              <Input 
-              name="orderDeliveryReceiverName" 
-              onChange={handleInputChange} 
-              placeholder="홍길동" 
-              value={orderCreateDto.orderDeliveryDto.orderDeliveryReceiverName}
-              />
-            </FormControl>
             <FormControl isRequired>
             <FormLabel>전화번호</FormLabel>
             <Input

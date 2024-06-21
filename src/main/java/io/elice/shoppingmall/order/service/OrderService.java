@@ -163,6 +163,11 @@ public class OrderService {
        foundOrder.setDeleted(true);
        foundOrder.getOrderDelivery().setDeleted(true);
        for (OrderItem item : foundOrder.getOrderItems()) {
+           Book book = item.getBook();
+           int stock = book.getStock();
+           int orderItemQuantity = item.getOrderItemQuantity();
+           book.setStock(stock + orderItemQuantity);
+           bookService.saveBook(book);
            item.setDeleted(true);
        }
 
