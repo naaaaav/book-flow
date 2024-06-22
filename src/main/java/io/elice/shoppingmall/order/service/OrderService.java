@@ -257,6 +257,7 @@ public class OrderService {
 
         oldOrderDelivery.setOrderDeliveryReceiverName(dto.getName());
         oldOrderDelivery.setOrderDeliveryReceiverPhoneNumber(dto.getPhoneNumber());
+        oldOrderDelivery.setOrderDeliveryPostalCode(dto.getPostalCode());
         oldOrderDelivery.setOrderDeliveryAddress1(dto.getAddress1());
         oldOrderDelivery.setOrderDeliveryAddress2(dto.getAddress2());
         foundOrder.setOrderRequest(dto.getOrderRequest());

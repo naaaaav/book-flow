@@ -19,6 +19,9 @@ public class OrderDeliveryEditDto {
     private String phoneNumber;
 
     @NotBlank
+    private String postalCode;
+
+    @NotBlank
     private String address1;
 
     @NotBlank
