@@ -9,9 +9,14 @@ import io.elice.shoppingmall.user.model.dto.UserGetDto;
 import io.elice.shoppingmall.user.model.dto.UserPostDto;
 import io.elice.shoppingmall.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
+import javax.print.DocFlavor;
+
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -30,7 +35,9 @@ public class UserService {
         userGetDto.setUsername(user.getUsername()); ;
         userGetDto.setName(user.getName()); ;
         userGetDto.setPhoneNumber(user.getPhoneNumber()); ;
-        userGetDto.setAddress(user.getAddress());
+        userGetDto.setOrderDeliveryPostalCode(user.getOrderDeliveryPostalCode());
+        userGetDto.setOrderDeliveryAddress1(user.getOrderDeliveryAddress1());
+        userGetDto.setOrderDeliveryAddress2(user.getOrderDeliveryAddress2());
 
         return userGetDto;
     }
@@ -42,21 +49,34 @@ public class UserService {
         }
         User user = userRepository.findByUsername(username);
 
-        if (userPostDto.getPassword() != null || !userPostDto.getPassword().equals("")) {
+        log.info("우편번호 : " + userPostDto.getOrderDeliveryPostalCode());
+        log.info("주소 : " + userPostDto.getOrderDeliveryPostalCode());
+        log.info("상세주소 : " + userPostDto.getOrderDeliveryPostalCode());
+
+        if (!StringUtils.isEmpty(userPostDto.getPassword())) {
             user.setPassword(passwordEncoder.encode(userPostDto.getPassword()));
         }
 
-        if (userPostDto.getName() != null || !userPostDto.getName().equals("")) {
+        if (!StringUtils.isEmpty(userPostDto.getName())) {
             user.setName(userPostDto.getName());
         }
 
-        if (userPostDto.getPhoneNumber() != null || !userPostDto.getPhoneNumber().equals("")) {
+        if (!StringUtils.isEmpty(userPostDto.getPhoneNumber())) {
             user.setPhoneNumber(userPostDto.getPhoneNumber());
         }
 
-        if (userPostDto.getAddress() != null || !userPostDto.getAddress().equals("")) {
-            user.setAddress(userPostDto.getAddress());
+        if (!StringUtils.isEmpty(userPostDto.getOrderDeliveryPostalCode())) {
+            user.setOrderDeliveryPostalCode(userPostDto.getOrderDeliveryPostalCode());
         }
+
+        if (!StringUtils.isEmpty(userPostDto.getOrderDeliveryAddress1())) {
+            user.setOrderDeliveryAddress1(userPostDto.getOrderDeliveryAddress1());
+        }
+
+        if (!StringUtils.isEmpty(userPostDto.getOrderDeliveryAddress2())) {
+            user.setOrderDeliveryAddress2(userPostDto.getOrderDeliveryAddress2());
+        }
+
         return userRepository.save(user) != null ? true : false;
     }
 

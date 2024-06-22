@@ -12,6 +12,7 @@ public class UserPostDto {
     private String name;
     @Pattern(regexp = "\\d+", message = "전화번호는 숫자만 입력 가능합니다.")
     private String phoneNumber;
-
-    private String address;
+    private String orderDeliveryPostalCode;
+    private String orderDeliveryAddress1;
+    private String orderDeliveryAddress2;
 }

@@ -21,7 +21,9 @@ function MyInfo() {
     confirmPassword: '',
     name: '',
     phoneNumber: '',
-    address: ''
+    postalCode : '',
+    address1: '',
+    address2: '',
   });
 
   const [errors, setErrors] = useState({});
@@ -40,11 +42,15 @@ function MyInfo() {
         ...prevProfile,
         name: data.name || '',
         phoneNumber: data.phoneNumber || '',
-        address: data.address || ''
+        postalCode: data.orderDeliveryPostalCode || '',
+        address1: data.orderDeliveryAddress1 || '',
+        address2: data.orderDeliveryAddress2 || '',
       }));
     })
     .catch(error => console.error('Error:', error));
   }, [token]);
+
+  console.log(profile);
 
   const validateForm = () => {
     let valid = true;
@@ -64,16 +70,26 @@ function MyInfo() {
       valid = false;
     }
 
-    if (!profile.address) {
-      errors.name = "주소를 입력해 주세요.";
-      valid = false;
-    }
-
     if (!profile.phoneNumber) {
       errors.phoneNumber = "전화번호를 입력해 주세요.";
       valid = false;
     } else if (!/^\d+$/.test(profile.phoneNumber)) {
       errors.phoneNumber = "전화번호는 숫자만 입력 할 수 있어요.";
+      valid = false;
+    }
+
+    if (!profile.postalCode) {
+      errors.postalCode = "우편번호를 입력해 주세요.";
+      valid = false;
+    }
+
+    if (!profile.address1) {
+      errors.address1 = "주소를 입력해 주세요.";
+      valid = false;
+    }
+
+    if (!profile.address2) {
+      errors.address2 = "상세주소를 입력해 주세요.";
       valid = false;
     }
 
@@ -101,7 +117,16 @@ function MyInfo() {
         'access': token,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(profile)
+      body: JSON.stringify(
+        {
+          password: profile.password,
+          name: profile.name,
+          phoneNumber: profile.phoneNumber,
+          orderDeliveryPostalCode : profile.postalCode,
+          orderDeliveryAddress1 : profile.address1,
+          orderDeliveryAddress2 : profile.address2
+        }
+      )
     })
     .then((response) => {
       if (!response.ok) {
@@ -154,10 +179,20 @@ function MyInfo() {
           <Input type="tel" name="phoneNumber" value={profile.phoneNumber} onChange={handleChange} />
           <FormErrorMessage>{errors.phoneNumber}</FormErrorMessage>
         </FormControl>
-        <FormControl id="address" isInvalid={errors.address} isRequired>
+        <FormControl id="postalCode" isInvalid={errors.postalCode} isRequired>
+          <FormLabel>우편번호</FormLabel>
+          <Input type="number" name="postalCode" value={profile.postalCode} onChange={handleChange} />
+          <FormErrorMessage>{errors.postalCode}</FormErrorMessage>
+        </FormControl>
+        <FormControl id="address1" isInvalid={errors.address1} isRequired>
           <FormLabel>주소</FormLabel>
-          <Input type="text" name="address" value={profile.address} onChange={handleChange} />
-          <FormErrorMessage>{errors.address}</FormErrorMessage>
+          <Input type="text" name="address1" value={profile.address1} onChange={handleChange} />
+          <FormErrorMessage>{errors.address1}</FormErrorMessage>
+        </FormControl>
+        <FormControl id="address2" isInvalid={errors.address2} isRequired>
+          <FormLabel>상세주소</FormLabel>
+          <Input type="text" name="address2" value={profile.address2} onChange={handleChange} />
+          <FormErrorMessage>{errors.address2}</FormErrorMessage>
         </FormControl>
         <Button mt={4} colorScheme="teal" type="submit">내정보 수정 하기</Button>
       </form>

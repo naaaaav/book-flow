@@ -20,6 +20,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Objects;
@@ -49,8 +50,13 @@ public class OrderService {
         OrderDelivery savedOrderDelivery = orderDeliveryRepository.save(requestOrderDelivery);
         savedOrder.setOrderDelivery(savedOrderDelivery);
 
-        if (currentUser.getAddress() == null ||currentUser.getAddress().isEmpty()) {
-            currentUser.setAddress(savedOrderDelivery.getOrderDeliveryAddress2());
+        if (!StringUtils.isEmpty(currentUser.getOrderDeliveryPostalCode())   ||
+                !StringUtils.isEmpty(currentUser.getOrderDeliveryAddress1()) ||
+                !StringUtils.isEmpty(currentUser.getOrderDeliveryAddress2())) {
+
+            currentUser.setOrderDeliveryPostalCode(savedOrderDelivery.getOrderDeliveryPostalCode());
+            currentUser.setOrderDeliveryAddress1(savedOrderDelivery.getOrderDeliveryAddress1());
+            currentUser.setOrderDeliveryAddress2(savedOrderDelivery.getOrderDeliveryAddress2());
             userRepository.save(currentUser);
         }
 

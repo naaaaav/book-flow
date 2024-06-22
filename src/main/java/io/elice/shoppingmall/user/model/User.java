@@ -35,8 +35,14 @@ public class User extends BaseEntity {
     @Column(name = "user_phone_number")
     private String phoneNumber;
 
-    @Column(name = "user_address")
-    private String address;
+    @Column(name = "user_order_deliveryPostalCode")
+    private String orderDeliveryPostalCode;
+
+    @Column(name = "user_order_delivery_address1")
+    private String orderDeliveryAddress1;
+
+    @Column(name = "user_order_delivery_address2")
+    private String orderDeliveryAddress2;
 
     @Column(name = "is_deleted")
     private boolean isDeleted;
