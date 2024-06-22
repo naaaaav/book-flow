@@ -4,6 +4,7 @@ import {
 } from '@chakra-ui/react'
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import Bookflow from '../../../resources/home/header/bookflow.png';
 
 const Join = () => {
   const history = useHistory();
@@ -163,7 +164,7 @@ const Join = () => {
             <VStack spacing={4} align="stretch">
               <Box display="flex" justifyContent="center" alignItems="center">
                 <Image
-                  src={process.env.PUBLIC_URL + '/bookflow.png'}
+                  src={Bookflow}
                   alt="Bookflow"
                   maxH="200px"
                   objectFit="contain"
