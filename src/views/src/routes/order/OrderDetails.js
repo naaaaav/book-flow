@@ -51,6 +51,7 @@ function OrderDetails() {
         ...prev,
         name: json.orderDelivery.orderDeliveryReceiverName,
         phoneNumber: json.orderDelivery.orderDeliveryReceiverPhoneNumber,
+        postalCode: json.orderDelivery.orderDeliveryPostalCode,
         address1: json.orderDelivery.orderDeliveryAddress1,
         address2: json.orderDelivery.orderDeliveryAddress2,
         orderRequest: json.order.orderRequest
@@ -166,6 +167,17 @@ function OrderDetails() {
                 value={formData.phoneNumber}
                 onChange={handleInputChange}
                 placeholder="연락처를 입력해주세요"
+              />
+            </FormControl>
+            <FormControl id="postalCode" isRequired>
+              <FormLabel>우편번호</FormLabel>
+              <Input
+                mb={5}
+                type="text"
+                name="postalCode"
+                value={formData.postalCode}
+                onChange={handleInputChange}
+                placeholder="우편번호를 입력해주세요"
               />
             </FormControl>
             <FormControl id="address1" isRequired>

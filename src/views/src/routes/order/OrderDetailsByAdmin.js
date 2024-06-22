@@ -42,6 +42,7 @@ function OrderDetailsByadmin() {
         ...prev,
         name: json.orderDelivery.orderDeliveryReceiverName,
         phoneNumber: json.orderDelivery.orderDeliveryReceiverPhoneNumber,
+        postalCode: json.orderDelivery.orderDeliveryPostalCode,
         address1: json.orderDelivery.orderDeliveryAddress1,
         address2: json.orderDelivery.orderDeliveryAddress2,
         orderRequest: json.order.orderRequest
@@ -117,6 +118,7 @@ function OrderDetailsByadmin() {
           <VStack spacing={2}>
             <Input type="text" placeholder={formData.name} isReadOnly />
             <Input type="text" placeholder={formData.phoneNumber} isReadOnly />
+            <Input type="text" placeholder={formData.postalCode} isReadOnly />
             <Input type="text" placeholder={formData.address1} isReadOnly />
             <Input type="text" placeholder={formData.address2} isReadOnly />
             <Input type="text" placeholder={formData.orderRequest} isReadOnly />
