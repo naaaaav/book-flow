@@ -60,7 +60,9 @@ async function fetchUserData(token) {
         ...prevDto.orderDeliveryDto,
         orderDeliveryReceiverName: user.name || '',
         orderDeliveryReceiverPhoneNumber: user.phoneNumber || '',
-        orderDeliveryAddress2: user.address || '',
+        orderDeliveryPostalCode: user.orderDeliveryPostalCode || '',
+        orderDeliveryAddress1: user.orderDeliveryAddress1 || '',
+        orderDeliveryAddress2: user.orderDeliveryAddress2 || ''
       }
     }));
   } catch (error) {
