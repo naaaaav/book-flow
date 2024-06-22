@@ -43,40 +43,42 @@
 .navbar-item {
   margin: 10px 0;
   cursor: pointer;
-  padding: 10px;
   transition: background-color 0.3s ease;
   position: relative;
   background-color: #000;
   color: #fff;
   width: 100%;
+  padding: 0;
 }
 
-.navbar-item a {
-  text-decoration: none;
-  color: #fff;
-  font-size: 1em;
+.navbar-item a, .sub-category-item a {
+  display: block; /* 링크가 전체 영역을 차지하도록 합니다. */
+  padding: 10px; /* 클릭 가능한 영역을 늘리기 위해 패딩 추가 */
+  width: 100%; /* 부모 컨테이너의 전체 너비를 사용 */
+  box-sizing: border-box; /* 패딩을 너비에 포함 */
 }
 
-.navbar-item:hover {
-  background-color: #333;
+.navbar-item:hover, .sub-category-item:hover {
+  background-color: #333; /* 마우스 오버 시 배경색 변경 */
+  color: white; /* 글자색 변경 */
+  border: none; /* 테두리 제거 */
+  display: block;
 }
 
 .sub-categories {
   position: absolute;
   top: 0;
   left: 100%;
-  background-color: #fff;
-  color: #000;
+  background-color: black;
+  color: white;
   width: 200px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  display: none;
+  display: block;
   z-index: 10;
 }
 
-.navbar-item:hover .sub-categories {
-  display: block;
-}
+
 
 .sub-category-header {
   display: flex;
@@ -96,14 +98,9 @@
 
 .sub-category-item {
   margin-bottom: 10px;
+  padding: 0;;
 }
 
-.sub-category-item a {
-  text-decoration: none;
-  color: #000;
-  font-size: 0.9em;
-  transition: color 0.3s ease;
-}
 
 .sub-category-item a:hover {
   color: #0056b3;
